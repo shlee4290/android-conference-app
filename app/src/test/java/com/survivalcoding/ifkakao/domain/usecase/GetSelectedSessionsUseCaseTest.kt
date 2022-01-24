@@ -32,7 +32,7 @@ class GetSelectedSessionsUseCaseTest {
     fun `선택된 날짜의 세션들을 잘 가져오는지 테스트`() {
         assertEquals(2, getSelectedSessionsUseCase(day = 1).size)
         assertEquals(2, getSelectedSessionsUseCase(day = 2).size)
-        assertEquals(2, getSelectedSessionsUseCase(day = 3).size)
+        assertEquals(6, getSelectedSessionsUseCase(day = 3).size)
         assertEquals(0, getSelectedSessionsUseCase(day = 0).size)
         assertEquals(0, getSelectedSessionsUseCase(day = 4).size)
 
@@ -43,10 +43,27 @@ class GetSelectedSessionsUseCaseTest {
         getSelectedSessionsUseCase(day = 2).forEach {
             assertEquals(2, it.exposureDay)
         }
+    }
 
-        getSelectedSessionsUseCase(day = 3).forEach {
-            assertEquals(3, it.exposureDay)
-        }
+    @Test
+    fun `선택된 카테고리의 세션들을 잘 가져오는지 테스트`() {
+        val fieldCategory = Category(field = listOf("서비스"))
+        assertEquals(2, getSelectedSessionsUseCase(category = fieldCategory).size)
+
+        val businessCategory = Category(business = listOf("플랫폼"))
+        assertEquals(2, getSelectedSessionsUseCase(category = businessCategory).size)
+
+        val techCategory = Category(tech = listOf("데이터"))
+        assertEquals(2, getSelectedSessionsUseCase(category = techCategory).size)
+
+        val companyCategory = Category(company = listOf("카카오"))
+        assertEquals(2, getSelectedSessionsUseCase(category = companyCategory).size)
+
+        val complicateCategory = Category(field = listOf("서비스"), business = listOf("플랫폼"), tech = listOf("데이터"), company = listOf("카카오"))
+        assertEquals(1, getSelectedSessionsUseCase(category = complicateCategory).size)
+
+        val noMatchingCategory = Category(field = listOf("없음"), business = listOf("플랫폼"), tech = listOf("데이터"), company = listOf("카카오"))
+        assertEquals(0, getSelectedSessionsUseCase(category = noMatchingCategory).size)
     }
 
     @Test

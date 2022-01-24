@@ -1,8 +1,8 @@
 package com.survivalcoding.ifkakao.domain.entity
 
 data class Category(
-    val field: List<String>,
-    val business: List<String>,
-    val tech: List<String>,
-    val company: List<String>
+    val field: List<String> = listOf(),
+    val business: List<String> = listOf(),
+    val tech: List<String> = listOf(),
+    val company: List<String> = listOf()
 )

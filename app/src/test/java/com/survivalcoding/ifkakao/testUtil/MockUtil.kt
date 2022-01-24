@@ -15,10 +15,10 @@ object MockUtil {
             thumbnailUrl = "",
             video = listOf(Video("", "")),
             category = Category(
-                field = listOf(),
-                business = listOf(),
-                tech = listOf(),
-                company = listOf()
+                field = listOf("서비스"),
+                business = listOf("플랫폼"),
+                tech = listOf("데이터"),
+                company = listOf("카카오")
             ),
             contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
             isFavorite = false,
@@ -32,7 +32,7 @@ object MockUtil {
             thumbnailUrl = "",
             video = listOf(Video("", "")),
             category = Category(
-                field = listOf(),
+                field = listOf("서비스"),
                 business = listOf(),
                 tech = listOf(),
                 company = listOf()
@@ -50,7 +50,7 @@ object MockUtil {
             video = listOf(Video("", "")),
             category = Category(
                 field = listOf(),
-                business = listOf(),
+                business = listOf("플랫폼"),
                 tech = listOf(),
                 company = listOf()
             ),
@@ -68,7 +68,7 @@ object MockUtil {
             category = Category(
                 field = listOf(),
                 business = listOf(),
-                tech = listOf(),
+                tech = listOf("데이터"),
                 company = listOf()
             ),
             contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
@@ -86,7 +86,7 @@ object MockUtil {
                 field = listOf(),
                 business = listOf(),
                 tech = listOf(),
-                company = listOf()
+                company = listOf("카카오")
             ),
             contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
             isFavorite = false,
