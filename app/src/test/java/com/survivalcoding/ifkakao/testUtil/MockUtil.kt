@@ -22,7 +22,7 @@ object MockUtil {
             ),
             contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
             isHighlight = true,
-            isFavorite = false,
+            isFavorite = true,
             exposureDay = 1
         ),
         Session(
@@ -40,7 +40,7 @@ object MockUtil {
             ),
             contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
             isHighlight = false,
-            isFavorite = false,
+            isFavorite = true,
             exposureDay = 1
         ),
         Session(
