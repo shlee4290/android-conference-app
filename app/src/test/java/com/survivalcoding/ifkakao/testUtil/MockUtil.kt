@@ -21,6 +21,7 @@ object MockUtil {
                 company = listOf("카카오")
             ),
             contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
+            isHighlight = true,
             isFavorite = false,
             exposureDay = 1
         ),
@@ -38,6 +39,7 @@ object MockUtil {
                 company = listOf()
             ),
             contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
+            isHighlight = false,
             isFavorite = false,
             exposureDay = 1
         ),
@@ -55,6 +57,7 @@ object MockUtil {
                 company = listOf()
             ),
             contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
+            isHighlight = false,
             isFavorite = false,
             exposureDay = 2
         ),
@@ -72,6 +75,7 @@ object MockUtil {
                 company = listOf()
             ),
             contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
+            isHighlight = false,
             isFavorite = false,
             exposureDay = 2
         ),
@@ -89,6 +93,7 @@ object MockUtil {
                 company = listOf("카카오")
             ),
             contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
+            isHighlight = false,
             isFavorite = false,
             exposureDay = 3
         ),
@@ -106,6 +111,7 @@ object MockUtil {
                 company = listOf()
             ),
             contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
+            isHighlight = true,
             isFavorite = false,
             exposureDay = 3
         ),

@@ -9,6 +9,7 @@ data class Session(
     val video: List<Video>,
     val category: Category,
     val contentsSpeakers: List<Speaker>,
+    val isHighlight: Boolean,
     val isFavorite: Boolean,
     val exposureDay: Int,
 )
