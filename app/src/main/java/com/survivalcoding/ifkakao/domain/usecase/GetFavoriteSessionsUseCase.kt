@@ -4,7 +4,7 @@ import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.repository.IfKakaoRepository
 
 class GetFavoriteSessionsUseCase constructor(private val ifKakaoRepository: IfKakaoRepository) {
-    operator fun invoke(): List<Session> = ifKakaoRepository.getAllSessions().filter {
+    suspend operator fun invoke(): List<Session> = ifKakaoRepository.getAllSessions().filter {
         it.isFavorite
     }
 }

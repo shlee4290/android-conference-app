@@ -5,7 +5,7 @@ import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.repository.IfKakaoRepository
 
 class GetSelectedSessionsUseCase constructor(private val ifKakaoRepository: IfKakaoRepository) {
-    operator fun invoke(day: Int = 3, category: Category = Category()): List<Session> {
+    suspend operator fun invoke(day: Int = 3, category: Category = Category()): List<Session> {
         return ifKakaoRepository.getAllSessions().filter { session ->
             if (day == 3) true // Day3(All)
             else session.exposureDay == day
