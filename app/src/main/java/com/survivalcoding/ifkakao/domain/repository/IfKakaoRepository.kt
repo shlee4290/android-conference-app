@@ -1,4 +1,7 @@
 package com.survivalcoding.ifkakao.domain.repository
 
-class IfKakaoRepository {
+import com.survivalcoding.ifkakao.domain.entity.Session
+
+interface IfKakaoRepository {
+    fun getAllSessions(): List<Session>
 }

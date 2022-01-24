@@ -4,7 +4,6 @@ data class Session(
     val title: String,
     val content: String,
     val contentTag: String,
-    val field: String,
     val company: String,
     val thumbnailUrl: String,
     val video: List<Video>,
