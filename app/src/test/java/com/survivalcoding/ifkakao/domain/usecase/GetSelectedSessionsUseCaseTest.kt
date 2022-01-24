@@ -59,15 +59,37 @@ class GetSelectedSessionsUseCaseTest {
         val companyCategory = Category(company = listOf("카카오"))
         assertEquals(2, getSelectedSessionsUseCase(category = companyCategory).size)
 
-        val complicateCategory = Category(field = listOf("서비스"), business = listOf("플랫폼"), tech = listOf("데이터"), company = listOf("카카오"))
-        assertEquals(1, getSelectedSessionsUseCase(category = complicateCategory).size)
+        val complicateCategory = Category(
+            field = listOf("서비스"),
+            business = listOf("플랫폼"),
+            tech = listOf("데이터"),
+            company = listOf("카카오")
+        )
+        val resultList = getSelectedSessionsUseCase(category = complicateCategory)
+        assertEquals(1, resultList.size)
+        assertEquals(
+            MockUtil.mockSessions().filter { "서비스" in it.category.field && "플랫폼" in it.category.business && "데이터" in it.category.tech && "카카오" in it.category.company },
+            resultList
+        )
 
-        val noMatchingCategory = Category(field = listOf("없음"), business = listOf("플랫폼"), tech = listOf("데이터"), company = listOf("카카오"))
+        val noMatchingCategory = Category(
+            field = listOf("없음"),
+            business = listOf("플랫폼"),
+            tech = listOf("데이터"),
+            company = listOf("카카오")
+        )
         assertEquals(0, getSelectedSessionsUseCase(category = noMatchingCategory).size)
     }
 
     @Test
     fun `기준에 맞춰 세션들을 가져오는지 테스트`() {
+        val category1 = Category(field = listOf("서비스"))
+        assertEquals(2, getSelectedSessionsUseCase(day = 1, category = category1).size)
 
+        val category2 = Category(business = listOf("플랫폼"))
+        assertEquals(
+            MockUtil.mockSessions().filter { it.exposureDay == 2 && "플랫폼" in it.category.business },
+            getSelectedSessionsUseCase(day = 2, category = category2)
+        )
     }
 }
