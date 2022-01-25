@@ -5,115 +5,49 @@ import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.entity.Speaker
 import com.survivalcoding.ifkakao.domain.entity.Video
 
-object MockUtil {
-    fun mockSessions() = listOf(
-        Session(
-            title = "1",
-            content = "1",
-            contentTag = "#1",
-            company = "카카오",
-            thumbnailUrl = "",
-            video = listOf(Video("", "")),
-            category = Category(
-                field = listOf("서비스"),
-                business = listOf("플랫폼"),
-                tech = listOf("데이터"),
-                company = listOf("카카오")
-            ),
-            contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
-            isHighlight = true,
-            isFavorite = true,
-            exposureDay = 1
-        ),
-        Session(
-            title = "11",
-            content = "11",
-            contentTag = "#11",
-            company = "카카오",
-            thumbnailUrl = "",
-            video = listOf(Video("", "")),
-            category = Category(
-                field = listOf("서비스"),
-                business = listOf(),
-                tech = listOf(),
-                company = listOf()
-            ),
-            contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
-            isHighlight = false,
-            isFavorite = true,
-            exposureDay = 1
-        ),
-        Session(
-            title = "2",
-            content = "2",
-            contentTag = "#2",
-            company = "카카오",
-            thumbnailUrl = "",
-            video = listOf(Video("", "")),
-            category = Category(
-                field = listOf(),
-                business = listOf("플랫폼"),
-                tech = listOf(),
-                company = listOf()
-            ),
-            contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
-            isHighlight = false,
-            isFavorite = false,
-            exposureDay = 2
-        ),
-        Session(
-            title = "22",
-            content = "22",
-            contentTag = "#22",
-            company = "카카오",
-            thumbnailUrl = "",
-            video = listOf(Video("", "")),
-            category = Category(
-                field = listOf(),
-                business = listOf(),
-                tech = listOf("데이터"),
-                company = listOf()
-            ),
-            contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
-            isHighlight = false,
-            isFavorite = false,
-            exposureDay = 2
-        ),
-        Session(
-            title = "3",
-            content = "3",
-            contentTag = "#3",
-            company = "카카오",
-            thumbnailUrl = "",
-            video = listOf(Video("", "")),
-            category = Category(
-                field = listOf(),
-                business = listOf(),
-                tech = listOf(),
-                company = listOf("카카오")
-            ),
-            contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
-            isHighlight = false,
-            isFavorite = false,
-            exposureDay = 3
-        ),
-        Session(
-            title = "33",
-            content = "33",
-            contentTag = "#33",
-            company = "카카오",
-            thumbnailUrl = "",
-            video = listOf(Video("", "")),
-            category = Category(
-                field = listOf(),
-                business = listOf(),
-                tech = listOf(),
-                company = listOf()
-            ),
-            contentsSpeakers = listOf(Speaker("", "김", "Kim", "", "")),
-            isHighlight = true,
-            isFavorite = false,
-            exposureDay = 3
-        ),
-    )
+class MockIfKakaoSessionsBuilder {
+
+    private var index = 1
+    private val mockSessions = mutableListOf<Session>()
+
+    fun build() = mockSessions
+
+    fun addSession(
+        company: String = "카카오",
+        content: String = "",
+        contentTag: String = "",
+        title: String = "",
+        thumbnailUrl: String = "",
+        videos: List<Video> = listOf(),
+        category: Category = Category(),
+        contentsSpeakers: List<Speaker> = listOf(),
+        isHighlight: Boolean = false,
+        isFavorite: Boolean = false,
+        exposureDay: Int = 3
+    ): MockIfKakaoSessionsBuilder {
+        mockSessions.add(
+            Session(
+                idx = index++,
+                company = company,
+                content = content,
+                contentTag = contentTag,
+                title = title,
+                thumbnailUrl = thumbnailUrl,
+                video = videos,
+                category = category,
+                contentsSpeakers = contentsSpeakers,
+                isHighlight = isHighlight,
+                isFavorite = isFavorite,
+                exposureDay = exposureDay
+            )
+        )
+
+        return this
+    }
+
+    fun shuffle(): MockIfKakaoSessionsBuilder {
+        mockSessions.shuffle()
+
+        return this
+    }
 }
