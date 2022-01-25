@@ -5,7 +5,7 @@ import com.survivalcoding.ifkakao.data.dto.IfKakaoResponse
 import com.survivalcoding.ifkakao.data.dto.convert
 import com.survivalcoding.ifkakao.domain.entity.Session
 
-class IfKakaoMockDataSource : IfKakaoDataSource {
+class MockIfKakaoRemoteDataSource : IfKakaoRemoteDataSource {
 
     private val jsonResponse = """
         {

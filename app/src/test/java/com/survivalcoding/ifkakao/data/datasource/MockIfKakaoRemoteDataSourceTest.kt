@@ -7,7 +7,7 @@ import org.junit.After
 import org.junit.Before
 import org.junit.Test
 
-class IfKakaoMockDataSourceTest {
+class MockIfKakaoRemoteDataSourceTest {
 
     @Before
     fun setUp() {
@@ -19,7 +19,7 @@ class IfKakaoMockDataSourceTest {
 
     @Test
     fun `Mock 세션 데이터 불러오기 테스트`() {
-        val ifKakaoMockDataSource = IfKakaoMockDataSource()
+        val ifKakaoMockDataSource = MockIfKakaoRemoteDataSource()
         val sessions = runBlocking {
             ifKakaoMockDataSource.getAllSessions()
         }
