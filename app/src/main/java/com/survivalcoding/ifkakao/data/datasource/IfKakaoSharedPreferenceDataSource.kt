@@ -1,6 +1,8 @@
 package com.survivalcoding.ifkakao.data.datasource
 
-class IfKakaoSharedPreferenceDataSource: IfKakaoLocalDataSource {
+import javax.inject.Inject
+
+class IfKakaoSharedPreferenceDataSource @Inject constructor() : IfKakaoLocalDataSource {
     override suspend fun addFavorite() {
         TODO("Not yet implemented")
     }

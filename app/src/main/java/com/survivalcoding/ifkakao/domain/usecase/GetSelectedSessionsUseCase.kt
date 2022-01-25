@@ -4,8 +4,9 @@ import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.entity.SortBy
 import com.survivalcoding.ifkakao.domain.repository.IfKakaoRepository
+import javax.inject.Inject
 
-class GetSelectedSessionsUseCase constructor(private val ifKakaoRepository: IfKakaoRepository) {
+class GetSelectedSessionsUseCase @Inject constructor(private val ifKakaoRepository: IfKakaoRepository) {
     suspend operator fun invoke(
         day: Int = 3,
         category: Category = Category(),
