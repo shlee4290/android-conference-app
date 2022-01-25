@@ -2,10 +2,15 @@ package com.survivalcoding.ifkakao.domain.usecase
 
 import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
+import com.survivalcoding.ifkakao.domain.entity.SortBy
 import com.survivalcoding.ifkakao.domain.repository.IfKakaoRepository
 
 class GetSelectedSessionsUseCase constructor(private val ifKakaoRepository: IfKakaoRepository) {
-    suspend operator fun invoke(day: Int = 3, category: Category = Category()): List<Session> {
+    suspend operator fun invoke(
+        day: Int = 3,
+        category: Category = Category(),
+        sortBy: SortBy = SortBy.DEFAULT
+    ): List<Session> {
         return ifKakaoRepository.getAllSessions().filter { session ->
             if (day == 3) true // Day3(All)
             else session.exposureDay == day
@@ -35,6 +40,11 @@ class GetSelectedSessionsUseCase constructor(private val ifKakaoRepository: IfKa
             }
 
             true
+        }.sortedBy {
+            when (sortBy) {
+                SortBy.DEFAULT -> it.idx.toString()
+                SortBy.TITLE -> it.title
+            }
         }
     }
 }

@@ -2,6 +2,7 @@ package com.survivalcoding.ifkakao.domain.usecase
 
 import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
+import com.survivalcoding.ifkakao.domain.entity.SortBy
 import com.survivalcoding.ifkakao.domain.repository.IfKakaoRepository
 import com.survivalcoding.ifkakao.testUtil.MockIfKakaoSessionsBuilder
 import kotlinx.coroutines.runBlocking
@@ -301,18 +302,29 @@ class GetSelectedSessionsUseCaseTest {
     }
 
     @Test
-    fun `기준에 맞춰 세션들을 가져오는지 테스트`() {
+    fun `기본 정렬 상태에서 session의 idx 값으로 정렬되는지 테스트`() {
         runBlocking {
-            val mockSessions = MockIfKakaoSessionsBuilder().addSession(exposureDay = 1)
-                .addSession(
-                    exposureDay = 1,
-                    category = Category(
-                        field = listOf("서비스"),
-                        business = listOf("플랫폼"),
-                        tech = listOf("데이터"),
-                        company = listOf("카카오")
-                    )
-                )
+            val mockSessions = MockIfKakaoSessionsBuilder().addSession()
+                .addSession()
+                .addSession()
+                .addSession()
+                .addSession()
+                .addSession()
+                .shuffle()
+                .build()
+
+            Mockito.`when`(fakeIfKakaoRepository.getAllSessions())
+                .thenReturn(mockSessions)
+
+            assertEquals(mockSessions.sortedBy { it.idx }, getSelectedSessionsUseCase())
+        }
+    }
+
+    @Test
+    fun `title 기준 정렬 상태에서 제대로 정렬 되는지 테스트`() {
+        runBlocking {
+            val mockSessions = MockIfKakaoSessionsBuilder().addSession()
+                .addSession()
                 .addSession()
                 .addSession()
                 .addSession()
@@ -324,8 +336,61 @@ class GetSelectedSessionsUseCaseTest {
                 .thenReturn(mockSessions)
 
             assertEquals(
-                mockSessions.filter { it.exposureDay == 1 && it.category.field.contains("서비스") },
-                getSelectedSessionsUseCase(day = 1, category = Category(field = listOf("서비스")))
+                mockSessions.sortedBy { it.title },
+                getSelectedSessionsUseCase(sortBy = SortBy.TITLE)
+            )
+        }
+    }
+
+    @Test
+    fun `기준에 맞춰 세션들을 가져오는지 테스트`() {
+        runBlocking {
+            val mockSessions = MockIfKakaoSessionsBuilder().addSession(exposureDay = 1, title = "D")
+                .addSession(
+                    exposureDay = 1,
+                    title = "A",
+                    category = Category(
+                        field = listOf("서비스"),
+                        business = listOf("플랫폼"),
+                        tech = listOf("데이터"),
+                        company = listOf("카카오")
+                    )
+                )
+                .addSession(
+                    exposureDay = 1,
+                    title = "B",
+                    category = Category(
+                        field = listOf("서비스"),
+                        business = listOf("플랫폼"),
+                        company = listOf("카카오")
+                    )
+                )
+                .addSession(
+                    exposureDay = 1,
+                    title = "C",
+                    category = Category(
+                        field = listOf("서비스"),
+                        business = listOf("플랫폼"),
+                        tech = listOf("데이터"),
+                        company = listOf("카카오")
+                    )
+                )
+                .addSession()
+                .addSession()
+                .shuffle()
+                .build()
+
+            Mockito.`when`(fakeIfKakaoRepository.getAllSessions())
+                .thenReturn(mockSessions)
+
+            assertEquals(
+                mockSessions.filter { it.exposureDay == 1 && it.category.field.contains("서비스") }
+                    .sortedBy { it.title },
+                getSelectedSessionsUseCase(
+                    day = 1,
+                    category = Category(field = listOf("서비스")),
+                    sortBy = SortBy.TITLE
+                )
             )
         }
     }
