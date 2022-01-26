@@ -1,9 +1,6 @@
 package com.survivalcoding.ifkakao.core.di
 
-import com.survivalcoding.ifkakao.data.datasource.IfKakaoLocalDataSource
-import com.survivalcoding.ifkakao.data.datasource.IfKakaoRemoteDataSource
-import com.survivalcoding.ifkakao.data.datasource.IfKakaoRetrofitDataSource
-import com.survivalcoding.ifkakao.data.datasource.IfKakaoProtoDatastoreDataSource
+import com.survivalcoding.ifkakao.data.datasource.*
 import com.survivalcoding.ifkakao.data.repository.IfKakaoRepositoryImpl
 import com.survivalcoding.ifkakao.domain.repository.IfKakaoRepository
 import dagger.Binds
@@ -25,5 +22,5 @@ abstract class IfKakaoModule {
 
     @Binds
     @Singleton
-    abstract fun bindIfKakaoRemoteDataSource(ifKakaoRetrofitDataSource: IfKakaoRetrofitDataSource): IfKakaoRemoteDataSource
+    abstract fun bindIfKakaoRemoteDataSource(mockIfKakaoRemoteDataSource: MockIfKakaoRemoteDataSource): IfKakaoRemoteDataSource
 }

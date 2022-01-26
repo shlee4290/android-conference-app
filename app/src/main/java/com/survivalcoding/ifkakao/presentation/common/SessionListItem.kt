@@ -5,6 +5,7 @@ import android.util.AttributeSet
 import android.view.LayoutInflater
 import androidx.constraintlayout.widget.ConstraintLayout
 import com.survivalcoding.ifkakao.databinding.SessionListItemBinding
+import com.survivalcoding.ifkakao.domain.entity.Session
 
 class SessionListItem @JvmOverloads constructor(
     context: Context,
@@ -16,17 +17,22 @@ class SessionListItem @JvmOverloads constructor(
         SessionListItemBinding.inflate(LayoutInflater.from(context), this, true)
     }
 
-    init {
-        binding.companyBadge.isHighlight = true
-        binding.companyBadge.text = "카카오"
+    var session: Session? = null
+    set(value) {
+        field = value
+        if (value != null) {
+            binding.companyBadge.isHighlight = true
+            binding.companyBadge.text = value.company
 
-        binding.categoryBadge.isHighlight = false
-        binding.categoryBadge.text = "기술"
+            binding.categoryBadge.isHighlight = false
+            binding.categoryBadge.text = "기술" // TODO
 
-        binding.thumbnail.description = "55:11"
-        binding.thumbnail.thumbnailUrl = ""
+            if (value.video.isNotEmpty()) {
+                binding.thumbnail.description = value.video.first().length
+            }
+            binding.thumbnail.thumbnailUrl = value.thumbnailUrl
 
-        binding.titleTextView.text = "이용자의 소중한 일상을 지키는 카카오톡"
+            binding.titleTextView.text = value.title
+        }
     }
-
 }
