@@ -9,10 +9,13 @@ import org.junit.After
 import org.junit.Assert
 import org.junit.Before
 import org.junit.Test
+import org.junit.runner.RunWith
 import org.mockito.InjectMocks
 import org.mockito.Mock
 import org.mockito.Mockito
+import org.mockito.junit.MockitoJUnitRunner
 
+@RunWith(MockitoJUnitRunner::class)
 class IfKakaoRepositoryImplTest {
 
     @InjectMocks
@@ -35,9 +38,6 @@ class IfKakaoRepositoryImplTest {
 
     @Before
     fun setUp() {
-        mockIfKakaoLocalDataSource = Mockito.mock(IfKakaoLocalDataSource::class.java)
-        mockIfKakaoRemoteDataSource = Mockito.mock(IfKakaoRemoteDataSource::class.java)
-
         runBlocking {
             Mockito.`when`(mockIfKakaoLocalDataSource.getAllFavorite()).thenReturn(
                 listOf(1, 3, 5)
@@ -46,8 +46,6 @@ class IfKakaoRepositoryImplTest {
                 mockSessions
             )
         }
-
-        ifKakaoRepositoryImpl = IfKakaoRepositoryImpl(mockIfKakaoRemoteDataSource, mockIfKakaoLocalDataSource)
     }
 
     @After
