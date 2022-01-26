@@ -8,7 +8,7 @@ import androidx.core.content.res.ResourcesCompat
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.BadgeBinding
 
-class badge @JvmOverloads constructor(
+class Badge @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
