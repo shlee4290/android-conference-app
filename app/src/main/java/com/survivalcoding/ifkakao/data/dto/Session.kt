@@ -37,6 +37,7 @@ data class Session(
 
 fun Session.convert(): com.survivalcoding.ifkakao.domain.entity.Session {
     return com.survivalcoding.ifkakao.domain.entity.Session(
+        idx = idx ?: 0,
         title = title ?: "",
         content = content ?: "",
         contentTag = contentTag ?: "",

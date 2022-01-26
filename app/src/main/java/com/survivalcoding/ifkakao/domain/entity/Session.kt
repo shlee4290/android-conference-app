@@ -1,6 +1,7 @@
 package com.survivalcoding.ifkakao.domain.entity
 
 data class Session(
+    val idx: Int,
     val title: String,
     val content: String,
     val contentTag: String,

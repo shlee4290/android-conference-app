@@ -4,8 +4,9 @@ import com.google.gson.Gson
 import com.survivalcoding.ifkakao.data.dto.IfKakaoResponse
 import com.survivalcoding.ifkakao.data.dto.convert
 import com.survivalcoding.ifkakao.domain.entity.Session
+import javax.inject.Inject
 
-class IfKakaoMockDataSource : IfKakaoDataSource {
+class MockIfKakaoRemoteDataSource @Inject constructor() : IfKakaoRemoteDataSource {
 
     private val jsonResponse = """
         {
