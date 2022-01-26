@@ -1,5 +1,9 @@
 package com.survivalcoding.ifkakao.domain.entity
 
+import android.os.Parcelable
+import kotlinx.parcelize.Parcelize
+
+@Parcelize
 data class Session(
     val idx: Int,
     val title: String,
@@ -13,4 +17,4 @@ data class Session(
     val isHighlight: Boolean,
     val isFavorite: Boolean,
     val exposureDay: Int,
-)
+): Parcelable
