@@ -19,6 +19,7 @@ import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
 import com.survivalcoding.ifkakao.presentation.common.CommonBinder
 import com.survivalcoding.ifkakao.presentation.common.FooterBinder
 import com.survivalcoding.ifkakao.presentation.common.SessionBinder
+import com.survivalcoding.ifkakao.presentation.session.SessionFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -49,8 +50,22 @@ class MainFragment : Fragment() {
 
         initAdapter()
         initBanner()
+        initAllSessionButton()
 
         observe()
+    }
+
+    private fun initAllSessionButton() {
+        binding?.allSessionButton?.setOnClickListener {
+            navigateToSession()
+        }
+    }
+
+    private fun navigateToSession() {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view, SessionFragment())
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun observe() {
