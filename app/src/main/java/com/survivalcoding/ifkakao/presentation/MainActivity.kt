@@ -1,9 +1,9 @@
 package com.survivalcoding.ifkakao.presentation
 
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import com.survivalcoding.ifkakao.R
@@ -24,18 +24,24 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(binding.root)
 
-        setSupportActionBar(binding.toolBar)
-        supportActionBar?.title = "if(kakao)2021"
-
-        drawer = binding.drawerLayout
-
-        binding.drawerCloseButton.setOnClickListener { closeDrawer() }
+        initActionBar()
+        initDrawer()
 
         if (savedInstanceState == null) {
             supportFragmentManager.beginTransaction()
                 .add(R.id.fragment_container_view, MainFragment())
                 .commit()
         }
+    }
+
+    private fun initDrawer() {
+        drawer = binding.drawerLayout
+        binding.drawerCloseButton.setOnClickListener { closeDrawer() }
+    }
+
+    private fun initActionBar() {
+        setSupportActionBar(binding.toolBar)
+        supportActionBar?.title = "if(kakao)2021"
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {

@@ -2,6 +2,7 @@ package com.survivalcoding.ifkakao.presentation.main
 
 import android.graphics.RenderEffect
 import android.graphics.Shader
+import android.os.Build
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -42,35 +43,44 @@ class MainFragment : Fragment() {
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
 
-        binding?.sessionListRecyclerView?.adapter = adapter
+        initAdapter()
+        initBanner()
 
-        if (binding != null) {
-            Glide.with(requireContext())
-                .load(getString(R.string.main_banner_image_url))
-                .into(binding!!.mainBannerImageView)
+        observe()
+    }
 
-
-            if (android.os.Build.VERSION.SDK_INT >= 31) {
-                binding!!.mainBannerImageView.setRenderEffect(
-                    RenderEffect.createBlurEffect(
-                        10f,
-                        10f,
-                        Shader.TileMode.CLAMP
-                    )
-                )
-            }
-
-            Glide.with(requireContext())
-                .asGif()
-                .load(getString(R.string.main_hand_gif_url))
-                .into(binding!!.handImageView)
-        }
-
+    private fun observe() {
         repeatOnStart {
             viewModel.highlightSessions.collectLatest {
                 adapter.submitList(it)
             }
         }
+    }
+
+    private fun initBanner() {
+        Glide.with(requireContext())
+            .load(getString(R.string.main_banner_image_url))
+            .into(binding?.mainBannerImageView ?: return)
+
+
+        if (Build.VERSION.SDK_INT >= 31) {
+            binding!!.mainBannerImageView.setRenderEffect(
+                RenderEffect.createBlurEffect(
+                    10f,
+                    10f,
+                    Shader.TileMode.CLAMP
+                )
+            )
+        }
+
+        Glide.with(requireContext())
+            .asGif()
+            .load(getString(R.string.main_hand_gif_url))
+            .into(binding?.handImageView ?: return)
+    }
+
+    private fun initAdapter() {
+        binding?.sessionListRecyclerView?.adapter = adapter
     }
 
     override fun onDestroyView() {
