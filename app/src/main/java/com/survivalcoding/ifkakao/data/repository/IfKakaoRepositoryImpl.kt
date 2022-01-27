@@ -9,8 +9,8 @@ import javax.inject.Inject
 class IfKakaoRepositoryImpl @Inject constructor(
     private val ifKakaoRemoteDataSource: IfKakaoRemoteDataSource,
     private val ifKakaoLocalDataSourece: IfKakaoLocalDataSource
-) :
-    IfKakaoRepository {
+) : IfKakaoRepository {
+
     override suspend fun getAllSessions(): List<Session> =
         ifKakaoRemoteDataSource.getAllSessions().map {
             if (it.idx in ifKakaoLocalDataSourece.getAllFavorite()) {
@@ -19,4 +19,12 @@ class IfKakaoRepositoryImpl @Inject constructor(
                 it
             }
         }
+
+    override suspend fun addFavoriteSession(sessionId: Int) {
+        ifKakaoLocalDataSourece.addFavoriteSession(sessionId)
+    }
+
+    override suspend fun removeFavoriteSession(sessionId: Int) {
+        ifKakaoLocalDataSourece.removeFavoriteSession(sessionId)
+    }
 }
