@@ -15,6 +15,10 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.FragmentMainBinding
+import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
+import com.survivalcoding.ifkakao.presentation.common.CommonBinder
+import com.survivalcoding.ifkakao.presentation.common.FooterBinder
+import com.survivalcoding.ifkakao.presentation.common.SessionBinder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -27,8 +31,8 @@ class MainFragment : Fragment() {
 
     private val viewModel: MainViewModel by viewModels()
 
-    private val adapter: SessionListAdapter by lazy {
-        SessionListAdapter()
+    private val adapter: CommonAdapter by lazy {
+        CommonAdapter()
     }
 
     override fun onCreateView(
@@ -52,9 +56,22 @@ class MainFragment : Fragment() {
     private fun observe() {
         repeatOnStart {
             viewModel.highlightSessions.collectLatest {
-                adapter.submitList(it)
+                val binders: MutableList<CommonBinder> =
+                    it.map { session -> SessionBinder(session) }
+                        .toMutableList<CommonBinder>()
+                        .apply {
+                            add(FooterBinder(::scrollToTopOfTheList))
+                        }
+                adapter.submitList(binders) {
+                    scrollToTopOfTheList()
+                }
+
             }
         }
+    }
+
+    private fun scrollToTopOfTheList() {
+        binding?.sessionListRecyclerView?.scrollToPosition(0)
     }
 
     private fun initBanner() {
@@ -82,6 +99,7 @@ class MainFragment : Fragment() {
     private fun initAdapter() {
         binding?.sessionListRecyclerView?.adapter = adapter
     }
+
 
     override fun onDestroyView() {
         super.onDestroyView()
