@@ -41,7 +41,7 @@ class Thumbnail @JvmOverloads constructor(
                 binding.descriptionTextView.setBackgroundColor(
                     ResourcesCompat.getColor(
                         resources,
-                        R.color.thumbnail_description_background,
+                        R.color.thumbnail_description_background_color,
                         null
                     )
                 )

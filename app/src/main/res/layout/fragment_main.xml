@@ -4,13 +4,86 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/black"
     tools:context=".presentation.main.MainFragment">
+
+    <ImageView
+        android:id="@+id/main_banner_image_view"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/main_banner_color_filter"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:src="@color/main_banner_filter_color"
+        app:layout_constraintBottom_toBottomOf="@id/main_banner_image_view"
+        app:layout_constraintEnd_toEndOf="@id/main_banner_image_view"
+        app:layout_constraintStart_toStartOf="@id/main_banner_image_view"
+        app:layout_constraintTop_toTopOf="@id/main_banner_image_view" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="@id/main_banner_image_view"
+        app:layout_constraintEnd_toEndOf="@id/main_banner_image_view"
+        app:layout_constraintStart_toStartOf="@id/main_banner_image_view"
+        app:layout_constraintTop_toTopOf="@id/main_banner_image_view">
+
+        <ImageView
+            android:id="@+id/hand_image_view"
+            android:layout_width="50dp"
+            android:layout_height="50dp" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/main_banner_text"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:textSize="18dp"
+            android:textStyle="bold" />
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/highlight_text_view"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="32dp"
+        android:text="Highlight"
+        android:textColor="@color/white"
+        android:textSize="28dp"
+        android:textStyle="bold"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/main_banner_image_view" />
+
+    <androidx.appcompat.widget.AppCompatButton
+        android:layout_width="wrap_content"
+        android:layout_height="36dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/button_background"
+        android:paddingHorizontal="16dp"
+        android:text="전체 세션 보기"
+        android:textColor="@color/button_text_color"
+        android:textSize="14dp"
+        app:layout_constraintBottom_toBottomOf="@id/highlight_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="@id/highlight_text_view" />
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/session_list_recycler_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="0dp"
         android:orientation="vertical"
-        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
+        app:layout_constraintTop_toBottomOf="@id/highlight_text_view"
+        tools:listitem="@layout/session_list_item" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
