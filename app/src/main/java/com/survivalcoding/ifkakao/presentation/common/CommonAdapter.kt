@@ -7,6 +7,7 @@ class CommonAdapter : ListAdapter<CommonBinder, CommonViewHolder>(CommonDiffUtil
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return when (viewType) {
             SessionBinder.ID -> SessionViewHolder.from(parent)
+            SessionListBinder.ID -> SessionListViewHolder.from(parent)
             else -> FooterViewHolder.from(parent)
         }
     }

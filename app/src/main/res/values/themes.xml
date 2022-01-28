@@ -21,4 +21,11 @@
     <style name="ToolbarWithWhiteIcon">
         <item name="colorControlNormal">@color/white</item>
     </style>
+
+    <style name="TabWidget.Title" parent="TextAppearance.Design.Tab">
+        <item name="textAllCaps">false</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:ellipsize">end</item>
+    </style>
 </resources>
