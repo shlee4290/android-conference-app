@@ -11,9 +11,8 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayoutMediator
 import com.survivalcoding.ifkakao.databinding.FragmentSessionBinding
-import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
-import com.survivalcoding.ifkakao.presentation.common.SessionBinder
-import com.survivalcoding.ifkakao.presentation.common.SessionListBinder
+import com.survivalcoding.ifkakao.domain.entity.Session
+import com.survivalcoding.ifkakao.presentation.common.*
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
@@ -59,16 +58,23 @@ class SessionFragment : Fragment() {
     private fun observe() {
         repeatOnStart {
             viewModel.sessionUiState.collect {
-                val sessionListBinders =
+                val commonListBinders =
                     listOf(
-                        SessionListBinder(it.day1Sessions.map { session -> SessionBinder(session) }),
-                        SessionListBinder(it.day2Sessions.map { session -> SessionBinder(session) }),
-                        SessionListBinder(it.day3Sessions.map { session -> SessionBinder(session) })
+                        it.day1Sessions.toBinderList(),
+                        it.day2Sessions.toBinderList(),
+                        it.day3Sessions.toBinderList()
                     )
 
-                viewPagerAdapter.submitList(sessionListBinders)
+                viewPagerAdapter.submitList(commonListBinders)
             }
         }
+    }
+
+    private fun List<Session>.toBinderList(): CommonListBinder {
+        return CommonListBinder(
+            this.map { session -> SessionBinder(session) }
+                .plus(FooterBinder())
+        )
     }
 
     override fun onDestroyView() {

@@ -75,7 +75,7 @@ class MainFragment : Fragment() {
                     it.map { session -> SessionBinder(session) }
                         .toMutableList<CommonBinder>()
                         .apply {
-                            add(FooterBinder(::scrollToTopOfTheList))
+                            add(FooterBinder())
                         }
                 adapter.submitList(binders) {
                     scrollToTopOfTheList()

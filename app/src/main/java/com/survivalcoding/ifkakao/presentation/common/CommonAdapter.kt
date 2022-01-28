@@ -2,13 +2,22 @@ package com.survivalcoding.ifkakao.presentation.common
 
 import android.view.ViewGroup
 import androidx.recyclerview.widget.ListAdapter
+import androidx.recyclerview.widget.RecyclerView
 
 class CommonAdapter : ListAdapter<CommonBinder, CommonViewHolder>(CommonDiffUtilItemCallback()) {
+
+    private var recyclerView: RecyclerView? = null
+
+    override fun onAttachedToRecyclerView(recyclerView: RecyclerView) {
+        super.onAttachedToRecyclerView(recyclerView)
+        this.recyclerView = recyclerView
+    }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return when (viewType) {
             SessionBinder.ID -> SessionViewHolder.from(parent)
-            SessionListBinder.ID -> SessionListViewHolder.from(parent)
-            else -> FooterViewHolder.from(parent)
+            CommonListBinder.ID -> CommonListViewHolder.from(parent)
+            else -> FooterViewHolder.from(parent, recyclerView)
         }
     }
 
