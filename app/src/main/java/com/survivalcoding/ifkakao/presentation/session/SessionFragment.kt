@@ -1,5 +1,6 @@
 package com.survivalcoding.ifkakao.presentation.session
 
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -12,9 +13,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayoutMediator
 import com.survivalcoding.ifkakao.databinding.FragmentSessionBinding
 import com.survivalcoding.ifkakao.domain.entity.Session
-import com.survivalcoding.ifkakao.presentation.common.*
+import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
+import com.survivalcoding.ifkakao.presentation.common.CommonListBinder
+import com.survivalcoding.ifkakao.presentation.common.FooterBinder
+import com.survivalcoding.ifkakao.presentation.common.SessionBinder
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -41,8 +46,28 @@ class SessionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initViewPager()
+        binding?.sessionBannerVideoView?.setVideoURI(Uri.parse("https://t1.kakaocdn.net/service_if_kakao_prod/videos/mo/vod_teaser_2021.mp4"))
+        binding?.sessionBannerVideoView?.setOnPreparedListener {
+            it.isLooping = true
+            binding?.sessionBannerVideoView?.start()
+            viewLifecycleOwner.lifecycleScope.launch {
+                delay(100L)
+                binding?.sessionBannerThumbnail?.visibility = View.INVISIBLE
+            }
+        }
 
         observe()
+    }
+
+    override fun onPause() {
+        super.onPause()
+        binding?.sessionBannerVideoView?.pause()
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        binding?.sessionBannerVideoView?.stopPlayback()
+        binding = null
     }
 
     private fun initViewPager() {
@@ -75,11 +100,6 @@ class SessionFragment : Fragment() {
             this.map { session -> SessionBinder(session) }
                 .plus(FooterBinder())
         )
-    }
-
-    override fun onDestroyView() {
-        super.onDestroyView()
-        binding = null
     }
 
     private fun repeatOnStart(block: suspend CoroutineScope.() -> Unit) {

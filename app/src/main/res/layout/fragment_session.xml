@@ -22,6 +22,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="16dp"
                 android:layout_marginTop="48dp"
+                android:paddingBottom="32dp"
                 android:text="Session"
                 android:textColor="@color/white"
                 android:textSize="28dp"
@@ -29,11 +30,21 @@
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
 
-            <ImageView
-                android:id="@+id/main_banner_image_view"
+            <VideoView
+                android:id="@+id/session_banner_video_view"
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="32dp"
+                android:layout_height="0dp"
+                app:layout_constraintDimensionRatio="H,1:1"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/session_title_text" />
+
+            <ImageView
+                android:id="@+id/session_banner_thumbnail"
+                android:layout_width="match_parent"
+                android:layout_height="0dp"
+                android:src="@color/session_banner_background_color"
+                app:layout_constraintDimensionRatio="H,1:1"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/session_title_text" />
