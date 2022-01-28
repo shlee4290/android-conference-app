@@ -18,6 +18,14 @@ class SessionDetailFragment : Fragment() {
 
     private val viewModel: SessionDetailViewModel by viewModels()
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        if (arguments != null) {
+            viewModel.session = arguments?.getParcelable(SESSION)
+        }
+    }
+
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
