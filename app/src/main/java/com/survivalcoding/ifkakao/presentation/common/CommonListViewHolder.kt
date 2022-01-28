@@ -8,7 +8,9 @@ class CommonListViewHolder private constructor(private val binding: CommonListBi
     CommonViewHolder(binding.root) {
     override fun bind(binder: CommonBinder) {
         binder as CommonListBinder
-        (binding.recyclerView.adapter as CommonAdapter).submitList(binder.commonBinderList)
+        (binding.recyclerView.adapter as CommonAdapter).submitList(binder.commonBinderList) {
+            binding.recyclerView.scrollToPosition(0)
+        }
     }
 
     companion object {
