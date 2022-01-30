@@ -13,6 +13,6 @@
     <color name="thumbnail_description_background_color">#2E2E2E</color>
     <color name="button_text_color">#b2b2b2</color>
     <color name="button_background_color">#1d1d1d</color>
-    <color name="main_banner_filter_color">#DD000000</color>
+    <color name="main_banner_filter_color">#BB000000</color>
     <color name="session_banner_background_color">#1AD7FD</color>
 </resources>
