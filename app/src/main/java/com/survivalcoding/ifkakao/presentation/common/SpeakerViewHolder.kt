@@ -11,7 +11,7 @@ class SpeakerViewHolder private constructor(private val binding: SpeakerProfileB
         binder as SpeakerBinder
         binding.companyTextView.text = binder.speaker.company
         binding.roleTextView.text = binder.speaker.occupation
-        binding.speakerNameTextView.text = binder.speaker.nameKo
+        binding.speakerNameTextView.text = "${binder.speaker.nameKo} ${binder.speaker.nameEn}"
         binding.speakerProfileImageView.profileImageUrl = binder.speaker.profileUrl
     }
 

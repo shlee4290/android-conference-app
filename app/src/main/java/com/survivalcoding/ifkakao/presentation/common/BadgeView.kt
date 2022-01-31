@@ -1,6 +1,7 @@
 package com.survivalcoding.ifkakao.presentation.common
 
 import android.content.Context
+import android.graphics.Typeface
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.LayoutInflater
@@ -26,8 +27,14 @@ class BadgeView @JvmOverloads constructor(
     var isBig: Boolean = false
         set(value) {
             field = value
-            val size: Float = if (value) 20F else 14F
+            val size = if (value) 16F else 12F
             binding.textView.setTextSize(TypedValue.COMPLEX_UNIT_DIP, size)
+
+            if (value) {
+                binding.textView.setTypeface(binding.textView.typeface, Typeface.BOLD)
+            } else {
+                binding.textView.setTypeface(binding.textView.typeface, Typeface.NORMAL)
+            }
         }
 
     var isHighlight: Boolean = false

@@ -22,6 +22,8 @@ class CommonAdapter : ListAdapter<CommonBinder, CommonViewHolder>(CommonDiffUtil
             SessionTagsBinder.ID -> SessionTagsViewHolder.from(parent)
             SpeakerBinder.ID -> SpeakerViewHolder.from(parent)
             SessionVideoBinder.ID -> SessionVideoViewHolder.from(parent)
+            CategoryListBinder.ID -> CategoryListViewHolder.from(parent)
+            BadgeBinder.ID -> BadgeViewHolder.from(parent)
             else -> FooterViewHolder.from(parent, recyclerView)
         }
     }

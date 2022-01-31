@@ -10,3 +10,13 @@ data class Category(
     val tech: List<String> = listOf(),
     val company: List<String> = listOf()
 ) : Parcelable
+
+fun Category.toList(): List<String> {
+    val categoryList = mutableListOf<String>()
+    categoryList.addAll(field)
+    categoryList.addAll(company)
+    categoryList.addAll(business)
+    categoryList.addAll(tech)
+
+    return categoryList
+}

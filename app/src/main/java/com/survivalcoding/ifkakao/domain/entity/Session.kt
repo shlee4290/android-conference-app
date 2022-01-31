@@ -18,13 +18,3 @@ data class Session(
     val isFavorite: Boolean,
     val exposureDay: Int,
 ) : Parcelable
-
-fun Session.toList(): List<String> {
-    val categoryList = mutableListOf<String>()
-    categoryList.addAll(category.field)
-    categoryList.addAll(category.company)
-    categoryList.addAll(category.business)
-    categoryList.addAll(category.tech)
-
-    return categoryList
-}

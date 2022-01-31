@@ -19,6 +19,7 @@
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
+        android:textStyle="bold"
         android:textColor="@color/white"
         android:textSize="15dp"
         app:layout_constraintBottom_toTopOf="@id/company_text_view"
@@ -30,6 +31,7 @@
     <TextView
         android:id="@+id/company_text_view"
         android:layout_width="0dp"
+        android:textStyle="bold"
         android:layout_height="wrap_content"
         android:textColor="@color/button_text_color"
         android:textSize="15dp"
@@ -45,6 +47,7 @@
         android:layout_height="wrap_content"
         android:textColor="@color/button_text_color"
         android:textSize="15dp"
+        android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@id/speaker_profile_image_view"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="@id/speaker_name_text_view"

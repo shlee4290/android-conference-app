@@ -53,6 +53,7 @@ class SessionDetailViewModel @Inject constructor(
                     )
                 )
             }
+            tmpBinderList.add(CategoryListBinder(session.category))
             tmpBinderList.add(SessionTitleBinder(session.title))
             tmpBinderList.add(SessionContentBinder(session.content))
             tmpBinderList.add(SessionTagsBinder(session.contentTag))
