@@ -16,14 +16,14 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <com.survivalcoding.ifkakao.presentation.common.Badge
+    <com.survivalcoding.ifkakao.presentation.common.BadgeView
         android:id="@+id/company_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         app:layout_constraintStart_toEndOf="@id/thumbnail"
         app:layout_constraintTop_toTopOf="@id/thumbnail" />
 
-    <com.survivalcoding.ifkakao.presentation.common.Badge
+    <com.survivalcoding.ifkakao.presentation.common.BadgeView
         android:id="@+id/category_badge"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
