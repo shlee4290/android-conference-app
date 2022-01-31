@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.ThumbnailBinding
 
-class Thumbnail @JvmOverloads constructor(
+class ThumbnailView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0

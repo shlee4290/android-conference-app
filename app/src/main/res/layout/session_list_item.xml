@@ -6,7 +6,7 @@
     android:layout_height="wrap_content"
     android:paddingHorizontal="16dp">
 
-    <com.survivalcoding.ifkakao.presentation.common.Thumbnail
+    <com.survivalcoding.ifkakao.presentation.common.ThumbnailView
         android:id="@+id/thumbnail"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
