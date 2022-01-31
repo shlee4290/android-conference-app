@@ -32,7 +32,8 @@ class SessionDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            viewModel.session = arguments?.getParcelable(SESSION)
+            val session = arguments?.getParcelable<Session>(SESSION)
+            if (session != null) viewModel.setSession(session)
         }
     }
 

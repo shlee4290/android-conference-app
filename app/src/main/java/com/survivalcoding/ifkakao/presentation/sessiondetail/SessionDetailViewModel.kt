@@ -4,7 +4,6 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
-import com.survivalcoding.ifkakao.domain.usecase.GetAllCategoriesUseCase
 import com.survivalcoding.ifkakao.domain.usecase.GetSelectedSessionsUseCase
 import com.survivalcoding.ifkakao.presentation.common.*
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -16,53 +15,62 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SessionDetailViewModel @Inject constructor(
-    private val getAllCategoriesUseCase: GetAllCategoriesUseCase,
     private val getSelectedSessionsUseCase: GetSelectedSessionsUseCase
 ) : ViewModel() {
 
     private val _uiState = MutableStateFlow(SessionDetailUiState(listOf()))
     val uiState = _uiState.asStateFlow()
 
-    var session: Session? = null
-        set(value) {
-            field = value
+    private var session: Session? = null
 
-            if (value == null) return
+    fun setSession(session: Session) {
+        this.session = session
+        refreshBinderList(session)
+    }
 
-            viewModelScope.launch {
-                val relatedSessions = async {
-                    val fieldCategory = Category(field = listOf(value.category.field.first()))
-                    getSelectedSessionsUseCase(category = fieldCategory)
-                }
+    private fun refreshBinderList(session: Session) {
+        viewModelScope.launch {
+            val fieldCategory = if (session.category.field.isNotEmpty()) {
+                session.category.field.first()
+            } else {
+                ""
+            }
 
-                val binderList = mutableListOf<CommonBinder>()
+            val relatedSessions = async {
+                getSelectedSessionsUseCase(category = Category(field = listOf(fieldCategory)))
+            }
 
-                binderList.add(
+            val tmpBinderList = mutableListOf<CommonBinder>()
+
+            if (session.video.isNotEmpty()) {
+                tmpBinderList.add(
                     SessionVideoBinder(
-                        value.video.first(),
-                        value.thumbnailUrl,
-                        value.title,
+                        session.video.first(),
+                        session.thumbnailUrl,
+                        session.title,
                         {},// TODO
                         {}// TODO
                     )
                 )
-                binderList.add(SessionTitleBinder(value.title))
-                binderList.add(SessionContentBinder(value.content))
-                binderList.add(SessionTagsBinder(value.contentTag))
-                binderList.addAll(
-                    value.contentsSpeakers.map {
-                        SpeakerBinder(it)
-                    }
-                )
-                binderList.addAll(
-                    relatedSessions.await().filter { it.idx != value.idx }
-                        .map { SessionListItemBinder(it, {}) } // TODO
-                )
-                binderList.add(FooterBinder())
-
-                _uiState.value = _uiState.value.copy(binderList = binderList)
             }
+            tmpBinderList.add(SessionTitleBinder(session.title))
+            tmpBinderList.add(SessionContentBinder(session.content))
+            tmpBinderList.add(SessionTagsBinder(session.contentTag))
+            tmpBinderList.addAll(
+                session.contentsSpeakers.map {
+                    SpeakerBinder(it)
+                }
+            )
+            tmpBinderList.addAll(
+                relatedSessions.await().filter { it.idx != session.idx }
+                    .map { SessionListItemBinder(it, {}) } // TODO
+            )
+            tmpBinderList.add(FooterBinder())
+
+            _uiState.value = _uiState.value.copy(binderList = tmpBinderList)
         }
+    }
+
 }
 
 data class SessionDetailUiState(
