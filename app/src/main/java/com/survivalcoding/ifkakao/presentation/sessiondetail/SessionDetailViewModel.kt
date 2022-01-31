@@ -62,10 +62,13 @@ class SessionDetailViewModel @Inject constructor(
                     SpeakerBinder(it)
                 }
             )
+            tmpBinderList.add(SessionButtonBinder("목록보기") {}) // TODO
+            tmpBinderList.add(AssociatedSessionTitleBinder())
             tmpBinderList.addAll(
                 relatedSessions.await().filter { it.idx != session.idx }
                     .map { SessionListItemBinder(it, {}) } // TODO
             )
+            tmpBinderList.add(SessionButtonBinder("연관세션 더보기") {}) // TODO
             tmpBinderList.add(FooterBinder())
 
             _uiState.value = _uiState.value.copy(binderList = tmpBinderList)

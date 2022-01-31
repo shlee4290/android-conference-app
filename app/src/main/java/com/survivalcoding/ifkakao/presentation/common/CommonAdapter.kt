@@ -15,15 +15,17 @@ class CommonAdapter : ListAdapter<CommonBinder, CommonViewHolder>(CommonDiffUtil
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return when (viewType) {
-            SessionListItemBinder.ID -> SessionListItemViewHolder.from(parent)
+            AssociatedSessionTitleBinder.ID -> AssociatedSessionTitleViewHolder.from(parent)
+            BadgeBinder.ID -> BadgeViewHolder.from(parent)
+            CategoryListBinder.ID -> CategoryListViewHolder.from(parent)
             CommonListBinder.ID -> CommonListViewHolder.from(parent)
+            SessionListItemBinder.ID -> SessionListItemViewHolder.from(parent)
             SessionTitleBinder.ID -> SessionTitleViewHolder.from(parent)
             SessionContentBinder.ID -> SessionContentViewHolder.from(parent)
             SessionTagsBinder.ID -> SessionTagsViewHolder.from(parent)
-            SpeakerBinder.ID -> SpeakerViewHolder.from(parent)
             SessionVideoBinder.ID -> SessionVideoViewHolder.from(parent)
-            CategoryListBinder.ID -> CategoryListViewHolder.from(parent)
-            BadgeBinder.ID -> BadgeViewHolder.from(parent)
+            SessionButtonBinder.ID -> SessionButtonViewHolder.from(parent)
+            SpeakerBinder.ID -> SpeakerViewHolder.from(parent)
             else -> FooterViewHolder.from(parent, recyclerView)
         }
     }
