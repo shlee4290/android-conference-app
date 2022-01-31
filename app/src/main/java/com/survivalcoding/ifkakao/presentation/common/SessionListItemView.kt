@@ -25,7 +25,8 @@ class SessionListItemView @JvmOverloads constructor(
             binding.companyBadge.text = value.company
 
             binding.categoryBadge.isHighlight = false
-            binding.categoryBadge.text = "기술" // TODO
+
+            binding.categoryBadge.text = value.category.field.first()
 
             if (value.video.isNotEmpty()) {
                 binding.thumbnail.description = value.video.first().length
