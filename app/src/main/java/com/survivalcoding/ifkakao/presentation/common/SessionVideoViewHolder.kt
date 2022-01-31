@@ -22,7 +22,7 @@ class SessionVideoViewHolder private constructor(private val binding: SessionVid
         if (binder.video.length.isNotBlank()) {
             binding.playButton.visibility = View.VISIBLE
             binding.descriptionTextView.visibility = View.VISIBLE
-            binding.descriptionTextView.text = binder.video.url
+            binding.descriptionTextView.text = binder.video.length
             binding.playButton.setOnClickListener { binder.onPlayButtonClick(binder.video.url) }
         } else {
             binding.playButton.visibility = View.INVISIBLE
