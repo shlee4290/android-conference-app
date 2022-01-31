@@ -3,12 +3,15 @@ package com.survivalcoding.ifkakao.presentation.common
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.domain.entity.Session
 
-class SessionBinder(val session: Session) : CommonBinder {
+class SessionListItemBinder(
+    val session: Session,
+    val onClick: (Session) -> Unit
+) : CommonBinder {
     override val id = ID
 
     override fun areContentsTheSame(oldItem: CommonBinder, newItem: CommonBinder): Boolean {
-        oldItem as SessionBinder
-        newItem as SessionBinder
+        oldItem as SessionListItemBinder
+        newItem as SessionListItemBinder
 
         return oldItem.session == newItem.session
     }

@@ -15,7 +15,7 @@ class CommonAdapter : ListAdapter<CommonBinder, CommonViewHolder>(CommonDiffUtil
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): CommonViewHolder {
         return when (viewType) {
-            SessionBinder.ID -> SessionViewHolder.from(parent)
+            SessionListItemBinder.ID -> SessionListItemViewHolder.from(parent)
             CommonListBinder.ID -> CommonListViewHolder.from(parent)
             SessionTitleBinder.ID -> SessionTitleViewHolder.from(parent)
             SessionContentBinder.ID -> SessionContentViewHolder.from(parent)

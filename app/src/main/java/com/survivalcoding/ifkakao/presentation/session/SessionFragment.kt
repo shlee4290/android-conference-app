@@ -11,12 +11,14 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayoutMediator
+import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.FragmentSessionBinding
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
 import com.survivalcoding.ifkakao.presentation.common.CommonListBinder
 import com.survivalcoding.ifkakao.presentation.common.FooterBinder
-import com.survivalcoding.ifkakao.presentation.common.SessionBinder
+import com.survivalcoding.ifkakao.presentation.common.SessionListItemBinder
+import com.survivalcoding.ifkakao.presentation.sessiondetail.SessionDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
@@ -97,9 +99,16 @@ class SessionFragment : Fragment() {
 
     private fun List<Session>.toBinderList(): CommonListBinder {
         return CommonListBinder(
-            this.map { session -> SessionBinder(session) }
+            this.map { session -> SessionListItemBinder(session, ::navigateToSessionDetail) }
                 .plus(FooterBinder())
         )
+    }
+
+    private fun navigateToSessionDetail(session: Session) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view, SessionDetailFragment.newInstance(session))
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun repeatOnStart(block: suspend CoroutineScope.() -> Unit) {

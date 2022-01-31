@@ -15,11 +15,13 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.FragmentMainBinding
+import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
 import com.survivalcoding.ifkakao.presentation.common.CommonBinder
 import com.survivalcoding.ifkakao.presentation.common.FooterBinder
-import com.survivalcoding.ifkakao.presentation.common.SessionBinder
+import com.survivalcoding.ifkakao.presentation.common.SessionListItemBinder
 import com.survivalcoding.ifkakao.presentation.session.SessionFragment
+import com.survivalcoding.ifkakao.presentation.sessiondetail.SessionDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -72,7 +74,7 @@ class MainFragment : Fragment() {
         repeatOnStart {
             viewModel.highlightSessions.collectLatest {
                 val binders: MutableList<CommonBinder> =
-                    it.map { session -> SessionBinder(session) }
+                    it.map { session -> SessionListItemBinder(session, ::navigateToSessionDetail) }
                         .toMutableList<CommonBinder>()
                         .apply {
                             add(FooterBinder())
@@ -83,6 +85,13 @@ class MainFragment : Fragment() {
 
             }
         }
+    }
+
+    private fun navigateToSessionDetail(session: Session) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view, SessionDetailFragment.newInstance(session))
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun scrollToTopOfTheList() {

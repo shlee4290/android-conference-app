@@ -7,7 +7,7 @@ import androidx.constraintlayout.widget.ConstraintLayout
 import com.survivalcoding.ifkakao.databinding.SessionListItemBinding
 import com.survivalcoding.ifkakao.domain.entity.Session
 
-class SessionListItem @JvmOverloads constructor(
+class SessionListItemView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
