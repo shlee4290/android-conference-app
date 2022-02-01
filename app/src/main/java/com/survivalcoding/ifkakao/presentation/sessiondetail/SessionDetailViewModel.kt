@@ -84,10 +84,10 @@ class SessionDetailViewModel @Inject constructor(
     }
 
     sealed class Event {
-        class NavigateToWebView(url: String) : Event()
-        class NavigateToSessionDetail(session: Session) : Event()
+        class NavigateToWebView(val url: String) : Event()
+        class NavigateToSessionDetail(val session: Session) : Event()
         object NavigateToSessionList : Event()
-        class NavigateToAssociatedSessionList(category: Category, title: String) : Event()
+        class NavigateToAssociatedSessionList(val category: Category, val title: String) : Event()
     }
 
     data class UiState(

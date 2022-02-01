@@ -116,4 +116,8 @@ class SessionFragment : Fragment() {
             viewLifecycleOwner.repeatOnLifecycle(Lifecycle.State.STARTED, block)
         }
     }
+
+    companion object {
+        const val TAG = "SessionFragment"
+    }
 }

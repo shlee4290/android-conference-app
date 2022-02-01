@@ -66,7 +66,7 @@ class MainFragment : Fragment() {
     private fun navigateToSession() {
         parentFragmentManager.beginTransaction()
             .replace(R.id.fragment_container_view, SessionFragment())
-            .addToBackStack(null)
+            .addToBackStack(SessionFragment.TAG)
             .commit()
     }
 

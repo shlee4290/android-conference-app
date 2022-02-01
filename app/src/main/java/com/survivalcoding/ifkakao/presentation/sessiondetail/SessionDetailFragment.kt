@@ -9,8 +9,11 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.FragmentSessionDetailBinding
+import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
+import com.survivalcoding.ifkakao.presentation.MainActivity
 import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -60,6 +63,43 @@ class SessionDetailFragment : Fragment() {
                 adapter.submitList(it.binderList)
             }
         }
+
+        repeatOnStart {
+            viewModel.eventFlow.collect {
+                handleEvent(it)
+            }
+        }
+    }
+
+    private fun handleEvent(event: SessionDetailViewModel.Event) {
+        when (event) {
+            is SessionDetailViewModel.Event.NavigateToWebView -> navigateToWebView(event.url)
+            is SessionDetailViewModel.Event.NavigateToSessionList -> navigateToSessionList()
+            is SessionDetailViewModel.Event.NavigateToSessionDetail -> navigateToSessionDetail(event.session)
+            is SessionDetailViewModel.Event.NavigateToAssociatedSessionList -> navigateToAssociatedSessionList(
+                event.category,
+                event.title
+            )
+        }
+    }
+
+    private fun navigateToWebView(url: String) {
+
+    }
+
+    private fun navigateToSessionList() {
+        (requireActivity() as MainActivity).navigateToSessionList()
+    }
+
+    private fun navigateToSessionDetail(session: Session) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view, SessionDetailFragment.newInstance(session))
+            .addToBackStack(null)
+            .commit()
+    }
+
+    private fun navigateToAssociatedSessionList(category: Category, title: String) {
+
     }
 
     override fun onDestroyView() {
