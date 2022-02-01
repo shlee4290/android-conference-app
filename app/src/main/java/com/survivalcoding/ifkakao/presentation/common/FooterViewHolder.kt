@@ -14,7 +14,7 @@ class FooterViewHolder private constructor(
     override fun bind(binder: CommonBinder) {
         binder as FooterBinder
         binding.arrowButton.setOnClickListener {
-            recyclerView?.scrollToPosition(0)
+            recyclerView?.smoothScrollToPosition(0)
         }
     }
 
