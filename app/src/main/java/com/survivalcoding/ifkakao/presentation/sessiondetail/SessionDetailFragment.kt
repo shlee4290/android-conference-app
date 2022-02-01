@@ -1,5 +1,7 @@
 package com.survivalcoding.ifkakao.presentation.sessiondetail
 
+import android.content.Intent
+import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
@@ -84,7 +86,11 @@ class SessionDetailFragment : Fragment() {
     }
 
     private fun navigateToWebView(url: String) {
-
+        Intent(Intent.ACTION_VIEW, Uri.parse(url)).apply {
+            if (resolveActivity(requireActivity().packageManager) != null) {
+                requireActivity().startActivity(this)
+            }
+        }
     }
 
     private fun navigateToSessionList() {
