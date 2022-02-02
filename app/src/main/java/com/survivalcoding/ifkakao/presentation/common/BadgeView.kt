@@ -37,6 +37,10 @@ class BadgeView @JvmOverloads constructor(
             }
         }
 
+    init {
+        isBig = false
+    }
+
     var isHighlight: Boolean = false
         set(value) {
             field = value
@@ -50,6 +54,7 @@ class BadgeView @JvmOverloads constructor(
                 )
                 binding.root.background =
                     ResourcesCompat.getDrawable(resources, R.drawable.badge_border_yellow, null)
+                binding.textView.setTypeface(binding.textView.typeface, Typeface.BOLD)
             } else {
                 binding.textView.setTextColor(
                     ResourcesCompat.getColor(
@@ -60,6 +65,7 @@ class BadgeView @JvmOverloads constructor(
                 )
                 binding.root.background =
                     ResourcesCompat.getDrawable(resources, R.drawable.badge_background_white, null)
+                binding.textView.setTypeface(binding.textView.typeface, Typeface.NORMAL)
             }
         }
 
