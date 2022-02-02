@@ -78,7 +78,7 @@ class SessionDetailFragment : Fragment() {
             is SessionDetailViewModel.Event.NavigateToWebView -> navigateToWebView(event.url)
             is SessionDetailViewModel.Event.NavigateToSessionList -> navigateToSessionList()
             is SessionDetailViewModel.Event.NavigateToSessionDetail -> navigateToSessionDetail(event.session)
-            is SessionDetailViewModel.Event.NavigateToAssociatedSessionList -> navigateToAssociatedSessionList(
+            is SessionDetailViewModel.Event.NavigateToCategorySessionList -> navigateToAssociatedSessionList(
                 event.category,
                 event.title
             )

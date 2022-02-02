@@ -28,6 +28,8 @@ class SessionDetailViewModel @Inject constructor(
 
     private var session: Session? = null
 
+    private var associatedSessionLastPage: Int = 1
+
     fun setSession(session: Session) {
         this.session = session
         refreshBinderList(session)
@@ -60,20 +62,29 @@ class SessionDetailViewModel @Inject constructor(
             .addTags(session)
             .addSpeakers(session)
             .addButton("목록보기") { sendEvent(Event.NavigateToSessionList) }
-            .addAssociatedSessions(relatedSessions.await(), session, { clickedSession ->
-                sendEvent(
-                    Event.NavigateToSessionDetail(
-                        clickedSession
+            .addAssociatedSessions(
+                relatedSessions.await(),
+                associatedSessionLastPage * ASSOCIATED_SESSION_PAGE_SIZE,
+                session,
+                { clickedSession ->
+                    sendEvent(
+                        Event.NavigateToSessionDetail(
+                            clickedSession
+                        )
                     )
-                )
-            }, {
-                sendEvent(
-                    Event.NavigateToAssociatedSessionList(
-                        Category(field = listOf(fieldCategory)), fieldCategory
-                    )
-                )
-            }).addFooter()
+                },
+                { loadNextAssociatedSessionPage() }
+            ).addFooter()
             .build()
+    }
+
+    private fun loadNextAssociatedSessionPage() {
+        ++associatedSessionLastPage
+        viewModelScope.launch {
+            refreshBinderList(
+                this@SessionDetailViewModel.session ?: return@launch
+            )
+        }
     }
 
     private fun sendEvent(event: Event) {
@@ -86,12 +97,16 @@ class SessionDetailViewModel @Inject constructor(
         class NavigateToWebView(val url: String) : Event()
         class NavigateToSessionDetail(val session: Session) : Event()
         object NavigateToSessionList : Event()
-        class NavigateToAssociatedSessionList(val category: Category, val title: String) : Event()
+        class NavigateToCategorySessionList(val category: Category, val title: String) : Event()
     }
 
     data class UiState(
         val binderList: List<CommonBinder>
     )
+
+    companion object {
+        private const val ASSOCIATED_SESSION_PAGE_SIZE = 5
+    }
 }
 
 class SessionDetailBinderListBuilder {
@@ -150,20 +165,26 @@ class SessionDetailBinderListBuilder {
 
     fun addAssociatedSessions(
         associatedSessionList: List<Session>,
+        associatedSessionLastIndex: Int,
         currentSession: Session,
         onSessionClick: (Session) -> Unit,
         onMoreButtonClick: () -> Unit
     ): SessionDetailBinderListBuilder {
+        if (associatedSessionList.none { it.idx != currentSession.idx }) return this
+
         tmpBinderList.add(AssociatedSessionTitleBinder())
         tmpBinderList.addAll(
-            associatedSessionList.filter { it.idx != currentSession.idx }
+            associatedSessionList.take(associatedSessionLastIndex)
+                .filter { it.idx != currentSession.idx }
                 .map {
                     SessionListItemBinder(
                         it, onSessionClick
                     )
                 }
         )
-        addButton("연관세션 더보기") { onMoreButtonClick() }
+        if (associatedSessionLastIndex < associatedSessionList.size - 1) {
+            addButton("연관세션 더보기") { onMoreButtonClick() }
+        }
         return this
     }
 
