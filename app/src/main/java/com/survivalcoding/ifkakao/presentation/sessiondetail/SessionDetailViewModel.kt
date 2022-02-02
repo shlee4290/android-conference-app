@@ -60,20 +60,19 @@ class SessionDetailViewModel @Inject constructor(
             .addTags(session)
             .addSpeakers(session)
             .addButton("목록보기") { sendEvent(Event.NavigateToSessionList) }
-            .addAssociatedSessions(relatedSessions.await(), session) { clickedSession ->
+            .addAssociatedSessions(relatedSessions.await(), session, { clickedSession ->
                 sendEvent(
                     Event.NavigateToSessionDetail(
                         clickedSession
                     )
                 )
-            }
-            .addButton("연관세션 더보기") {
+            }, {
                 sendEvent(
                     Event.NavigateToAssociatedSessionList(
                         Category(field = listOf(fieldCategory)), fieldCategory
                     )
                 )
-            }.addFooter()
+            }).addFooter()
             .build()
     }
 
@@ -152,7 +151,8 @@ class SessionDetailBinderListBuilder {
     fun addAssociatedSessions(
         associatedSessionList: List<Session>,
         currentSession: Session,
-        onSessionClick: (Session) -> Unit
+        onSessionClick: (Session) -> Unit,
+        onMoreButtonClick: () -> Unit
     ): SessionDetailBinderListBuilder {
         tmpBinderList.add(AssociatedSessionTitleBinder())
         tmpBinderList.addAll(
@@ -163,6 +163,7 @@ class SessionDetailBinderListBuilder {
                     )
                 }
         )
+        addButton("연관세션 더보기") { onMoreButtonClick() }
         return this
     }
 
