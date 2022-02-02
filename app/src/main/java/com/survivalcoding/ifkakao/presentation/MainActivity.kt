@@ -36,9 +36,18 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    override fun onBackPressed() {
+        if (closeDrawer()) return
+        super.onBackPressed()
+    }
+
     private fun initDrawer() {
         drawer = binding.drawerLayout
         binding.drawerCloseButton.setOnClickListener { closeDrawer() }
+        binding.drawerSessionButton.setOnClickListener {
+            navigateToSessionList()
+            closeDrawer()
+        }
     }
 
     private fun initActionBar() {
@@ -68,10 +77,12 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun closeDrawer() {
+    private fun closeDrawer(): Boolean {
         if (drawer?.isDrawerOpen(GravityCompat.END) == true) {
             drawer?.closeDrawer(GravityCompat.END)
+            return true
         }
+        return false
     }
 
     fun navigateToSessionList() {
