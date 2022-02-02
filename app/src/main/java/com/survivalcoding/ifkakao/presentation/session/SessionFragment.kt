@@ -5,6 +5,8 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.view.GravityCompat
+import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -34,6 +36,7 @@ class SessionFragment : Fragment() {
     private val viewPagerAdapter: CommonAdapter by lazy {
         CommonAdapter()
     }
+    private var drawer: DrawerLayout? = null
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -57,6 +60,8 @@ class SessionFragment : Fragment() {
                 binding?.sessionBannerThumbnail?.visibility = View.INVISIBLE
             }
         }
+        initDrawer()
+        binding?.sessionCategoryButton?.setOnClickListener { openDrawer() }
 
         observe()
     }
@@ -109,6 +114,23 @@ class SessionFragment : Fragment() {
             .replace(R.id.fragment_container_view, SessionDetailFragment.newInstance(session))
             .addToBackStack(null)
             .commit()
+    }
+
+    private fun initDrawer() {
+        drawer = binding?.drawerLayout
+        binding?.drawerCloseButton?.setOnClickListener { closeDrawer() }
+    }
+
+    private fun openDrawer() {
+        if (drawer?.isOpen == false) {
+            drawer?.openDrawer(GravityCompat.START)
+        }
+    }
+
+    private fun closeDrawer() {
+        if (drawer?.isDrawerOpen(GravityCompat.START) == true) {
+            drawer?.closeDrawer(GravityCompat.START)
+        }
     }
 
     private fun repeatOnStart(block: suspend CoroutineScope.() -> Unit) {
