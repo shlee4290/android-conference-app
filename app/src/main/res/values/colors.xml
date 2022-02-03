@@ -12,6 +12,7 @@
     <color name="thumbnail_border_color">#414141</color>
     <color name="thumbnail_description_background_color">#2E2E2E</color>
     <color name="button_text_color">#b2b2b2</color>
+    <color name="button_selected_text_color">#0E0E0E</color>
     <color name="button_background_color">#1d1d1d</color>
     <color name="main_banner_filter_color">#BB000000</color>
     <color name="session_video_filter_color">#22000000</color>

@@ -36,7 +36,11 @@ class SessionFragment : Fragment() {
     private val viewPagerAdapter: CommonAdapter by lazy {
         CommonAdapter()
     }
+
     private var drawer: DrawerLayout? = null
+    private val drawerListAdapter: CommonAdapter by lazy {
+        CommonAdapter()
+    }
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -96,8 +100,9 @@ class SessionFragment : Fragment() {
                         it.day2Sessions.toBinderList(),
                         it.day3Sessions.toBinderList()
                     )
-
                 viewPagerAdapter.submitList(commonListBinders)
+
+                drawerListAdapter.submitList(it.drawerBinderList)
             }
         }
     }
@@ -119,6 +124,7 @@ class SessionFragment : Fragment() {
     private fun initDrawer() {
         drawer = binding?.drawerLayout
         binding?.drawerCloseButton?.setOnClickListener { closeDrawer() }
+        binding?.drawerRecyclerView?.adapter = drawerListAdapter
     }
 
     private fun openDrawer() {
