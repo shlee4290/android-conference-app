@@ -3,10 +3,11 @@ package com.survivalcoding.ifkakao.presentation.sessiondetail
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.ifkakao.domain.entity.Categories
+import com.survivalcoding.ifkakao.domain.entity.CategoriesBuilder
 import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.usecase.GetSelectedSessionsUseCase
-import com.survivalcoding.ifkakao.presentation.common.*
+import com.survivalcoding.ifkakao.presentation.common.CommonBinder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -57,7 +58,7 @@ class SessionDetailViewModel @Inject constructor(
             .addVideo(
                 session, { url -> sendEvent(Event.NavigateToWebView(url)) },
                 {} // TODO
-            ).addCategory(session, {}) // TODO
+            ).addCategory(session) { navigateToCategorySessionList(it) }
             .addTitle(session)
             .addContent(session)
             .addTags(session)
@@ -86,6 +87,15 @@ class SessionDetailViewModel @Inject constructor(
                 this@SessionDetailViewModel.session ?: return@launch
             )
         }
+    }
+
+    private fun navigateToCategorySessionList(category: Category) {
+        sendEvent(
+            Event.NavigateToCategorySessionList(
+                CategoriesBuilder().add(category).build(),
+                category.text
+            )
+        )
     }
 
     private fun sendEvent(event: Event) {

@@ -21,6 +21,27 @@ fun Categories.toList(): List<Category> {
     return categoryList
 }
 
+class CategoriesBuilder {
+    private val field: MutableList<Category.Field> = mutableListOf()
+    private val business: MutableList<Category.Business> = mutableListOf()
+    private val tech: MutableList<Category.Tech> = mutableListOf()
+    private val company: MutableList<Category.Company> = mutableListOf()
+
+    fun add(category: Category): CategoriesBuilder {
+        when (category) {
+            is Category.Field -> field.add(category)
+            is Category.Company -> company.add(category)
+            is Category.Business -> business.add(category)
+            is Category.Tech -> tech.add(category)
+        }
+        return this
+    }
+
+    fun build(): Categories {
+        return Categories(field, business, tech, company)
+    }
+}
+
 sealed class Category {
 
     abstract val text: String

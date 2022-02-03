@@ -16,6 +16,7 @@ import com.survivalcoding.ifkakao.databinding.FragmentSessionDetailBinding
 import com.survivalcoding.ifkakao.domain.entity.Categories
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.presentation.MainActivity
+import com.survivalcoding.ifkakao.presentation.categorySession.CategorySessionFragment
 import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -78,7 +79,7 @@ class SessionDetailFragment : Fragment() {
             is SessionDetailViewModel.Event.NavigateToWebView -> navigateToWebView(event.url)
             is SessionDetailViewModel.Event.NavigateToSessionList -> navigateToSessionList()
             is SessionDetailViewModel.Event.NavigateToSessionDetail -> navigateToSessionDetail(event.session)
-            is SessionDetailViewModel.Event.NavigateToCategorySessionList -> navigateToAssociatedSessionList(
+            is SessionDetailViewModel.Event.NavigateToCategorySessionList -> navigateToCategorySessionList(
                 event.categories,
                 event.title
             )
@@ -104,8 +105,12 @@ class SessionDetailFragment : Fragment() {
             .commit()
     }
 
-    private fun navigateToAssociatedSessionList(categories: Categories, title: String) {
-
+    private fun navigateToCategorySessionList(categories: Categories, title: String) {
+        parentFragmentManager.beginTransaction().replace(
+            R.id.fragment_container_view,
+            CategorySessionFragment.newInstance(categories, title)
+        ).addToBackStack(null)
+            .commit()
     }
 
     override fun onDestroyView() {
