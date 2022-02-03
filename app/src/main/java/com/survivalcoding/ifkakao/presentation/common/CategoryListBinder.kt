@@ -1,9 +1,11 @@
 package com.survivalcoding.ifkakao.presentation.common
 
 import com.survivalcoding.ifkakao.R
+import com.survivalcoding.ifkakao.domain.entity.Categories
 import com.survivalcoding.ifkakao.domain.entity.Category
 
-class CategoryListBinder(val category: Category) : CommonBinder {
+class CategoryListBinder(val categories: Categories, val onClick: (Category) -> Unit) :
+    CommonBinder {
 
     override val id = ID
 
@@ -11,7 +13,7 @@ class CategoryListBinder(val category: Category) : CommonBinder {
         oldItem as CategoryListBinder
         newItem as CategoryListBinder
 
-        return oldItem.category == newItem.category
+        return oldItem.categories == newItem.categories
     }
 
     companion object {

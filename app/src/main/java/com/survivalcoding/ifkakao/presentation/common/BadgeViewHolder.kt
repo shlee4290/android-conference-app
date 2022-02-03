@@ -7,9 +7,10 @@ class BadgeViewHolder private constructor(private val badgeView: BadgeView) :
 
     override fun bind(binder: CommonBinder) {
         binder as BadgeBinder
-        badgeView.text = binder.text
+        badgeView.text = binder.category.text
         badgeView.isHighlight = binder.isHighlight
         badgeView.isBig = binder.isBig
+        badgeView.setOnClickListener { binder.onClick(binder.category) }
     }
 
     companion object {

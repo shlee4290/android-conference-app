@@ -12,7 +12,7 @@ data class Session(
     val company: String,
     val thumbnailUrl: String,
     val video: List<Video>,
-    val category: Category,
+    val categories: Categories,
     val contentsSpeakers: List<Speaker>,
     val isHighlight: Boolean,
     val isFavorite: Boolean,

@@ -13,7 +13,7 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.FragmentSessionDetailBinding
-import com.survivalcoding.ifkakao.domain.entity.Category
+import com.survivalcoding.ifkakao.domain.entity.Categories
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.presentation.MainActivity
 import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
@@ -79,7 +79,7 @@ class SessionDetailFragment : Fragment() {
             is SessionDetailViewModel.Event.NavigateToSessionList -> navigateToSessionList()
             is SessionDetailViewModel.Event.NavigateToSessionDetail -> navigateToSessionDetail(event.session)
             is SessionDetailViewModel.Event.NavigateToCategorySessionList -> navigateToAssociatedSessionList(
-                event.category,
+                event.categories,
                 event.title
             )
         }
@@ -104,7 +104,7 @@ class SessionDetailFragment : Fragment() {
             .commit()
     }
 
-    private fun navigateToAssociatedSessionList(category: Category, title: String) {
+    private fun navigateToAssociatedSessionList(categories: Categories, title: String) {
 
     }
 

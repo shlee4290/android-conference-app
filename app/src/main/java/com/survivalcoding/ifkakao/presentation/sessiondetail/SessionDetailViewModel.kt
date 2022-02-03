@@ -2,6 +2,7 @@ package com.survivalcoding.ifkakao.presentation.sessiondetail
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.survivalcoding.ifkakao.domain.entity.Categories
 import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.usecase.GetSelectedSessionsUseCase
@@ -42,21 +43,21 @@ class SessionDetailViewModel @Inject constructor(
     }
 
     private suspend fun buildSessionDetailBinderList(session: Session): List<CommonBinder> {
-        val fieldCategory = if (session.category.field.isNotEmpty()) {
-            session.category.field.first()
+        val fieldCategory = if (session.categories.field.isNotEmpty()) {
+            session.categories.field.first()
         } else {
-            ""
+            Category.Field("")
         }
 
         val relatedSessions = viewModelScope.async {
-            getSelectedSessionsUseCase(category = Category(field = listOf(fieldCategory)))
+            getSelectedSessionsUseCase(categories = Categories(field = listOf(fieldCategory)))
         }
 
         return SessionDetailBinderListBuilder()
             .addVideo(
                 session, { url -> sendEvent(Event.NavigateToWebView(url)) },
                 {} // TODO
-            ).addCategory(session)
+            ).addCategory(session, {}) // TODO
             .addTitle(session)
             .addContent(session)
             .addTags(session)
@@ -97,7 +98,7 @@ class SessionDetailViewModel @Inject constructor(
         class NavigateToWebView(val url: String) : Event()
         class NavigateToSessionDetail(val session: Session) : Event()
         object NavigateToSessionList : Event()
-        class NavigateToCategorySessionList(val category: Category, val title: String) : Event()
+        class NavigateToCategorySessionList(val categories: Categories, val title: String) : Event()
     }
 
     data class UiState(

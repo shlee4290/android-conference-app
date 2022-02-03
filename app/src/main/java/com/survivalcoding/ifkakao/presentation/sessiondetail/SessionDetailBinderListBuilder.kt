@@ -1,5 +1,6 @@
 package com.survivalcoding.ifkakao.presentation.sessiondetail
 
+import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.presentation.common.*
 
@@ -28,8 +29,8 @@ class SessionDetailBinderListBuilder {
         return this
     }
 
-    fun addCategory(session: Session): SessionDetailBinderListBuilder {
-        tmpBinderList.add(CategoryListBinder(session.category))
+    fun addCategory(session: Session, onClick: (Category) -> Unit): SessionDetailBinderListBuilder {
+        tmpBinderList.add(CategoryListBinder(session.categories, onClick))
         return this
     }
 

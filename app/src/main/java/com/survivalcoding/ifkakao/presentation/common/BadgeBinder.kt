@@ -1,11 +1,13 @@
 package com.survivalcoding.ifkakao.presentation.common
 
 import com.survivalcoding.ifkakao.R
+import com.survivalcoding.ifkakao.domain.entity.Category
 
 class BadgeBinder(
-    val text: String,
+    val category: Category,
     val isHighlight: Boolean,
-    val isBig: Boolean
+    val isBig: Boolean,
+    val onClick: (Category) -> Unit
 ) : CommonBinder {
     override val id = ID
 
@@ -13,7 +15,7 @@ class BadgeBinder(
         oldItem as BadgeBinder
         newItem as BadgeBinder
 
-        return oldItem.text == newItem.text && oldItem.isBig == newItem.isBig && oldItem.isHighlight == newItem.isHighlight
+        return oldItem.category == newItem.category && oldItem.isBig == newItem.isBig && oldItem.isHighlight == newItem.isHighlight
     }
 
     companion object {

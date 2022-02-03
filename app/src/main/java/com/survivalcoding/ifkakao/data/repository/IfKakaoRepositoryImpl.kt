@@ -2,6 +2,7 @@ package com.survivalcoding.ifkakao.data.repository
 
 import com.survivalcoding.ifkakao.data.datasource.IfKakaoLocalDataSource
 import com.survivalcoding.ifkakao.data.datasource.IfKakaoRemoteDataSource
+import com.survivalcoding.ifkakao.domain.entity.Categories
 import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.repository.IfKakaoRepository
@@ -21,20 +22,20 @@ class IfKakaoRepositoryImpl @Inject constructor(
             }
         }
 
-    override suspend fun getAllCategories(): Category {
-        val field = mutableSetOf<String>()
-        val business = mutableSetOf<String>()
-        val tech = mutableSetOf<String>()
-        val company = mutableSetOf<String>()
+    override suspend fun getAllCategories(): Categories {
+        val field = mutableSetOf<Category.Field>()
+        val business = mutableSetOf<Category.Business>()
+        val tech = mutableSetOf<Category.Tech>()
+        val company = mutableSetOf<Category.Company>()
 
         getAllSessions().forEach {
-            field.addAll(it.category.field)
-            business.addAll(it.category.business)
-            tech.addAll(it.category.tech)
-            company.addAll(it.category.company)
+            field.addAll(it.categories.field)
+            business.addAll(it.categories.business)
+            tech.addAll(it.categories.tech)
+            company.addAll(it.categories.company)
         }
 
-        return Category(field.toList(), business.toList(), tech.toList(), company.toList())
+        return Categories(field.toList(), business.toList(), tech.toList(), company.toList())
     }
 
     override suspend fun addFavoriteSession(sessionId: Int) {

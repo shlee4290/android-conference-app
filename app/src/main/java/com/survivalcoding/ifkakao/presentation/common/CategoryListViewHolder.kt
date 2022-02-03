@@ -15,8 +15,8 @@ class CategoryListViewHolder private constructor(private val binding: CategoryLi
     override fun bind(binder: CommonBinder) {
         binder as CategoryListBinder
 
-        val badgeBinderList = binder.category.toList().map {
-            BadgeBinder(it, isHighlight = false, isBig = true)
+        val badgeBinderList = binder.categories.toList().map {
+            BadgeBinder(it, isHighlight = false, isBig = true, onClick = binder.onClick)
         }
         (binding.categoryRecyclerView.adapter as CommonAdapter).submitList(badgeBinderList)
     }
