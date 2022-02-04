@@ -43,6 +43,7 @@ class SessionViewModel @Inject constructor(
         drawerBinderList.add(KeywordToggleListBinder(allCategories.field.map {
             KeywordToggleBinder(
                 category = it,
+                selectedCategories = selectedCategories,
                 onCheckedChange = ::onKeywordToggleCheckChange
             )
         }))
@@ -51,6 +52,7 @@ class SessionViewModel @Inject constructor(
         drawerBinderList.add(KeywordToggleListBinder(allCategories.business.map {
             KeywordToggleBinder(
                 category = it,
+                selectedCategories = selectedCategories,
                 onCheckedChange = ::onKeywordToggleCheckChange
             )
         }))
@@ -58,6 +60,7 @@ class SessionViewModel @Inject constructor(
         drawerBinderList.add(KeywordToggleListBinder(allCategories.tech.map {
             KeywordToggleBinder(
                 category = it,
+                selectedCategories = selectedCategories,
                 onCheckedChange = ::onKeywordToggleCheckChange
             )
         }))
@@ -65,6 +68,7 @@ class SessionViewModel @Inject constructor(
         drawerBinderList.add(KeywordToggleListBinder(allCategories.company.map {
             KeywordToggleBinder(
                 category = it,
+                selectedCategories = selectedCategories,
                 onCheckedChange = ::onKeywordToggleCheckChange
             )
         }))
@@ -79,6 +83,19 @@ class SessionViewModel @Inject constructor(
             selectedCategories.remove(category)
         }
         println(selectedCategories)
+    }
+
+    fun resetSelectedCategories() {
+        selectedCategories.clear()
+        viewModelScope.launch {
+            resetDrawerBinderList()
+        }
+    }
+
+    private suspend fun resetDrawerBinderList() {
+        _sessionUiState.value = _sessionUiState.value.copy(
+            drawerBinderList = buildDrawerBinderList()
+        )
     }
 }
 

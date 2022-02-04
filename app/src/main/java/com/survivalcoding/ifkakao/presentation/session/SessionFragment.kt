@@ -65,7 +65,6 @@ class SessionFragment : Fragment() {
             }
         }
         initDrawer()
-        binding?.sessionCategoryButton?.setOnClickListener { openDrawer() }
 
         observe()
     }
@@ -124,7 +123,11 @@ class SessionFragment : Fragment() {
     private fun initDrawer() {
         drawer = binding?.drawerLayout
         binding?.drawerCloseButton?.setOnClickListener { closeDrawer() }
+        binding?.drawerRecyclerView?.itemAnimator = null
         binding?.drawerRecyclerView?.adapter = drawerListAdapter
+        binding?.sessionCategoryButton?.setOnClickListener { openDrawer() }
+        binding?.resetButton?.setOnClickListener { viewModel.resetSelectedCategories() }
+        binding?.applyButton?.setOnClickListener { }
     }
 
     private fun openDrawer() {

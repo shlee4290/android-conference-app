@@ -4,4 +4,6 @@
     <string name="main_hand_gif_url">"https://t1.kakaocdn.net/service_if_kakao_prod/images/ico_bye_2021.gif"</string>
     <string name="main_banner_image_url">"https://t1.kakaocdn.net/service_if_kakao_prod/images/mo/bg_bye_2021.png"</string>
     <string name="associated_session">연관세션</string>
+    <string name="reset">초기화</string>
+    <string name="apply">적용</string>
 </resources>

@@ -14,10 +14,9 @@ class KeywordToggleViewHolder private constructor(private val binding: KeywordTo
         binding.toggleButton.textOn = binder.category.text
         binding.toggleButton.textOff = binder.category.text
         binding.toggleButton.setOnCheckedChangeListener { _, isChecked ->
-            binder.isChecked = isChecked
             binder.onCheckedChange(isChecked, binder.category)
         }
-        binding.toggleButton.isChecked = binder.isChecked
+        binding.toggleButton.isChecked = binder.category in binder.selectedCategories
     }
 
     companion object {

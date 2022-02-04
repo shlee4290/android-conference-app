@@ -5,17 +5,12 @@ import com.survivalcoding.ifkakao.domain.entity.Category
 
 class KeywordToggleBinder(
     val category: Category,
-    var isChecked: Boolean = false,
+    val selectedCategories: Set<Category>,
     val onCheckedChange: (Boolean, Category) -> Unit
 ) : CommonBinder {
     override val id = ID
 
-    override fun areContentsTheSame(oldItem: CommonBinder, newItem: CommonBinder): Boolean {
-        oldItem as KeywordToggleBinder
-        newItem as KeywordToggleBinder
-
-        return oldItem.category == newItem.category
-    }
+    override fun areContentsTheSame(oldItem: CommonBinder, newItem: CommonBinder) = false
 
     companion object {
         const val ID = R.layout.keyword_toggle
