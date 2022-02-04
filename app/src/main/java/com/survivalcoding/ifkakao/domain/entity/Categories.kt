@@ -42,7 +42,7 @@ class CategoriesBuilder {
     }
 }
 
-sealed class Category {
+sealed class Category: Cloneable {
 
     abstract val text: String
 
@@ -57,4 +57,11 @@ sealed class Category {
 
     @Parcelize
     data class Tech(override val text: String) : Category(), Parcelable
+
+    public override fun clone(): Category = when(this) {
+        is Field -> this.copy()
+        is Company -> this.copy()
+        is Business -> this.copy()
+        is Tech -> this.copy()
+    }
 }

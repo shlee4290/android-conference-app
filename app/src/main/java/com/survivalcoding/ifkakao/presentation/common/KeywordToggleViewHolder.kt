@@ -9,13 +9,15 @@ class KeywordToggleViewHolder private constructor(private val binding: KeywordTo
 
     override fun bind(binder: CommonBinder) {
         binder as KeywordToggleBinder
+
+        binding.toggleButton.text = binder.category.text
         binding.toggleButton.textOn = binder.category.text
         binding.toggleButton.textOff = binder.category.text
-        binding.toggleButton.isChecked = binder.isChecked
         binding.toggleButton.setOnCheckedChangeListener { _, isChecked ->
             binder.isChecked = isChecked
             binder.onCheckedChange(isChecked, binder.category)
         }
+        binding.toggleButton.isChecked = binder.isChecked
     }
 
     companion object {

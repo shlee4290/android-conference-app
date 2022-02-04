@@ -2,6 +2,7 @@ package com.survivalcoding.ifkakao.presentation.session
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.usecase.GetAllCategoriesUseCase
 import com.survivalcoding.ifkakao.domain.usecase.GetSelectedSessionsUseCase
@@ -23,6 +24,7 @@ class SessionViewModel @Inject constructor(
         MutableStateFlow(SessionUiState(listOf(), listOf(), listOf(), listOf()))
     val sessionUiState = _sessionUiState.asStateFlow()
 
+    private val selectedCategories = mutableSetOf<Category>()
     init {
         viewModelScope.launch {
             _sessionUiState.value = SessionUiState(
@@ -41,29 +43,42 @@ class SessionViewModel @Inject constructor(
         drawerBinderList.add(KeywordToggleListBinder(allCategories.field.map {
             KeywordToggleBinder(
                 category = it,
-                onCheckedChange = { _, _ -> })
-        })) // TODO
+                onCheckedChange = ::onKeywordToggleCheckChange
+            )
+        }))
         drawerBinderList.add(DrawerTitleBinder("관심키워드"))
         drawerBinderList.add(DrawerSubtitleBinder("서비스·비즈니스"))
         drawerBinderList.add(KeywordToggleListBinder(allCategories.business.map {
             KeywordToggleBinder(
                 category = it,
-                onCheckedChange = { _, _ -> })
-        })) // TODO
+                onCheckedChange = ::onKeywordToggleCheckChange
+            )
+        }))
         drawerBinderList.add(DrawerSubtitleBinder("기술"))
         drawerBinderList.add(KeywordToggleListBinder(allCategories.tech.map {
             KeywordToggleBinder(
                 category = it,
-                onCheckedChange = { _, _ -> })
-        })) // TODO
+                onCheckedChange = ::onKeywordToggleCheckChange
+            )
+        }))
         drawerBinderList.add(DrawerSubtitleBinder("공동체분류"))
         drawerBinderList.add(KeywordToggleListBinder(allCategories.company.map {
             KeywordToggleBinder(
                 category = it,
-                onCheckedChange = { _, _ -> })
-        })) // TODO
+                onCheckedChange = ::onKeywordToggleCheckChange
+            )
+        }))
 
         return drawerBinderList
+    }
+
+    private fun onKeywordToggleCheckChange(isChecked: Boolean, category: Category) {
+        if (isChecked) {
+            selectedCategories.add(category)
+        } else {
+            selectedCategories.remove(category)
+        }
+        println(selectedCategories)
     }
 }
 

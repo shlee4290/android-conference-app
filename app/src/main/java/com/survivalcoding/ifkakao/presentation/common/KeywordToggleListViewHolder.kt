@@ -18,6 +18,7 @@ class KeywordToggleListViewHolder private constructor(private val binding: Keywo
                 KeywordToggleListBinding.inflate(LayoutInflater.from(parent.context), parent, false)
                     .apply {
                         this.recyclerView.adapter = CommonAdapter()
+                        this.recyclerView.itemAnimator = null
                     }
 
             return KeywordToggleListViewHolder(binding)
