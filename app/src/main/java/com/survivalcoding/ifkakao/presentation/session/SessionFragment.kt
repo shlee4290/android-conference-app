@@ -129,6 +129,7 @@ class SessionFragment : Fragment() {
         binding?.resetButton?.setOnClickListener { viewModel.resetSelectedCategories() }
         binding?.applyButton?.setOnClickListener {
             viewModel.setCategoryFilter()
+            binding?.sessionViewPager?.setCurrentItem(viewPagerAdapter.itemCount - 1, false)
             closeDrawer()
         }
     }
