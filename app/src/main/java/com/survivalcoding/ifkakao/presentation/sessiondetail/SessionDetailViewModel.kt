@@ -65,7 +65,11 @@ class SessionDetailViewModel @Inject constructor(
             .addContent(session)
             .addTags(session)
             .addSpeakers(session)
-            .addLinks({ sendEvent(Event.ShareSessionWithTalk(session.idx)) }, {}, {}, {})
+            .addLinks(
+                { sendEvent(Event.ShareSessionWithTalk(session.idx)) },
+                {},
+                {},
+                { sendEvent(Event.CopySessionLink(session.idx)) })
             .addButton("목록보기") { sendEvent(Event.NavigateToSessionList) }
             .addAssociatedSessions(
                 relatedSessions.await(),
@@ -114,6 +118,7 @@ class SessionDetailViewModel @Inject constructor(
         class NavigateToCategorySessionList(val categories: Categories, val title: String) : Event()
         class ShareSessionWithTalk(val sessionIdx: Int) : Event()
         class ShareSession(val sessionIdx: Int) : Event()
+        class CopySessionLink(val sessionIdx: Int) : Event()
     }
 
     data class UiState(

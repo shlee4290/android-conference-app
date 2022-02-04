@@ -1,5 +1,8 @@
 package com.survivalcoding.ifkakao.presentation.sessiondetail
 
+import android.content.ClipData
+import android.content.ClipboardManager
+import android.content.Context
 import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
@@ -7,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -20,7 +24,6 @@ import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.presentation.MainActivity
 import com.survivalcoding.ifkakao.presentation.categorySession.CategorySessionFragment
 import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
-import com.survivalcoding.ifkakao.presentation.session.SessionFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -88,6 +91,7 @@ class SessionDetailFragment : Fragment() {
             )
             is SessionDetailViewModel.Event.ShareSessionWithTalk -> shareSessionUrlWithTalk(event.sessionIdx)
             is SessionDetailViewModel.Event.ShareSession -> shareSession(event.sessionIdx)
+            is SessionDetailViewModel.Event.CopySessionLink -> copySessionLink(event.sessionIdx)
         }
     }
 
@@ -118,6 +122,14 @@ class SessionDetailFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun copySessionLink(sessionIdx: Int) {
+        val clipboard =
+            requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
+        val clip = ClipData.newPlainText("If Kakao", getString(R.string.session_url, sessionIdx))
+        clipboard.setPrimaryClip(clip)
+        Toast.makeText(requireContext(), "링크 주소가 복사되었습니다.", Toast.LENGTH_SHORT).show()
     }
 
     private fun navigateToWebView(url: String) {
