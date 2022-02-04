@@ -7,6 +7,9 @@ plugins {
     id "com.google.protobuf" version "0.8.12"
 }
 
+Properties properties = new Properties()
+properties.load(project.rootProject.file('local.properties').newDataInputStream())
+
 android {
     compileSdk 31
 
@@ -18,6 +21,8 @@ android {
         versionName "1.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+
+        buildConfigField "String", "KAKAO_LINK_NATIVE_APP_KEY", properties['kakao_link_native_app_key']
     }
 
     buildTypes {
