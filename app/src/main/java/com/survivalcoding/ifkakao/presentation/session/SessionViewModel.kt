@@ -2,6 +2,7 @@ package com.survivalcoding.ifkakao.presentation.session
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.survivalcoding.ifkakao.domain.entity.CategoriesBuilder
 import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.usecase.GetAllCategoriesUseCase
@@ -25,6 +26,7 @@ class SessionViewModel @Inject constructor(
     val sessionUiState = _sessionUiState.asStateFlow()
 
     private val selectedCategories = mutableSetOf<Category>()
+
     init {
         viewModelScope.launch {
             _sessionUiState.value = SessionUiState(
@@ -83,6 +85,20 @@ class SessionViewModel @Inject constructor(
             selectedCategories.remove(category)
         }
         println(selectedCategories)
+    }
+
+    fun setCategoryFilter() {
+        val categoriesBuilder = CategoriesBuilder()
+        selectedCategories.map { categoriesBuilder.add(it) }
+        val categories = categoriesBuilder.build()
+
+        viewModelScope.launch {
+            _sessionUiState.value = _sessionUiState.value.copy(
+                day1Sessions = getSelectedSessionsUseCase(1, categories = categories),
+                day2Sessions = getSelectedSessionsUseCase(2, categories = categories),
+                day3Sessions = getSelectedSessionsUseCase(3, categories = categories)
+            )
+        }
     }
 
     fun resetSelectedCategories() {

@@ -127,7 +127,10 @@ class SessionFragment : Fragment() {
         binding?.drawerRecyclerView?.adapter = drawerListAdapter
         binding?.sessionCategoryButton?.setOnClickListener { openDrawer() }
         binding?.resetButton?.setOnClickListener { viewModel.resetSelectedCategories() }
-        binding?.applyButton?.setOnClickListener { }
+        binding?.applyButton?.setOnClickListener {
+            viewModel.setCategoryFilter()
+            closeDrawer()
+        }
     }
 
     private fun openDrawer() {
