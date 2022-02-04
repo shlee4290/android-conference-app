@@ -1,7 +1,9 @@
 package com.survivalcoding.ifkakao.presentation.sessiondetail
 
+import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.kakao.sdk.link.LinkClient
 import com.survivalcoding.ifkakao.domain.entity.Categories
 import com.survivalcoding.ifkakao.domain.entity.CategoriesBuilder
 import com.survivalcoding.ifkakao.domain.entity.Category
@@ -63,6 +65,7 @@ class SessionDetailViewModel @Inject constructor(
             .addContent(session)
             .addTags(session)
             .addSpeakers(session)
+            .addLinks({ sendEvent(Event.ShareSessionWithTalk(session.idx)) }, {}, {}, {})
             .addButton("목록보기") { sendEvent(Event.NavigateToSessionList) }
             .addAssociatedSessions(
                 relatedSessions.await(),
@@ -109,6 +112,7 @@ class SessionDetailViewModel @Inject constructor(
         class NavigateToSessionDetail(val session: Session) : Event()
         object NavigateToSessionList : Event()
         class NavigateToCategorySessionList(val categories: Categories, val title: String) : Event()
+        class ShareSessionWithTalk(val sessionIdx: Int) : Event()
     }
 
     data class UiState(

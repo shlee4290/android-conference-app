@@ -58,6 +58,23 @@ class SessionDetailBinderListBuilder {
         return this
     }
 
+    fun addLinks(
+        onClickTalk: () -> Unit,
+        onClickFacebook: () -> Unit,
+        onClickTwit: () -> Unit,
+        onClickShare: () -> Unit,
+    ): SessionDetailBinderListBuilder {
+        tmpBinderList.add(
+            SessionLinksBinder(
+                onClickTalk,
+                onClickFacebook,
+                onClickTwit,
+                onClickShare
+            )
+        )
+        return this
+    }
+
     fun addAssociatedSessions(
         associatedSessionList: List<Session>,
         associatedSessionLastIndex: Int,
