@@ -105,6 +105,7 @@ class SessionViewModel @Inject constructor(
         selectedCategories.clear()
         viewModelScope.launch {
             resetDrawerBinderList()
+            setCategoryFilter()
         }
     }
 
