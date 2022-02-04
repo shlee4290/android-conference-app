@@ -87,6 +87,15 @@ class SessionDetailFragment : Fragment() {
                 event.title
             )
             is SessionDetailViewModel.Event.ShareSessionWithTalk -> shareSessionUrlWithTalk(event.sessionIdx)
+            is SessionDetailViewModel.Event.ShareSession -> shareSession(event.sessionIdx)
+        }
+    }
+
+    private fun shareSession(sessionIdx: Int) {
+        Intent(Intent.ACTION_SEND).apply {
+            type = "text/pain"
+            putExtra(Intent.EXTRA_TEXT, getString(R.string.session_url, sessionIdx))
+            startActivity(Intent.createChooser(this, "세션 공유하기"))
         }
     }
 

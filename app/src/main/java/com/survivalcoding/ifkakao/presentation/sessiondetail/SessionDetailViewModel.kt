@@ -59,7 +59,7 @@ class SessionDetailViewModel @Inject constructor(
         return SessionDetailBinderListBuilder()
             .addVideo(
                 session, { url -> sendEvent(Event.NavigateToWebView(url)) },
-                {} // TODO
+                { sendEvent(Event.ShareSession(session.idx)) }
             ).addCategory(session) { navigateToCategorySessionList(it) }
             .addTitle(session)
             .addContent(session)
@@ -113,6 +113,7 @@ class SessionDetailViewModel @Inject constructor(
         object NavigateToSessionList : Event()
         class NavigateToCategorySessionList(val categories: Categories, val title: String) : Event()
         class ShareSessionWithTalk(val sessionIdx: Int) : Event()
+        class ShareSession(val sessionIdx: Int) : Event()
     }
 
     data class UiState(
