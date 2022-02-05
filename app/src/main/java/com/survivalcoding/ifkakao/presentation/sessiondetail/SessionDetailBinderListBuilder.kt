@@ -63,13 +63,17 @@ class SessionDetailBinderListBuilder {
         onClickFacebook: () -> Unit,
         onClickTwit: () -> Unit,
         onClickShare: () -> Unit,
+        isFavorite: Boolean,
+        onClickFavorite: (Boolean) -> Unit
     ): SessionDetailBinderListBuilder {
         tmpBinderList.add(
             SessionLinksBinder(
                 onClickTalk,
                 onClickFacebook,
                 onClickTwit,
-                onClickShare
+                onClickShare,
+                isFavorite,
+                onClickFavorite
             )
         )
         return this

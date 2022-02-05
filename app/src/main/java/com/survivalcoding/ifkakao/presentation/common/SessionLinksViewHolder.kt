@@ -22,6 +22,12 @@ class SessionLinksViewHolder private constructor(private val binding: SessionLin
         binding.linkShareButton.setOnClickListener {
             binder.onClickShare()
         }
+
+        binding.favoriteToggle.setOnCheckedChangeListener(null)
+        binding.favoriteToggle.isChecked = binder.isFavorite
+        binding.favoriteToggle.setOnCheckedChangeListener { _, isChecked ->
+            binder.onClickFavorite(isChecked)
+        }
     }
 
     companion object {

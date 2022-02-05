@@ -8,7 +8,9 @@ import com.survivalcoding.ifkakao.domain.entity.Categories
 import com.survivalcoding.ifkakao.domain.entity.CategoriesBuilder
 import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
+import com.survivalcoding.ifkakao.domain.usecase.AddFavoriteSessionUseCase
 import com.survivalcoding.ifkakao.domain.usecase.GetSelectedSessionsUseCase
+import com.survivalcoding.ifkakao.domain.usecase.RemoveFavoriteSessionUseCase
 import com.survivalcoding.ifkakao.presentation.common.CommonBinder
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.async
@@ -21,7 +23,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SessionDetailViewModel @Inject constructor(
-    private val getSelectedSessionsUseCase: GetSelectedSessionsUseCase
+    private val getSelectedSessionsUseCase: GetSelectedSessionsUseCase,
+    private val addFavoriteSessionUseCase: AddFavoriteSessionUseCase,
+    private val removeFavoriteSessionUseCase: RemoveFavoriteSessionUseCase
 ) : ViewModel() {
 
     private val _eventFlow = MutableSharedFlow<Event>()
@@ -69,7 +73,18 @@ class SessionDetailViewModel @Inject constructor(
                 { sendEvent(Event.ShareSessionWithTalk(session.idx)) },
                 {},
                 {},
-                { sendEvent(Event.CopySessionLink(session.idx)) })
+                { sendEvent(Event.CopySessionLink(session.idx)) },
+                session.isFavorite,
+                { isChecked ->
+                    viewModelScope.launch {
+                        if (isChecked) {
+                            addFavoriteSessionUseCase(session.idx)
+                        } else {
+                            removeFavoriteSessionUseCase(session.idx)
+                        }
+                    }
+                }
+            )
             .addButton("목록보기") { sendEvent(Event.NavigateToSessionList) }
             .addAssociatedSessions(
                 relatedSessions.await(),

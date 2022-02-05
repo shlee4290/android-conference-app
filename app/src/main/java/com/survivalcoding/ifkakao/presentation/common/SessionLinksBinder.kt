@@ -7,6 +7,8 @@ class SessionLinksBinder(
     val onClickFacebook: () -> Unit,
     val onClickTwit: () -> Unit,
     val onClickShare: () -> Unit,
+    val isFavorite: Boolean,
+    val onClickFavorite: (Boolean) -> Unit
 ) : CommonBinder {
 
     override val id = ID
