@@ -7,14 +7,21 @@ import com.survivalcoding.ifkakao.presentation.common.*
 class SessionDetailBinderListBuilder {
 
     private val tmpBinderList = mutableListOf<CommonBinder>()
+    private var session: Session? = null
 
     fun build(): List<CommonBinder> = tmpBinderList
 
+    fun setSession(session: Session): SessionDetailBinderListBuilder {
+        this.session = session
+        return this
+    }
+
     fun addVideo(
-        session: Session,
         onPlayButtonClick: (String) -> Unit,
         onShareButtonClick: () -> Unit
     ): SessionDetailBinderListBuilder {
+        val session = this.session ?: return this
+
         if (session.video.isNotEmpty()) {
             tmpBinderList.add(
                 SessionVideoBinder(
@@ -29,27 +36,37 @@ class SessionDetailBinderListBuilder {
         return this
     }
 
-    fun addCategory(session: Session, onClick: (Category) -> Unit): SessionDetailBinderListBuilder {
+    fun addCategory(onClick: (Category) -> Unit): SessionDetailBinderListBuilder {
+        val session = this.session ?: return this
+
         tmpBinderList.add(CategoryListBinder(session.categories, onClick))
         return this
     }
 
-    fun addTitle(session: Session): SessionDetailBinderListBuilder {
+    fun addTitle(): SessionDetailBinderListBuilder {
+        val session = this.session ?: return this
+
         tmpBinderList.add(SessionTitleBinder(session.title))
         return this
     }
 
-    fun addContent(session: Session): SessionDetailBinderListBuilder {
+    fun addContent(): SessionDetailBinderListBuilder {
+        val session = this.session ?: return this
+
         tmpBinderList.add(SessionContentBinder(session.content))
         return this
     }
 
-    fun addTags(session: Session): SessionDetailBinderListBuilder {
+    fun addTags(): SessionDetailBinderListBuilder {
+        val session = this.session ?: return this
+
         tmpBinderList.add(SessionTagsBinder(session.contentTag))
         return this
     }
 
-    fun addSpeakers(session: Session): SessionDetailBinderListBuilder {
+    fun addSpeakers(): SessionDetailBinderListBuilder {
+        val session = this.session ?: return this
+
         tmpBinderList.addAll(
             session.contentsSpeakers.map {
                 SpeakerBinder(it)
@@ -63,16 +80,17 @@ class SessionDetailBinderListBuilder {
         onClickFacebook: () -> Unit,
         onClickTwit: () -> Unit,
         onClickShare: () -> Unit,
-        isFavorite: Boolean,
         onClickFavorite: (Boolean) -> Unit
     ): SessionDetailBinderListBuilder {
+        val session = this.session ?: return this
+
         tmpBinderList.add(
             SessionLinksBinder(
                 onClickTalk,
                 onClickFacebook,
                 onClickTwit,
                 onClickShare,
-                isFavorite,
+                session.isFavorite,
                 onClickFavorite
             )
         )
@@ -82,16 +100,17 @@ class SessionDetailBinderListBuilder {
     fun addAssociatedSessions(
         associatedSessionList: List<Session>,
         associatedSessionLastIndex: Int,
-        currentSession: Session,
         onSessionClick: (Session) -> Unit,
         onMoreButtonClick: () -> Unit
     ): SessionDetailBinderListBuilder {
-        if (associatedSessionList.none { it.idx != currentSession.idx }) return this
+        val session = this.session ?: return this
+
+        if (associatedSessionList.none { it.idx != session.idx }) return this
 
         tmpBinderList.add(AssociatedSessionTitleBinder())
         tmpBinderList.addAll(
             associatedSessionList.take(associatedSessionLastIndex)
-                .filter { it.idx != currentSession.idx }
+                .filter { it.idx != session.idx }
                 .map {
                     SessionListItemBinder(
                         it, onSessionClick

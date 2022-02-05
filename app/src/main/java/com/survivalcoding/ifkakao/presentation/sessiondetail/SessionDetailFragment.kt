@@ -175,7 +175,7 @@ class SessionDetailFragment : Fragment() {
         private val TAG = SessionDetailFragment::class.simpleName
 
         @JvmStatic
-        fun newInstance(session: Session) = SessionDetailFragment().apply {
+        fun newInstance(session: Session) = SessionDetailFragment().apply { // TODO session id만 받아서 매번 data layer에서 해당 세션 가져오는 방식으로 수정하기
             arguments = Bundle().apply {
                 putParcelable(SESSION, session)
             }

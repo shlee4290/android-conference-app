@@ -26,8 +26,7 @@ class IfKakaoProtoDatastoreDataSource @Inject constructor(private val applicatio
 
     override suspend fun removeFavoriteSession(sessionId: Int) {
         application.favoriteSessionsStore.updateData {
-            val currentFavoriteSessions = it.idList
-            currentFavoriteSessions.remove(sessionId)
+            val currentFavoriteSessions = it.idList.filter { it != sessionId }
             it.toBuilder().clear().addAllId(currentFavoriteSessions).build()
         }
     }

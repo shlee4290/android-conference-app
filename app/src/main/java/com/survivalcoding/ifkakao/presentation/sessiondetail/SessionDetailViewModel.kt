@@ -61,35 +61,26 @@ class SessionDetailViewModel @Inject constructor(
         }
 
         return SessionDetailBinderListBuilder()
+            .setSession(session)
             .addVideo(
-                session, { url -> sendEvent(Event.NavigateToWebView(url)) },
+                { url -> sendEvent(Event.NavigateToWebView(url)) },
                 { sendEvent(Event.ShareSession(session.idx)) }
-            ).addCategory(session) { navigateToCategorySessionList(it) }
-            .addTitle(session)
-            .addContent(session)
-            .addTags(session)
-            .addSpeakers(session)
+            ).addCategory { navigateToCategorySessionList(it) }
+            .addTitle()
+            .addContent()
+            .addTags()
+            .addSpeakers()
             .addLinks(
                 { sendEvent(Event.ShareSessionWithTalk(session.idx)) },
                 {},
                 {},
                 { sendEvent(Event.CopySessionLink(session.idx)) },
-                session.isFavorite,
-                { isChecked ->
-                    viewModelScope.launch {
-                        if (isChecked) {
-                            addFavoriteSessionUseCase(session.idx)
-                        } else {
-                            removeFavoriteSessionUseCase(session.idx)
-                        }
-                    }
-                }
+                ::onFavoriteChanged
             )
             .addButton("목록보기") { sendEvent(Event.NavigateToSessionList) }
             .addAssociatedSessions(
                 relatedSessions.await(),
                 associatedSessionLastPage * ASSOCIATED_SESSION_PAGE_SIZE,
-                session,
                 { clickedSession ->
                     sendEvent(
                         Event.NavigateToSessionDetail(
@@ -100,6 +91,16 @@ class SessionDetailViewModel @Inject constructor(
                 { loadNextAssociatedSessionPage() }
             ).addFooter()
             .build()
+    }
+
+    private fun onFavoriteChanged(isFavorite: Boolean) {
+        viewModelScope.launch {
+            if (isFavorite) {
+                addFavoriteSessionUseCase(session?.idx ?: return@launch)
+            } else {
+                removeFavoriteSessionUseCase(session?.idx ?: return@launch)
+            }
+        }
     }
 
     private fun loadNextAssociatedSessionPage() {
