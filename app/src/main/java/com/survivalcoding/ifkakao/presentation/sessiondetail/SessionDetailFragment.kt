@@ -20,7 +20,6 @@ import com.kakao.sdk.link.LinkClient
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.FragmentSessionDetailBinding
 import com.survivalcoding.ifkakao.domain.entity.Categories
-import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.presentation.MainActivity
 import com.survivalcoding.ifkakao.presentation.categorySession.CategorySessionFragment
 import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
@@ -44,8 +43,8 @@ class SessionDetailFragment : Fragment() {
         super.onCreate(savedInstanceState)
 
         if (arguments != null) {
-            val session = arguments?.getParcelable<Session>(SESSION)
-            if (session != null) viewModel.setSession(session)
+            val sessionId = arguments?.getInt(SESSION_ID)
+            if (sessionId != null) viewModel.setSessionId(sessionId)
         }
     }
 
@@ -84,7 +83,7 @@ class SessionDetailFragment : Fragment() {
         when (event) {
             is SessionDetailViewModel.Event.NavigateToWebView -> navigateToWebView(event.url)
             is SessionDetailViewModel.Event.NavigateToSessionList -> navigateToSessionList()
-            is SessionDetailViewModel.Event.NavigateToSessionDetail -> navigateToSessionDetail(event.session)
+            is SessionDetailViewModel.Event.NavigateToSessionDetail -> navigateToSessionDetail(event.sessionId)
             is SessionDetailViewModel.Event.NavigateToCategorySessionList -> navigateToCategorySessionList(
                 event.categories,
                 event.title
@@ -144,9 +143,9 @@ class SessionDetailFragment : Fragment() {
         (requireActivity() as MainActivity).navigateToSessionList()
     }
 
-    private fun navigateToSessionDetail(session: Session) {
+    private fun navigateToSessionDetail(sessionId: Int) {
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_view, SessionDetailFragment.newInstance(session))
+            .replace(R.id.fragment_container_view, SessionDetailFragment.newInstance(sessionId))
             .addToBackStack(null)
             .commit()
     }
@@ -171,14 +170,15 @@ class SessionDetailFragment : Fragment() {
     }
 
     companion object {
-        private const val SESSION = "SESSION"
+        private const val SESSION_ID = "SESSION_ID"
         private val TAG = SessionDetailFragment::class.simpleName
 
         @JvmStatic
-        fun newInstance(session: Session) = SessionDetailFragment().apply { // TODO session id만 받아서 매번 data layer에서 해당 세션 가져오는 방식으로 수정하기
-            arguments = Bundle().apply {
-                putParcelable(SESSION, session)
+        fun newInstance(id: Int) =
+            SessionDetailFragment().apply {
+                arguments = Bundle().apply {
+                    putInt(SESSION_ID, id)
+                }
             }
-        }
     }
 }

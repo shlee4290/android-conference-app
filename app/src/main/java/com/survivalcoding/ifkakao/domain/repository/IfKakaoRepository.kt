@@ -8,4 +8,5 @@ interface IfKakaoRepository {
     suspend fun addFavoriteSession(sessionId: Int)
     suspend fun removeFavoriteSession(sessionId: Int)
     suspend fun getAllCategories(): Categories
+    suspend fun getSession(id: Int): Session
 }

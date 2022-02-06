@@ -1,15 +1,14 @@
 package com.survivalcoding.ifkakao.presentation.sessiondetail
 
-import android.util.Log
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.kakao.sdk.link.LinkClient
 import com.survivalcoding.ifkakao.domain.entity.Categories
 import com.survivalcoding.ifkakao.domain.entity.CategoriesBuilder
 import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.usecase.AddFavoriteSessionUseCase
 import com.survivalcoding.ifkakao.domain.usecase.GetSelectedSessionsUseCase
+import com.survivalcoding.ifkakao.domain.usecase.GetSessionUseCase
 import com.survivalcoding.ifkakao.domain.usecase.RemoveFavoriteSessionUseCase
 import com.survivalcoding.ifkakao.presentation.common.CommonBinder
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -25,7 +24,8 @@ import javax.inject.Inject
 class SessionDetailViewModel @Inject constructor(
     private val getSelectedSessionsUseCase: GetSelectedSessionsUseCase,
     private val addFavoriteSessionUseCase: AddFavoriteSessionUseCase,
-    private val removeFavoriteSessionUseCase: RemoveFavoriteSessionUseCase
+    private val removeFavoriteSessionUseCase: RemoveFavoriteSessionUseCase,
+    private val getSessionUseCase: GetSessionUseCase
 ) : ViewModel() {
 
     private val _eventFlow = MutableSharedFlow<Event>()
@@ -34,18 +34,22 @@ class SessionDetailViewModel @Inject constructor(
     private val _uiState = MutableStateFlow(UiState(listOf()))
     val uiState = _uiState.asStateFlow()
 
-    private var session: Session? = null
+    private var sessionId: Int? = null
 
     private var associatedSessionLastPage: Int = 1
 
-    fun setSession(session: Session) {
-        this.session = session
-        refreshBinderList(session)
+    fun setSessionId(sessionId: Int) {
+        this.sessionId = sessionId
+        refreshBinderList(sessionId)
     }
 
-    private fun refreshBinderList(session: Session) {
+    private fun refreshBinderList(sessionId: Int) {
         viewModelScope.launch {
-            _uiState.value = _uiState.value.copy(binderList = buildSessionDetailBinderList(session))
+            _uiState.value = _uiState.value.copy(
+                binderList = buildSessionDetailBinderList(
+                    getSessionUseCase(sessionId)
+                )
+            )
         }
     }
 
@@ -84,7 +88,7 @@ class SessionDetailViewModel @Inject constructor(
                 { clickedSession ->
                     sendEvent(
                         Event.NavigateToSessionDetail(
-                            clickedSession
+                            clickedSession.idx
                         )
                     )
                 },
@@ -96,9 +100,9 @@ class SessionDetailViewModel @Inject constructor(
     private fun onFavoriteChanged(isFavorite: Boolean) {
         viewModelScope.launch {
             if (isFavorite) {
-                addFavoriteSessionUseCase(session?.idx ?: return@launch)
+                addFavoriteSessionUseCase(sessionId ?: return@launch)
             } else {
-                removeFavoriteSessionUseCase(session?.idx ?: return@launch)
+                removeFavoriteSessionUseCase(sessionId ?: return@launch)
             }
         }
     }
@@ -107,7 +111,7 @@ class SessionDetailViewModel @Inject constructor(
         ++associatedSessionLastPage
         viewModelScope.launch {
             refreshBinderList(
-                this@SessionDetailViewModel.session ?: return@launch
+                this@SessionDetailViewModel.sessionId ?: return@launch
             )
         }
     }
@@ -129,7 +133,7 @@ class SessionDetailViewModel @Inject constructor(
 
     sealed class Event {
         class NavigateToWebView(val url: String) : Event()
-        class NavigateToSessionDetail(val session: Session) : Event()
+        class NavigateToSessionDetail(val sessionId: Int) : Event()
         object NavigateToSessionList : Event()
         class NavigateToCategorySessionList(val categories: Categories, val title: String) : Event()
         class ShareSessionWithTalk(val sessionIdx: Int) : Event()

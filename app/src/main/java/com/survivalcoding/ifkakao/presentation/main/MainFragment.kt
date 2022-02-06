@@ -89,7 +89,7 @@ class MainFragment : Fragment() {
 
     private fun navigateToSessionDetail(session: Session) {
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_view, SessionDetailFragment.newInstance(session))
+            .replace(R.id.fragment_container_view, SessionDetailFragment.newInstance(session.idx))
             .addToBackStack(null)
             .commit()
     }

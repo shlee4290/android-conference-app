@@ -45,4 +45,8 @@ class IfKakaoRepositoryImpl @Inject constructor(
     override suspend fun removeFavoriteSession(sessionId: Int) {
         ifKakaoLocalDataSourece.removeFavoriteSession(sessionId)
     }
+
+    override suspend fun getSession(id: Int): Session {
+        return getAllSessions().first { it.idx == id }
+    }
 }
