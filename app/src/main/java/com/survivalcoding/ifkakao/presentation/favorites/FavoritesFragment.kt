@@ -43,6 +43,11 @@ class FavoritesFragment : Fragment() {
         observe()
     }
 
+    override fun onStart() {
+        super.onStart()
+        viewModel.refreshList()
+    }
+
     override fun onDestroyView() {
         super.onDestroyView()
         binding = null

@@ -25,7 +25,7 @@ class FavoritesViewModel @Inject constructor(private val getFavoriteSessionsUseC
     private val _eventFlow = MutableSharedFlow<Event>()
     val eventFlow = _eventFlow.asSharedFlow()
 
-    init {
+    fun refreshList() {
         viewModelScope.launch {
             _uiState.value = _uiState.value.copy(binderList = initBinderList())
         }
