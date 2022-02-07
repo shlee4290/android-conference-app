@@ -1,5 +1,6 @@
 package com.survivalcoding.ifkakao.presentation.sessiondetail
 
+import android.app.DownloadManager
 import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
@@ -11,6 +12,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -91,6 +93,10 @@ class SessionDetailFragment : Fragment() {
             is SessionDetailViewModel.Event.ShareSessionWithTalk -> shareSessionUrlWithTalk(event.sessionIdx)
             is SessionDetailViewModel.Event.ShareSession -> shareSession(event.sessionIdx)
             is SessionDetailViewModel.Event.CopySessionLink -> copySessionLink(event.sessionIdx)
+            is SessionDetailViewModel.Event.DownloadFile -> downloadFile(
+                event.uri,
+                event.description
+            )
         }
     }
 
@@ -156,6 +162,25 @@ class SessionDetailFragment : Fragment() {
             CategorySessionFragment.newInstance(categories, title)
         ).addToBackStack(null)
             .commit()
+    }
+
+    private fun downloadFile(uri: String, description: String) {
+        AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setTitle(R.string.download)
+            .setMessage(description)
+            .setNegativeButton(getString(R.string.no)) { _, _ -> }
+            .setPositiveButton(R.string.yes) { _, _ -> executeDownload(uri, description) }
+            .show()
+    }
+
+    private fun executeDownload(uri: String, description: String) {
+        val downloadRequest = DownloadManager.Request(Uri.parse(uri))
+            .setTitle(description)
+            .setNotificationVisibility(DownloadManager.Request.VISIBILITY_VISIBLE_NOTIFY_COMPLETED)
+
+        (requireActivity().getSystemService(Context.DOWNLOAD_SERVICE) as DownloadManager).enqueue(
+            downloadRequest
+        )
     }
 
     override fun onDestroyView() {

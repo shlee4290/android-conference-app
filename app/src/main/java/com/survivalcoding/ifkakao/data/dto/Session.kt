@@ -1,9 +1,6 @@
 package com.survivalcoding.ifkakao.data.dto
 
-import com.survivalcoding.ifkakao.domain.entity.Categories
-import com.survivalcoding.ifkakao.domain.entity.Category
-import com.survivalcoding.ifkakao.domain.entity.Speaker
-import com.survivalcoding.ifkakao.domain.entity.Video
+import com.survivalcoding.ifkakao.domain.entity.*
 
 data class Session(
     val categoryIdx: Int? = null,
@@ -45,7 +42,8 @@ fun Session.convert(): com.survivalcoding.ifkakao.domain.entity.Session {
         company = companyName ?: "",
         thumbnailUrl = if (linkList?.PC_IMAGE.isNullOrEmpty()) "" else linkList?.PC_IMAGE?.first()?.url
             ?: "",
-        video = linkList?.VIDEO?.map { Video(it.url ?: "", it.description ?: "") } ?: listOf(),
+        files = linkList?.FILE?.map { File(it.url ?: "", it.description ?: "") } ?: listOf(),
+        videos = linkList?.VIDEO?.map { Video(it.url ?: "", it.description ?: "") } ?: listOf(),
         categories = Categories(
             field = listOf(Category.Field(field ?: "")),
             business = relationList?.CLASSIFICATION?.map { Category.Business(it) } ?: listOf(),

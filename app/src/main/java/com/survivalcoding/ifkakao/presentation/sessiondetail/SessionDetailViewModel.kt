@@ -74,6 +74,14 @@ class SessionDetailViewModel @Inject constructor(
             .addContent()
             .addTags()
             .addSpeakers()
+            .addFiles { fileUri, description ->
+                sendEvent(
+                    Event.DownloadFile(
+                        fileUri,
+                        description
+                    )
+                )
+            }
             .addLinks(
                 { sendEvent(Event.ShareSessionWithTalk(session.idx)) },
                 {},
@@ -139,6 +147,7 @@ class SessionDetailViewModel @Inject constructor(
         class ShareSessionWithTalk(val sessionIdx: Int) : Event()
         class ShareSession(val sessionIdx: Int) : Event()
         class CopySessionLink(val sessionIdx: Int) : Event()
+        class DownloadFile(val uri: String, val description: String) : Event()
     }
 
     data class UiState(

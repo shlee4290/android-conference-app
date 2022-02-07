@@ -12,4 +12,7 @@
     <string name="session">Session</string>
     <string name="ifkakao_mail">ifkakao@kakao.com</string>
     <string name="talk_channel">ifkakao(톡채널)</string>
+    <string name="yes">네</string>
+    <string name="no">아니요</string>
+    <string name="download">다운로드</string>
 </resources>
