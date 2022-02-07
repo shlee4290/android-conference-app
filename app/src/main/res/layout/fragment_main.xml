@@ -87,6 +87,7 @@
             android:layout_height="36dp"
             android:layout_marginEnd="16dp"
             android:background="@drawable/button_background"
+            android:foreground="?android:attr/selectableItemBackground"
             android:paddingHorizontal="16dp"
             android:text="전체 세션 보기"
             android:textColor="@color/button_text_color"
