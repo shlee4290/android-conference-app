@@ -52,7 +52,8 @@ class MainActivity : AppCompatActivity() {
 
     private fun initActionBar() {
         setSupportActionBar(binding.toolBar)
-        supportActionBar?.title = "if(kakao)2021"
+        supportActionBar?.setDisplayShowTitleEnabled(false)
+        binding.titleTextView.setOnClickListener { navigateToMain() }
     }
 
     override fun onCreateOptionsMenu(menu: Menu): Boolean {
@@ -97,5 +98,12 @@ class MainActivity : AppCompatActivity() {
                 .addToBackStack(SessionFragment.TAG)
                 .commit()
         }
+    }
+
+    private fun navigateToMain() {
+        supportFragmentManager.popBackStackImmediate(
+            null,
+            FragmentManager.POP_BACK_STACK_INCLUSIVE
+        )
     }
 }
