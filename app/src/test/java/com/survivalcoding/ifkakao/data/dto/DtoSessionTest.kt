@@ -1,7 +1,6 @@
 package com.survivalcoding.ifkakao.data.dto
 
 import com.google.gson.Gson
-import com.google.gson.GsonBuilder
 import org.junit.After
 import org.junit.Assert
 import org.junit.Before
@@ -39,7 +38,7 @@ class DtoSessionTest {
 
         Assert.assertNotEquals(null, convertedMockSession.title)
         Assert.assertNotEquals(null, convertedMockSession.idx)
-        Assert.assertNotEquals(null, convertedMockSession.category)
+        Assert.assertNotEquals(null, convertedMockSession.categories)
         Assert.assertNotEquals(null, convertedMockSession.exposureDay)
         Assert.assertNotEquals(null, convertedMockSession.company)
         Assert.assertNotEquals(null, convertedMockSession.content)

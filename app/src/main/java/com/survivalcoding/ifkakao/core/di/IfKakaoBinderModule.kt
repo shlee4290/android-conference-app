@@ -1,9 +1,9 @@
 package com.survivalcoding.ifkakao.core.di
 
 import com.survivalcoding.ifkakao.data.datasource.IfKakaoLocalDataSource
+import com.survivalcoding.ifkakao.data.datasource.IfKakaoProtoDatastoreDataSource
 import com.survivalcoding.ifkakao.data.datasource.IfKakaoRemoteDataSource
 import com.survivalcoding.ifkakao.data.datasource.IfKakaoRetrofitDataSource
-import com.survivalcoding.ifkakao.data.datasource.IfKakaoProtoDatastoreDataSource
 import com.survivalcoding.ifkakao.data.repository.IfKakaoRepositoryImpl
 import com.survivalcoding.ifkakao.domain.repository.IfKakaoRepository
 import dagger.Binds
@@ -14,7 +14,7 @@ import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
-abstract class IfKakaoModule {
+abstract class IfKakaoBinderModule {
     @Binds
     @Singleton
     abstract fun bindIfKakaoRepository(ifKakaoRepositoryImpl: IfKakaoRepositoryImpl): IfKakaoRepository

@@ -10,7 +10,7 @@ import com.bumptech.glide.Glide
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.ThumbnailBinding
 
-class Thumbnail @JvmOverloads constructor(
+class ThumbnailView @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
     defStyleAttr: Int = 0
@@ -41,7 +41,7 @@ class Thumbnail @JvmOverloads constructor(
                 binding.descriptionTextView.setBackgroundColor(
                     ResourcesCompat.getColor(
                         resources,
-                        R.color.thumbnail_description_background,
+                        R.color.thumbnail_description_background_color,
                         null
                     )
                 )

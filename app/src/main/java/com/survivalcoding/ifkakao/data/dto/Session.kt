@@ -1,5 +1,6 @@
 package com.survivalcoding.ifkakao.data.dto
 
+import com.survivalcoding.ifkakao.domain.entity.Categories
 import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Speaker
 import com.survivalcoding.ifkakao.domain.entity.Video
@@ -45,11 +46,11 @@ fun Session.convert(): com.survivalcoding.ifkakao.domain.entity.Session {
         thumbnailUrl = if (linkList?.PC_IMAGE.isNullOrEmpty()) "" else linkList?.PC_IMAGE?.first()?.url
             ?: "",
         video = linkList?.VIDEO?.map { Video(it.url ?: "", it.description ?: "") } ?: listOf(),
-        category = Category(
-            field = if (field != null) listOf(field) else listOf(),
-            business = relationList?.CLASSIFICATION ?: listOf(),
-            tech = relationList?.TECH_CLASSIFICATION ?: listOf(),
-            company = if (company != null) listOf(company) else listOf()
+        categories = Categories(
+            field = listOf(Category.Field(field ?: "")),
+            business = relationList?.CLASSIFICATION?.map { Category.Business(it) } ?: listOf(),
+            tech = relationList?.TECH_CLASSIFICATION?.map { Category.Tech(it) } ?: listOf(),
+            company = listOf(Category.Company(company ?: ""))
         ),
         contentsSpeakers = contentsSpeakerList?.zip(linkList?.SPEAKER_PROFILE ?: listOf())?.map {
             Speaker(

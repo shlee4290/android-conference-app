@@ -1,6 +1,6 @@
 package com.survivalcoding.ifkakao.testUtil
 
-import com.survivalcoding.ifkakao.domain.entity.Category
+import com.survivalcoding.ifkakao.domain.entity.Categories
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.entity.Speaker
 import com.survivalcoding.ifkakao.domain.entity.Video
@@ -19,7 +19,7 @@ class MockIfKakaoSessionsBuilder {
         title: String = "",
         thumbnailUrl: String = "",
         videos: List<Video> = listOf(),
-        category: Category = Category(),
+        categories: Categories = Categories(),
         contentsSpeakers: List<Speaker> = listOf(),
         isHighlight: Boolean = false,
         isFavorite: Boolean = false,
@@ -34,7 +34,7 @@ class MockIfKakaoSessionsBuilder {
                 title = title,
                 thumbnailUrl = thumbnailUrl,
                 video = videos,
-                category = category,
+                categories = categories,
                 contentsSpeakers = contentsSpeakers,
                 isHighlight = isHighlight,
                 isFavorite = isFavorite,

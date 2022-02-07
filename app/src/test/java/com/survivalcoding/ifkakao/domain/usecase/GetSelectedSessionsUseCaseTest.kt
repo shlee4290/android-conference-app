@@ -1,5 +1,6 @@
 package com.survivalcoding.ifkakao.domain.usecase
 
+import com.survivalcoding.ifkakao.domain.entity.Categories
 import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.entity.SortBy
@@ -118,11 +119,11 @@ class GetSelectedSessionsUseCaseTest {
         runBlocking {
             val mockSessions = MockIfKakaoSessionsBuilder().addSession(exposureDay = 1)
                 .addSession(
-                    category = Category(
-                        field = listOf("서비스"),
-                        business = listOf("플랫폼"),
-                        tech = listOf("데이터"),
-                        company = listOf("카카오")
+                    categories = Categories(
+                        field = listOf(Category.Field("서비스")),
+                        business = listOf(Category.Business("플랫폼")),
+                        tech = listOf(Category.Tech("데이터")),
+                        company = listOf(Category.Company("카카오"))
                     )
                 )
                 .addSession()
@@ -136,8 +137,16 @@ class GetSelectedSessionsUseCaseTest {
                 .thenReturn(mockSessions)
 
             assertEquals(
-                mockSessions.filter { it.category.business.contains("플랫폼") },
-                getSelectedSessionsUseCase(category = Category(business = listOf("플랫폼")))
+                mockSessions.filter { it.categories.business.contains(Category.Business("플랫폼")) },
+                getSelectedSessionsUseCase(
+                    categories = Categories(
+                        business = listOf(
+                            Category.Business(
+                                "플랫폼"
+                            )
+                        )
+                    )
+                )
             )
         }
     }
@@ -147,11 +156,11 @@ class GetSelectedSessionsUseCaseTest {
         runBlocking {
             val mockSessions = MockIfKakaoSessionsBuilder().addSession(exposureDay = 1)
                 .addSession(
-                    category = Category(
-                        field = listOf("서비스"),
-                        business = listOf("플랫폼"),
-                        tech = listOf("데이터"),
-                        company = listOf("카카오")
+                    categories = Categories(
+                        field = listOf(Category.Field("서비스")),
+                        business = listOf(Category.Business("플랫폼")),
+                        tech = listOf(Category.Tech("데이터")),
+                        company = listOf(Category.Company("카카오"))
                     )
                 )
                 .addSession()
@@ -165,8 +174,8 @@ class GetSelectedSessionsUseCaseTest {
                 .thenReturn(mockSessions)
 
             assertEquals(
-                mockSessions.filter { it.category.field.contains("서비스") },
-                getSelectedSessionsUseCase(category = Category(field = listOf("서비스")))
+                mockSessions.filter { it.categories.field.contains(Category.Field("서비스")) },
+                getSelectedSessionsUseCase(categories = Categories(field = listOf(Category.Field("서비스"))))
             )
         }
     }
@@ -176,11 +185,11 @@ class GetSelectedSessionsUseCaseTest {
         runBlocking {
             val mockSessions = MockIfKakaoSessionsBuilder().addSession(exposureDay = 1)
                 .addSession(
-                    category = Category(
-                        field = listOf("서비스"),
-                        business = listOf("플랫폼"),
-                        tech = listOf("데이터"),
-                        company = listOf("카카오")
+                    categories = Categories(
+                        field = listOf(Category.Field("서비스")),
+                        business = listOf(Category.Business("플랫폼")),
+                        tech = listOf(Category.Tech("데이터")),
+                        company = listOf(Category.Company("카카오"))
                     )
                 )
                 .addSession()
@@ -194,8 +203,8 @@ class GetSelectedSessionsUseCaseTest {
                 .thenReturn(mockSessions)
 
             assertEquals(
-                mockSessions.filter { it.category.tech.contains("데이터") },
-                getSelectedSessionsUseCase(category = Category(tech = listOf("데이터")))
+                mockSessions.filter { it.categories.tech.contains(Category.Tech("데이터")) },
+                getSelectedSessionsUseCase(categories = Categories(tech = listOf(Category.Tech("데이터"))))
             )
         }
     }
@@ -205,11 +214,11 @@ class GetSelectedSessionsUseCaseTest {
         runBlocking {
             val mockSessions = MockIfKakaoSessionsBuilder().addSession(exposureDay = 1)
                 .addSession(
-                    category = Category(
-                        field = listOf("서비스"),
-                        business = listOf("플랫폼"),
-                        tech = listOf("데이터"),
-                        company = listOf("카카오")
+                    categories = Categories(
+                        field = listOf(Category.Field("서비스")),
+                        business = listOf(Category.Business("플랫폼")),
+                        tech = listOf(Category.Tech("데이터")),
+                        company = listOf(Category.Company("카카오"))
                     )
                 )
                 .addSession()
@@ -223,8 +232,8 @@ class GetSelectedSessionsUseCaseTest {
                 .thenReturn(mockSessions)
 
             assertEquals(
-                mockSessions.filter { it.category.company.contains("카카오") },
-                getSelectedSessionsUseCase(category = Category(company = listOf("카카오")))
+                mockSessions.filter { it.categories.company.contains(Category.Company("카카오")) },
+                getSelectedSessionsUseCase(categories = Categories(company = listOf(Category.Company("카카오"))))
             )
         }
     }
@@ -234,11 +243,11 @@ class GetSelectedSessionsUseCaseTest {
         runBlocking {
             val mockSessions = MockIfKakaoSessionsBuilder().addSession(exposureDay = 1)
                 .addSession(
-                    category = Category(
-                        field = listOf("서비스"),
-                        business = listOf("플랫폼"),
-                        tech = listOf("데이터"),
-                        company = listOf("카카오")
+                    categories = Categories(
+                        field = listOf(Category.Field("서비스")),
+                        business = listOf(Category.Business("플랫폼")),
+                        tech = listOf(Category.Tech("데이터")),
+                        company = listOf(Category.Company("카카오"))
                     )
                 )
                 .addSession()
@@ -254,11 +263,11 @@ class GetSelectedSessionsUseCaseTest {
             assertEquals(
                 listOf<Session>(),
                 getSelectedSessionsUseCase(
-                    category = Category(
-                        field = listOf("없음"),
-                        business = listOf("플랫폼"),
-                        tech = listOf("데이터"),
-                        company = listOf("카카오")
+                    categories = Categories(
+                        field = listOf(Category.Field("없음")),
+                        business = listOf(Category.Business("플랫폼")),
+                        tech = listOf(Category.Tech("데이터")),
+                        company = listOf(Category.Company("카카오"))
                     )
                 )
             )
@@ -270,11 +279,11 @@ class GetSelectedSessionsUseCaseTest {
         runBlocking {
             val mockSessions = MockIfKakaoSessionsBuilder().addSession(exposureDay = 1)
                 .addSession(
-                    category = Category(
-                        field = listOf("서비스"),
-                        business = listOf("플랫폼"),
-                        tech = listOf("데이터"),
-                        company = listOf("카카오")
+                    categories = Categories(
+                        field = listOf(Category.Field("서비스")),
+                        business = listOf(Category.Business("플랫폼")),
+                        tech = listOf(Category.Tech("데이터")),
+                        company = listOf(Category.Company("카카오"))
                     )
                 )
                 .addSession()
@@ -288,13 +297,13 @@ class GetSelectedSessionsUseCaseTest {
                 .thenReturn(mockSessions)
 
             assertEquals(
-                mockSessions.filter { "서비스" in it.category.field && "플랫폼" in it.category.business && "데이터" in it.category.tech && "카카오" in it.category.company },
+                mockSessions.filter { Category.Field("서비스") in it.categories.field && Category.Business("플랫폼") in it.categories.business && Category.Tech("데이터") in it.categories.tech && Category.Company("카카오") in it.categories.company },
                 getSelectedSessionsUseCase(
-                    category = Category(
-                        field = listOf("서비스"),
-                        business = listOf("플랫폼"),
-                        tech = listOf("데이터"),
-                        company = listOf("카카오")
+                    categories = Categories(
+                        field = listOf(Category.Field("서비스")),
+                        business = listOf(Category.Business("플랫폼")),
+                        tech = listOf(Category.Tech("데이터")),
+                        company = listOf(Category.Company("카카오"))
                     )
                 )
             )
@@ -349,30 +358,30 @@ class GetSelectedSessionsUseCaseTest {
                 .addSession(
                     exposureDay = 1,
                     title = "A",
-                    category = Category(
-                        field = listOf("서비스"),
-                        business = listOf("플랫폼"),
-                        tech = listOf("데이터"),
-                        company = listOf("카카오")
+                    categories = Categories(
+                        field = listOf(Category.Field("서비스")),
+                        business = listOf(Category.Business("플랫폼")),
+                        tech = listOf(Category.Tech("데이터")),
+                        company = listOf(Category.Company("카카오"))
                     )
                 )
                 .addSession(
                     exposureDay = 1,
                     title = "B",
-                    category = Category(
-                        field = listOf("서비스"),
-                        business = listOf("플랫폼"),
-                        company = listOf("카카오")
+                    categories = Categories(
+                        field = listOf(Category.Field("서비스")),
+                        business = listOf(Category.Business("플랫폼")),
+                        company = listOf(Category.Company("카카오"))
                     )
                 )
                 .addSession(
                     exposureDay = 1,
                     title = "C",
-                    category = Category(
-                        field = listOf("서비스"),
-                        business = listOf("플랫폼"),
-                        tech = listOf("데이터"),
-                        company = listOf("카카오")
+                    categories = Categories(
+                        field = listOf(Category.Field("서비스")),
+                        business = listOf(Category.Business("플랫폼")),
+                        tech = listOf(Category.Tech("데이터")),
+                        company = listOf(Category.Company("카카오"))
                     )
                 )
                 .addSession()
@@ -384,11 +393,11 @@ class GetSelectedSessionsUseCaseTest {
                 .thenReturn(mockSessions)
 
             assertEquals(
-                mockSessions.filter { it.exposureDay == 1 && it.category.field.contains("서비스") }
+                mockSessions.filter { it.exposureDay == 1 && it.categories.field.contains(Category.Field("서비스")) }
                     .sortedBy { it.title },
                 getSelectedSessionsUseCase(
                     day = 1,
-                    category = Category(field = listOf("서비스")),
+                    categories = Categories(field = listOf(Category.Field("서비스"))),
                     sortBy = SortBy.TITLE
                 )
             )

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="16dp"
+    android:paddingTop="20dp">
+
+    <com.survivalcoding.ifkakao.presentation.common.SpeakerProfileImageView
+        android:id="@+id/speaker_profile_image_view"
+        android:layout_width="64dp"
+        android:layout_height="64dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/speaker_name_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:textStyle="bold"
+        android:textColor="@color/white"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@id/company_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@id/speaker_profile_image_view"
+        app:layout_constraintTop_toTopOf="@id/speaker_profile_image_view"
+        tools:text="김택수 felix" />
+
+    <TextView
+        android:id="@+id/company_text_view"
+        android:layout_width="0dp"
+        android:textStyle="bold"
+        android:layout_height="wrap_content"
+        android:textColor="@color/button_text_color"
+        android:textSize="15dp"
+        app:layout_constraintBottom_toTopOf="@id/role_text_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/speaker_name_text_view"
+        app:layout_constraintTop_toBottomOf="@id/speaker_name_text_view"
+        tools:text="카카오" />
+
+    <TextView
+        android:id="@+id/role_text_view"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:textColor="@color/button_text_color"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@id/speaker_profile_image_view"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="@id/speaker_name_text_view"
+        app:layout_constraintTop_toBottomOf="@id/company_text_view"
+        tools:text="CPO" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
