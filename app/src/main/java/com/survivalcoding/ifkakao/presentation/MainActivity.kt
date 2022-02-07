@@ -9,6 +9,7 @@ import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.FragmentManager
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.ActivityMainBinding
+import com.survivalcoding.ifkakao.presentation.favorites.FavoritesFragment
 import com.survivalcoding.ifkakao.presentation.main.MainFragment
 import com.survivalcoding.ifkakao.presentation.session.SessionFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -46,6 +47,10 @@ class MainActivity : AppCompatActivity() {
         binding.drawerCloseButton.setOnClickListener { closeDrawer() }
         binding.drawerSessionButton.setOnClickListener {
             navigateToSessionList()
+            closeDrawer()
+        }
+        binding.drawerFavoritesButton.setOnClickListener {
+            navigateToFavorites()
             closeDrawer()
         }
     }
@@ -98,6 +103,13 @@ class MainActivity : AppCompatActivity() {
                 .addToBackStack(SessionFragment.TAG)
                 .commit()
         }
+    }
+
+    private fun navigateToFavorites() {
+        supportFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view, FavoritesFragment())
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun navigateToMain() {

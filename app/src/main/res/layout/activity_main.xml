@@ -69,12 +69,26 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="16dp"
-                android:text="Session"
+                android:text="@string/session"
                 android:textColor="@color/white"
                 android:textSize="24dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@id/drawer_close_button" />
+
+            <TextView
+                android:id="@+id/drawer_favorites_button"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:foreground="?android:attr/selectableItemBackground"
+                android:paddingHorizontal="16dp"
+                android:paddingVertical="16dp"
+                android:text="@string/favorites"
+                android:textColor="@color/white"
+                android:textSize="24dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@id/drawer_session_button" />
 
             <TextView
                 android:id="@+id/contact_us_text"
@@ -96,7 +110,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
-                android:text="ifkakao(톡채널)"
+                android:text="@string/talk_channel"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toTopOf="@id/email_text"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -110,7 +124,7 @@
                 android:foreground="?android:attr/selectableItemBackground"
                 android:paddingHorizontal="16dp"
                 android:paddingVertical="8dp"
-                android:text="ifkaako@kakao.com"
+                android:text="@string/ifkakao_mail"
                 android:textColor="@color/white"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
