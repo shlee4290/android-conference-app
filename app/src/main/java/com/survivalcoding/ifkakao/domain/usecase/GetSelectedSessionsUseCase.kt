@@ -10,7 +10,7 @@ class GetSelectedSessionsUseCase @Inject constructor(private val ifKakaoReposito
     suspend operator fun invoke(
         day: Int = 3,
         categories: Categories = Categories(),
-        sortBy: SortBy = SortBy.DEFAULT
+        sortBy: SortBy = SortBy.TIME
     ): List<Session> {
         return ifKakaoRepository.getAllSessions().filter { session ->
             if (day == 3) true // Day3(All)
@@ -43,7 +43,7 @@ class GetSelectedSessionsUseCase @Inject constructor(private val ifKakaoReposito
             true
         }.sortedBy {
             when (sortBy) {
-                SortBy.DEFAULT -> it.idx.toString()
+                SortBy.TIME -> it.idx.toString()
                 SortBy.TITLE -> it.title
             }
         }

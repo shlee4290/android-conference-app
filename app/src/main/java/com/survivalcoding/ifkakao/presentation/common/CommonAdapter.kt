@@ -21,6 +21,7 @@ class CommonAdapter : ListAdapter<CommonBinder, CommonViewHolder>(CommonDiffUtil
             CommonListBinder.ID -> CommonListViewHolder.from(parent)
             DrawerTitleBinder.ID -> DrawerTitleViewHolder.from(parent)
             DrawerSubtitleBinder.ID -> DrawerSubtitleViewHolder.from(parent)
+            DrawerSortRadioGroupBinder.ID -> DrawerSortRadioGroupViewHolder.from(parent)
             KeywordToggleBinder.ID -> KeywordToggleViewHolder.from(parent)
             KeywordToggleListBinder.ID -> KeywordToggleListViewHolder.from(parent)
             SessionListItemBinder.ID -> SessionListItemViewHolder.from(parent)
