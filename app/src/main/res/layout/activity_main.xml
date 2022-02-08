@@ -117,7 +117,6 @@
                     android:id="@+id/talk_channel_text"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:foreground="?android:attr/selectableItemBackground"
                     android:paddingVertical="8dp"
                     android:paddingStart="16dp"
                     android:text="@string/talk_channel"
