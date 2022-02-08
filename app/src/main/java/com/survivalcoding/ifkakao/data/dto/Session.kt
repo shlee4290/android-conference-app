@@ -61,8 +61,11 @@ fun Session.convert(): com.survivalcoding.ifkakao.domain.entity.Session {
         } ?: listOf(),
         isHighlight = spotlightYn?.lowercase() == "y",
         isFavorite = false,
-        exposureDay = if (relationList?.MAIN_EXPOSURE_DAY.isNullOrEmpty()) 3 else relationList?.MAIN_EXPOSURE_DAY?.first()
-            ?.substringBefore("Day")?.toInt() ?: 3
+        exposureDay = when (reservationDate) {
+            "20211116" -> 1
+            "20211117" -> 2
+            else -> 3
+        }
     )
 }
 
