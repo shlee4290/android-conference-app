@@ -74,7 +74,9 @@ class SessionDetailFragment : Fragment() {
         repeatOnStart {
             viewModel.uiState.collectLatest {
                 adapter.submitList(it.binderList)
-                binding?.videoWebView?.loadUrl(it.video.url)
+                if (binding?.videoWebView?.url != it.video.url) {
+                    binding?.videoWebView?.loadUrl(it.video.url)
+                }
             }
         }
 
