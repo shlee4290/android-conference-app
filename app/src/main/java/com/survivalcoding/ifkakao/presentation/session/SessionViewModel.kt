@@ -4,10 +4,7 @@ import android.widget.RadioGroup
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.survivalcoding.ifkakao.R
-import com.survivalcoding.ifkakao.domain.entity.CategoriesBuilder
-import com.survivalcoding.ifkakao.domain.entity.Category
-import com.survivalcoding.ifkakao.domain.entity.Session
-import com.survivalcoding.ifkakao.domain.entity.SortBy
+import com.survivalcoding.ifkakao.domain.entity.*
 import com.survivalcoding.ifkakao.domain.usecase.GetAllCategoriesUseCase
 import com.survivalcoding.ifkakao.domain.usecase.GetSelectedSessionsUseCase
 import com.survivalcoding.ifkakao.presentation.common.*
@@ -27,7 +24,7 @@ class SessionViewModel @Inject constructor(
     ViewModel() {
 
     private val _sessionUiState =
-        MutableStateFlow(SessionUiState(listOf(), listOf(), listOf(), listOf()))
+        MutableStateFlow(SessionUiState(listOf(), listOf(), listOf(), listOf(), 0))
     val sessionUiState = _sessionUiState.asStateFlow()
 
     private val _eventFlow = MutableSharedFlow<Event>()
@@ -129,7 +126,8 @@ class SessionViewModel @Inject constructor(
                     sortBy = sortBy
                 ).apply {
                     if (isEmpty()) sendEvent(Event.NoMatchingSessions)
-                }
+                },
+                selectedCategoryCount = categories.toList().size
             )
         }
     }
@@ -169,5 +167,6 @@ data class SessionUiState(
     val day1Sessions: List<Session>,
     val day2Sessions: List<Session>,
     val day3Sessions: List<Session>,
-    val drawerBinderList: List<CommonBinder>
+    val drawerBinderList: List<CommonBinder>,
+    val selectedCategoryCount: Int
 )

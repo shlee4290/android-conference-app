@@ -5,7 +5,6 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -15,7 +14,6 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayoutMediator
 import com.survivalcoding.ifkakao.R
-import com.survivalcoding.ifkakao.databinding.CustomDialogWithOneButtonBinding
 import com.survivalcoding.ifkakao.databinding.FragmentSessionBinding
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.presentation.common.*
@@ -102,6 +100,9 @@ class SessionFragment : Fragment() {
                 viewPagerAdapter.submitList(commonListBinders)
 
                 drawerListAdapter.submitList(it.drawerBinderList)
+
+                binding?.selectedCategoryCountTextView?.isVisible = it.selectedCategoryCount != 0
+                binding?.selectedCategoryCountTextView?.text = it.selectedCategoryCount.toString()
             }
         }
 
