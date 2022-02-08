@@ -86,7 +86,7 @@ class SessionFragment : Fragment() {
             binding?.tabLayout ?: return,
             binding?.sessionViewPager ?: return
         ) { tab, position ->
-            tab.text = "Day${position + 1}" + if (position == 3 - 1) "(All)" else ""
+            tab.text = "Day${position + 1}" + if (position == DURATION - 1) "(All)" else ""
         }.attach()
     }
 
@@ -154,5 +154,6 @@ class SessionFragment : Fragment() {
 
     companion object {
         const val TAG = "SessionFragment"
+        private const val DURATION = 3
     }
 }
