@@ -5,6 +5,7 @@ import android.content.ClipData
 import android.content.ClipboardManager
 import android.content.Context
 import android.content.Intent
+import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
@@ -18,6 +19,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import com.google.android.material.appbar.AppBarLayout
 import com.kakao.sdk.link.LinkClient
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.FragmentSessionDetailBinding
@@ -66,6 +68,11 @@ class SessionDetailFragment : Fragment() {
         binding?.recyclerView?.adapter = adapter
         binding?.recyclerView?.addItemDecoration(StickyFooterItemDecoration())
         binding?.videoWebView?.settings?.javaScriptEnabled = true
+
+        if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
+            val appbarLayoutParams: AppBarLayout.LayoutParams =  binding?.videoConstraintLayout?.layoutParams as AppBarLayout.LayoutParams
+            appbarLayoutParams.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+        }
 
         observe()
     }
