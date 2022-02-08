@@ -10,7 +10,9 @@ class DrawerSortRadioGroupViewHolder private constructor(private val binding: Dr
     override fun bind(binder: CommonBinder) {
         binder as DrawerSortRadioGroupBinder
 
+        binding.sortRadioGroup.check(binder.checkedId)
         binding.sortRadioGroup.setOnCheckedChangeListener { group, checkedId ->
+            binder.checkedId = checkedId
             binder.checkedChangeListener.onCheckedChanged(
                 group,
                 checkedId

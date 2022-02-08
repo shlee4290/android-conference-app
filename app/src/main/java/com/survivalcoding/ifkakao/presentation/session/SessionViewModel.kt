@@ -41,7 +41,12 @@ class SessionViewModel @Inject constructor(
         val drawerBinderList = mutableListOf<CommonBinder>()
         val allCategories = getAllCategoriesUseCase()
         drawerBinderList.add(DrawerTitleBinder("정렬"))
-        drawerBinderList.add(DrawerSortRadioGroupBinder(::onSortRadioGroupCheckChange))
+        drawerBinderList.add(
+            DrawerSortRadioGroupBinder(
+                ::onSortRadioGroupCheckChange,
+                ID_OF_DEFAULT_SORT_BY
+            )
+        )
         drawerBinderList.add(DrawerTitleBinder("관심분야"))
         drawerBinderList.add(KeywordToggleListBinder(allCategories.field.map {
             KeywordToggleBinder(
@@ -139,6 +144,7 @@ class SessionViewModel @Inject constructor(
 
     companion object {
         private val DEFAULT_SORT_BY = SortBy.TIME
+        private const val ID_OF_DEFAULT_SORT_BY = R.id.sort_by_time_radio_button
     }
 }
 
