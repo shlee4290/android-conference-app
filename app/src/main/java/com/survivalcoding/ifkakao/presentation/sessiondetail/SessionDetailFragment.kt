@@ -65,6 +65,7 @@ class SessionDetailFragment : Fragment() {
 
         binding?.recyclerView?.adapter = adapter
         binding?.recyclerView?.addItemDecoration(StickyFooterItemDecoration())
+        binding?.videoWebView?.settings?.javaScriptEnabled = true
 
         observe()
     }
@@ -73,6 +74,7 @@ class SessionDetailFragment : Fragment() {
         repeatOnStart {
             viewModel.uiState.collectLatest {
                 adapter.submitList(it.binderList)
+                binding?.videoWebView?.loadUrl(it.video.url)
             }
         }
 
