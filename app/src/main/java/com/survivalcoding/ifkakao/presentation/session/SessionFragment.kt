@@ -15,12 +15,10 @@ import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
 import com.google.android.material.tabs.TabLayoutMediator
 import com.survivalcoding.ifkakao.R
+import com.survivalcoding.ifkakao.databinding.CustomDialogWithOneButtonBinding
 import com.survivalcoding.ifkakao.databinding.FragmentSessionBinding
 import com.survivalcoding.ifkakao.domain.entity.Session
-import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
-import com.survivalcoding.ifkakao.presentation.common.CommonListBinder
-import com.survivalcoding.ifkakao.presentation.common.FooterBinder
-import com.survivalcoding.ifkakao.presentation.common.SessionListItemBinder
+import com.survivalcoding.ifkakao.presentation.common.*
 import com.survivalcoding.ifkakao.presentation.sessiondetail.SessionDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -117,11 +115,12 @@ class SessionFragment : Fragment() {
     }
 
     private fun showNoMatchingSessionDialog() {
-        AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
-            .setMessage("선택한 조건에 해당하는 항목이 없습니다.")
-            .setCancelable(false)
-            .setPositiveButton("확인") { _, _ -> viewModel.resetSelectedCategories() }
-            .show()
+        customDialogWithOneButton(
+            requireActivity(),
+            "선택한 조건에 해당하는\n항목이 없습니다.",
+            "확인",
+            viewModel::resetSelectedCategories
+        ).show()
     }
 
     private fun List<Session>.toBinderList(): CommonListBinder {
