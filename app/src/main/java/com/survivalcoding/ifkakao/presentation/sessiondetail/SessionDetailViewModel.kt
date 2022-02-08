@@ -85,8 +85,8 @@ class SessionDetailViewModel @Inject constructor(
             }
             .addLinks(
                 { sendEvent(Event.ShareSessionWithTalk(session.idx)) },
-                {},
-                {},
+                { sendEvent(Event.ShareSession(session.idx)) },
+                { sendEvent(Event.ShareSession(session.idx)) },
                 { sendEvent(Event.CopySessionLink(session.idx)) },
                 ::onFavoriteChanged
             )

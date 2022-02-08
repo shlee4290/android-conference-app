@@ -140,7 +140,7 @@ class SessionDetailFragment : Fragment() {
             requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
         val clip = ClipData.newPlainText("If Kakao", getString(R.string.session_url, sessionIdx))
         clipboard.setPrimaryClip(clip)
-        Toast.makeText(requireContext(), "링크 주소가 복사되었습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(requireContext(), "URL이 복사되었습니다.", Toast.LENGTH_SHORT).show()
     }
 
     private fun navigateToWebView(url: String) {
