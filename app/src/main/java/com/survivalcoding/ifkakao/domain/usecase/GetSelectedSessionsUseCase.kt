@@ -20,7 +20,7 @@ class GetSelectedSessionsUseCase @Inject constructor(private val ifKakaoReposito
             filterByCategory(categories, session.categories)
         }.sortedBy {
             when (sortBy) {
-                SortBy.TIME -> it.idx.toString()
+                SortBy.TIME -> it.exposureDay.toString()
                 SortBy.TITLE -> it.title
             }
         }
