@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.appcompat.app.AlertDialog
 import androidx.core.view.GravityCompat
 import androidx.drawerlayout.widget.DrawerLayout
 import androidx.fragment.app.Fragment
@@ -24,6 +25,7 @@ import com.survivalcoding.ifkakao.presentation.sessiondetail.SessionDetailFragme
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
 
 @AndroidEntryPoint
@@ -92,7 +94,7 @@ class SessionFragment : Fragment() {
 
     private fun observe() {
         repeatOnStart {
-            viewModel.sessionUiState.collect {
+            viewModel.sessionUiState.collectLatest {
                 val commonListBinders =
                     listOf(
                         it.day1Sessions.toBinderList(),
@@ -104,6 +106,22 @@ class SessionFragment : Fragment() {
                 drawerListAdapter.submitList(it.drawerBinderList)
             }
         }
+
+        repeatOnStart { viewModel.eventFlow.collect { handleEvent(it) } }
+    }
+
+    private fun handleEvent(event: SessionViewModel.Event) {
+        when (event) {
+            SessionViewModel.Event.NoMatchingSessions -> showNoMatchingSessionDialog()
+        }
+    }
+
+    private fun showNoMatchingSessionDialog() {
+        AlertDialog.Builder(requireContext(), R.style.CustomAlertDialog)
+            .setMessage("선택한 조건에 해당하는 항목이 없습니다.")
+            .setCancelable(false)
+            .setPositiveButton("확인") { _, _ -> viewModel.resetSelectedCategories() }
+            .show()
     }
 
     private fun List<Session>.toBinderList(): CommonListBinder {

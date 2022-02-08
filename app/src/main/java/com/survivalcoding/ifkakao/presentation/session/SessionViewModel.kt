@@ -12,7 +12,9 @@ import com.survivalcoding.ifkakao.domain.usecase.GetAllCategoriesUseCase
 import com.survivalcoding.ifkakao.domain.usecase.GetSelectedSessionsUseCase
 import com.survivalcoding.ifkakao.presentation.common.*
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.flow.MutableSharedFlow
 import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -27,6 +29,9 @@ class SessionViewModel @Inject constructor(
     private val _sessionUiState =
         MutableStateFlow(SessionUiState(listOf(), listOf(), listOf(), listOf()))
     val sessionUiState = _sessionUiState.asStateFlow()
+
+    private val _eventFlow = MutableSharedFlow<Event>()
+    val eventFlow = _eventFlow.asSharedFlow()
 
     private val selectedCategories = mutableSetOf<Category>()
     private var sortBy: SortBy = DEFAULT_SORT_BY
@@ -122,7 +127,9 @@ class SessionViewModel @Inject constructor(
                     3,
                     categories = categories,
                     sortBy = sortBy
-                )
+                ).apply {
+                    if (isEmpty()) sendEvent(Event.NoMatchingSessions)
+                }
             )
         }
     }
@@ -140,6 +147,16 @@ class SessionViewModel @Inject constructor(
         _sessionUiState.value = _sessionUiState.value.copy(
             drawerBinderList = buildDrawerBinderList()
         )
+    }
+
+    private fun sendEvent(event: Event) {
+        viewModelScope.launch {
+            _eventFlow.emit(event)
+        }
+    }
+
+    sealed class Event {
+        object NoMatchingSessions : Event()
     }
 
     companion object {
