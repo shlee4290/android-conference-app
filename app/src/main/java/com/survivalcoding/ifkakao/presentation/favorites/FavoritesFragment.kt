@@ -12,6 +12,7 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.FragmentFavoritesBinding
 import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
+import com.survivalcoding.ifkakao.presentation.common.StickyFooterItemDecoration
 import com.survivalcoding.ifkakao.presentation.sessiondetail.SessionDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
@@ -39,6 +40,7 @@ class FavoritesFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.recyclerView?.adapter = adapter
+        binding?.recyclerView?.addItemDecoration(StickyFooterItemDecoration())
 
         observe()
     }

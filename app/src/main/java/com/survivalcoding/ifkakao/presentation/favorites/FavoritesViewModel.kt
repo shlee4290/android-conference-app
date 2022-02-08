@@ -40,7 +40,7 @@ class FavoritesViewModel @Inject constructor(private val getFavoriteSessionsUseC
                 it
             ) { sendEvent(Event.NavigateToSessionDetail(it.idx)) }
         })
-        if (binderList.size > 7) binderList.add(FooterBinder())
+        binderList.add(FooterBinder())
 
         return binderList
     }

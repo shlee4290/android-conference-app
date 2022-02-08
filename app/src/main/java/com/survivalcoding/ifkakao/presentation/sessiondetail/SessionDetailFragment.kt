@@ -25,6 +25,7 @@ import com.survivalcoding.ifkakao.domain.entity.Categories
 import com.survivalcoding.ifkakao.presentation.MainActivity
 import com.survivalcoding.ifkakao.presentation.categorySession.CategorySessionFragment
 import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
+import com.survivalcoding.ifkakao.presentation.common.StickyFooterItemDecoration
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.collectLatest
@@ -63,6 +64,7 @@ class SessionDetailFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         binding?.recyclerView?.adapter = adapter
+        binding?.recyclerView?.addItemDecoration(StickyFooterItemDecoration())
 
         observe()
     }
