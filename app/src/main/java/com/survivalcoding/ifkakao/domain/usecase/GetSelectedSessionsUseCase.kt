@@ -1,6 +1,7 @@
 package com.survivalcoding.ifkakao.domain.usecase
 
 import com.survivalcoding.ifkakao.domain.entity.Categories
+import com.survivalcoding.ifkakao.domain.entity.Category
 import com.survivalcoding.ifkakao.domain.entity.Session
 import com.survivalcoding.ifkakao.domain.entity.SortBy
 import com.survivalcoding.ifkakao.domain.repository.IfKakaoRepository
@@ -16,36 +17,36 @@ class GetSelectedSessionsUseCase @Inject constructor(private val ifKakaoReposito
             if (day == 3) true // Day3(All)
             else session.exposureDay == day
         }.filter { session ->
-            categories.business.forEach {
-                if (it !in session.categories.business) {
-                    return@filter false
-                }
-            }
-
-            categories.company.forEach {
-                if (it !in session.categories.company) {
-                    return@filter false
-                }
-            }
-
-            categories.field.forEach {
-                if (it !in session.categories.field) {
-                    return@filter false
-                }
-            }
-
-            categories.tech.forEach {
-                if (it !in session.categories.tech) {
-                    return@filter false
-                }
-            }
-
-            true
+            filterByCategory(categories, session.categories)
         }.sortedBy {
             when (sortBy) {
                 SortBy.TIME -> it.idx.toString()
                 SortBy.TITLE -> it.title
             }
         }
+    }
+
+    private fun filterByCategory(
+        selectedCategories: Categories,
+        sessionCategories: Categories
+    ): Boolean {
+        if (isNotMatch(selectedCategories.business, sessionCategories.business)) return false
+        if (isNotMatch(selectedCategories.company, sessionCategories.company)) return false
+        if (isNotMatch(selectedCategories.field, sessionCategories.field)) return false
+        if (isNotMatch(selectedCategories.tech, sessionCategories.tech)) return false
+
+        return true
+    }
+
+    private fun isNotMatch(
+        selectedCategoryList: List<Category>,
+        sessionCategoryList: List<Category>
+    ): Boolean {
+        selectedCategoryList.any {
+            it in sessionCategoryList
+        }.let { any ->
+            if (!any && selectedCategoryList.isNotEmpty()) return true
+        }
+        return false
     }
 }
