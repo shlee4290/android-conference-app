@@ -144,7 +144,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="@color/black">
+            android:background="@color/button_background_color">
 
             <ImageButton
                 android:id="@+id/drawer_close_button"
@@ -182,6 +182,7 @@
                     android:layout_marginEnd="24dp"
                     android:layout_weight="1"
                     android:background="@drawable/button_background"
+                    android:backgroundTint="@color/drawer_button_background_color"
                     android:text="@string/reset"
                     android:textColor="@color/button_text_color"
                     android:textSize="14dp" />
