@@ -1,10 +1,12 @@
 package com.survivalcoding.ifkakao.presentation.session
 
+import android.content.Context
 import android.net.Uri
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.inputmethod.InputMethodManager
 import androidx.core.view.GravityCompat
 import androidx.core.view.isVisible
 import androidx.drawerlayout.widget.DrawerLayout
@@ -91,7 +93,7 @@ class SessionFragment : Fragment() {
         ) { tab, position ->
             tab.text = "Day${position + 1}" + if (position == DURATION - 1) "(All)" else ""
         }.attach()
-        binding?.sessionViewPager?.registerOnPageChangeCallback(object:
+        binding?.sessionViewPager?.registerOnPageChangeCallback(object :
             ViewPager2.OnPageChangeCallback() {
             override fun onPageScrolled(
                 position: Int,
@@ -170,6 +172,20 @@ class SessionFragment : Fragment() {
             binding?.sessionViewPager?.setCurrentItem(viewPagerAdapter.itemCount - 1, false)
             closeDrawer()
         }
+        binding?.drawerLayout?.addDrawerListener(object : DrawerLayout.DrawerListener {
+            override fun onDrawerSlide(drawerView: View, slideOffset: Float) {}
+
+            override fun onDrawerOpened(drawerView: View) {}
+
+            override fun onDrawerClosed(drawerView: View) {
+                (requireActivity().getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager).hideSoftInputFromWindow(
+                    drawerView.windowToken,
+                    0
+                )
+            }
+
+            override fun onDrawerStateChanged(newState: Int) {}
+        })
     }
 
     private fun openDrawer() {
