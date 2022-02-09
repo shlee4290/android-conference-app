@@ -13,6 +13,7 @@ import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.lifecycleScope
 import androidx.lifecycle.repeatOnLifecycle
+import androidx.viewpager2.widget.ViewPager2
 import com.google.android.material.tabs.TabLayoutMediator
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.FragmentSessionBinding
@@ -40,6 +41,8 @@ class SessionFragment : Fragment() {
     private val drawerListAdapter: CommonAdapter by lazy {
         CommonAdapter()
     }
+
+    private var firstViewPagerPageScrolledFlag = true
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -80,6 +83,7 @@ class SessionFragment : Fragment() {
     }
 
     private fun initViewPager() {
+        firstViewPagerPageScrolledFlag = true
         binding?.sessionViewPager?.adapter = viewPagerAdapter
         TabLayoutMediator(
             binding?.tabLayout ?: return,
@@ -87,6 +91,21 @@ class SessionFragment : Fragment() {
         ) { tab, position ->
             tab.text = "Day${position + 1}" + if (position == DURATION - 1) "(All)" else ""
         }.attach()
+        binding?.sessionViewPager?.registerOnPageChangeCallback(object:
+            ViewPager2.OnPageChangeCallback() {
+            override fun onPageScrolled(
+                position: Int,
+                positionOffset: Float,
+                positionOffsetPixels: Int
+            ) {
+                super.onPageScrolled(position, positionOffset, positionOffsetPixels)
+                if (firstViewPagerPageScrolledFlag) {
+                    firstViewPagerPageScrolledFlag = false
+                } else {
+                    binding?.appBarLayout?.setExpanded(false)
+                }
+            }
+        })
     }
 
     private fun observe() {
