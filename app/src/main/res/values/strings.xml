@@ -28,4 +28,11 @@
     <string name="share_session">세션 공유하기</string>
     <string name="url_copy_success_message">URL이 복사되었습니다.</string>
     <string name="back_to_list">목록보기</string>
+    <string name="sort">정렬</string>
+    <string name="search">검색</string>
+    <string name="interest_field">관심분야</string>
+    <string name="interest_keyword">관심키워드</string>
+    <string name="service_and_business">서비스·비즈니스</string>
+    <string name="tech">기술</string>
+    <string name="company">공동체분류</string>
 </resources>

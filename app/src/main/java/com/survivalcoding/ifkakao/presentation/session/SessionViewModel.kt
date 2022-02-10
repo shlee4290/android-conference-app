@@ -1,5 +1,6 @@
 package com.survivalcoding.ifkakao.presentation.session
 
+import android.app.Application
 import android.text.Editable
 import android.widget.RadioGroup
 import androidx.lifecycle.ViewModel
@@ -19,6 +20,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SessionViewModel @Inject constructor(
+    private val application: Application,
     private val getSelectedSessionsUseCase: GetSelectedSessionsUseCase,
     private val getAllCategoriesUseCase: GetAllCategoriesUseCase
 ) :
@@ -55,16 +57,16 @@ class SessionViewModel @Inject constructor(
     private suspend fun buildDrawerBinderList(): List<CommonBinder> {
         val drawerBinderList = mutableListOf<CommonBinder>()
         val allCategories = getAllCategoriesUseCase()
-        drawerBinderList.add(DrawerTitleBinder("검색"))
+        drawerBinderList.add(DrawerTitleBinder(application.getString(R.string.search)))
         drawerBinderList.add(DrawerEditTextBinder(searchKeyword, ::afterSearchKeywordChanged))
-        drawerBinderList.add(DrawerTitleBinder("정렬"))
+        drawerBinderList.add(DrawerTitleBinder(application.getString(R.string.sort)))
         drawerBinderList.add(
             DrawerSortRadioGroupBinder(
                 ::onSortRadioGroupCheckChange,
                 ID_OF_DEFAULT_SORT_BY
             )
         )
-        drawerBinderList.add(DrawerTitleBinder("관심분야"))
+        drawerBinderList.add(DrawerTitleBinder(application.getString(R.string.interest_field)))
         drawerBinderList.add(KeywordToggleListBinder(allCategories.field.map {
             KeywordToggleBinder(
                 category = it,
@@ -72,8 +74,8 @@ class SessionViewModel @Inject constructor(
                 onCheckedChange = ::onKeywordToggleCheckChange
             )
         }))
-        drawerBinderList.add(DrawerTitleBinder("관심키워드"))
-        drawerBinderList.add(DrawerSubtitleBinder("서비스·비즈니스"))
+        drawerBinderList.add(DrawerTitleBinder(application.getString(R.string.interest_keyword)))
+        drawerBinderList.add(DrawerSubtitleBinder(application.getString(R.string.service_and_business)))
         drawerBinderList.add(KeywordToggleListBinder(allCategories.business.map {
             KeywordToggleBinder(
                 category = it,
@@ -81,7 +83,7 @@ class SessionViewModel @Inject constructor(
                 onCheckedChange = ::onKeywordToggleCheckChange
             )
         }))
-        drawerBinderList.add(DrawerSubtitleBinder("기술"))
+        drawerBinderList.add(DrawerSubtitleBinder(application.getString(R.string.tech)))
         drawerBinderList.add(KeywordToggleListBinder(allCategories.tech.map {
             KeywordToggleBinder(
                 category = it,
@@ -89,7 +91,7 @@ class SessionViewModel @Inject constructor(
                 onCheckedChange = ::onKeywordToggleCheckChange
             )
         }))
-        drawerBinderList.add(DrawerSubtitleBinder("공동체분류"))
+        drawerBinderList.add(DrawerSubtitleBinder(application.getString(R.string.company)))
         drawerBinderList.add(KeywordToggleListBinder(allCategories.company.map {
             KeywordToggleBinder(
                 category = it,
