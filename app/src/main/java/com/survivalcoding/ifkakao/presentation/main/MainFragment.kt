@@ -15,8 +15,8 @@ import androidx.lifecycle.repeatOnLifecycle
 import com.bumptech.glide.Glide
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.databinding.FragmentMainBinding
-import com.survivalcoding.ifkakao.domain.entity.Session
-import com.survivalcoding.ifkakao.presentation.common.*
+import com.survivalcoding.ifkakao.presentation.common.CommonAdapter
+import com.survivalcoding.ifkakao.presentation.common.StickyFooterItemDecoration
 import com.survivalcoding.ifkakao.presentation.session.SessionFragment
 import com.survivalcoding.ifkakao.presentation.sessiondetail.SessionDetailFragment
 import dagger.hilt.android.AndroidEntryPoint
@@ -69,30 +69,29 @@ class MainFragment : Fragment() {
 
     private fun observe() {
         repeatOnStart {
-            viewModel.highlightSessions.collectLatest {
-                val binders: MutableList<CommonBinder> =
-                    it.map { session -> SessionListItemBinder(session, ::navigateToSessionDetail) }
-                        .toMutableList<CommonBinder>()
-                        .apply {
-                            add(FooterBinder())
-                        }
-                adapter.submitList(binders) {
-                    scrollToTopOfTheList()
-                }
+            viewModel.uiState.collectLatest {
+                adapter.submitList(it.binderList)
+            }
+        }
 
+        repeatOnStart {
+            viewModel.eventFlow.collect {
+                handleEvent(it)
             }
         }
     }
 
-    private fun navigateToSessionDetail(session: Session) {
-        parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_view, SessionDetailFragment.newInstance(session.idx))
-            .addToBackStack(null)
-            .commit()
+    private fun handleEvent(event: MainViewModel.Event) {
+        when (event) {
+            is MainViewModel.Event.NavigateToSessionDetail -> navigateToSessionDetail(event.id)
+        }
     }
 
-    private fun scrollToTopOfTheList() {
-        binding?.sessionListRecyclerView?.scrollToPosition(0)
+    private fun navigateToSessionDetail(id: Int) {
+        parentFragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view, SessionDetailFragment.newInstance(id))
+            .addToBackStack(null)
+            .commit()
     }
 
     private fun initBanner() {

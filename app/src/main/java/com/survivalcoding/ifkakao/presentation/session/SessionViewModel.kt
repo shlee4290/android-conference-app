@@ -24,9 +24,19 @@ class SessionViewModel @Inject constructor(
 ) :
     ViewModel() {
 
-    private val _sessionUiState =
-        MutableStateFlow(SessionUiState(listOf(), listOf(), listOf(), listOf(), 0))
-    val sessionUiState = _sessionUiState.asStateFlow()
+    private val initStateBinder = CommonListBinder(listOf(LoadingIndicatorBinder(), FooterBinder()))
+
+    private val _uiState =
+        MutableStateFlow(
+            UiState(
+                initStateBinder,
+                initStateBinder,
+                initStateBinder,
+                listOf(),
+                0
+            )
+        )
+    val uiState = _uiState.asStateFlow()
 
     private val _eventFlow = MutableSharedFlow<Event>()
     val eventFlow = _eventFlow.asSharedFlow()
@@ -119,30 +129,43 @@ class SessionViewModel @Inject constructor(
         val categories = categoriesBuilder.build()
 
         viewModelScope.launch {
-            _sessionUiState.value = _sessionUiState.value.copy(
-                day1Sessions = getSelectedSessionsUseCase(
-                    1,
-                    categories = categories,
-                    sortBy = sortBy,
-                    searchKeyword = searchKeyword
+            _uiState.value = _uiState.value.copy(
+                day1Sessions = CommonListBinder(
+                    getSessionListByDate(1).toBinderList().plus(FooterBinder())
                 ),
-                day2Sessions = getSelectedSessionsUseCase(
-                    2,
-                    categories = categories,
-                    sortBy = sortBy,
-                    searchKeyword = searchKeyword
+                day2Sessions = CommonListBinder(
+                    getSessionListByDate(2).toBinderList().plus(FooterBinder())
                 ),
-                day3Sessions = getSelectedSessionsUseCase(
-                    3,
-                    categories = categories,
-                    sortBy = sortBy,
-                    searchKeyword = searchKeyword
-                ).apply {
-                    if (isEmpty()) sendEvent(Event.NoMatchingSessions)
-                },
+                day3Sessions = CommonListBinder(
+                    getSessionListByDate(3).toBinderList()
+                        .apply {
+                            if (isEmpty()) sendEvent(Event.NoMatchingSessions)
+                        }.plus(FooterBinder())
+                ),
                 selectedCategoryCount = categories.toList().size + if (searchKeyword.isNotBlank()) 1 else 0
             )
         }
+    }
+
+    private suspend fun getSessionListByDate(day: Int): List<Session> {
+        val categoriesBuilder = CategoriesBuilder()
+        selectedCategories.map { categoriesBuilder.add(it) }
+        val categories = categoriesBuilder.build()
+
+        return getSelectedSessionsUseCase(
+            day,
+            categories = categories,
+            sortBy = sortBy,
+            searchKeyword = searchKeyword
+        )
+    }
+
+    private fun List<Session>.toBinderList(): List<SessionListItemBinder> {
+        return this.map { SessionListItemBinder(it, ::navigateToSessionDetail) }
+    }
+
+    private fun navigateToSessionDetail(session: Session) {
+        sendEvent(Event.NavigateToSessionDetail(session.idx))
     }
 
     fun resetSelectedCategories() {
@@ -156,7 +179,7 @@ class SessionViewModel @Inject constructor(
     }
 
     private suspend fun resetDrawerBinderList() {
-        _sessionUiState.value = _sessionUiState.value.copy(
+        _uiState.value = _uiState.value.copy(
             drawerBinderList = buildDrawerBinderList()
         )
     }
@@ -167,8 +190,17 @@ class SessionViewModel @Inject constructor(
         }
     }
 
+    data class UiState(
+        val day1Sessions: CommonListBinder,
+        val day2Sessions: CommonListBinder,
+        val day3Sessions: CommonListBinder,
+        val drawerBinderList: List<CommonBinder>,
+        val selectedCategoryCount: Int
+    )
+
     sealed class Event {
         object NoMatchingSessions : Event()
+        class NavigateToSessionDetail(val id: Int) : Event()
     }
 
     companion object {
@@ -176,11 +208,3 @@ class SessionViewModel @Inject constructor(
         private const val ID_OF_DEFAULT_SORT_BY = R.id.sort_by_upload_time_radio_button
     }
 }
-
-data class SessionUiState(
-    val day1Sessions: List<Session>,
-    val day2Sessions: List<Session>,
-    val day3Sessions: List<Session>,
-    val drawerBinderList: List<CommonBinder>,
-    val selectedCategoryCount: Int
-)

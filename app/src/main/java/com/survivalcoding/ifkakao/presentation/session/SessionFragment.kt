@@ -112,14 +112,14 @@ class SessionFragment : Fragment() {
 
     private fun observe() {
         repeatOnStart {
-            viewModel.sessionUiState.collectLatest {
-                val commonListBinders =
+            viewModel.uiState.collectLatest {
+                viewPagerAdapter.submitList(
                     listOf(
-                        it.day1Sessions.toBinderList(),
-                        it.day2Sessions.toBinderList(),
-                        it.day3Sessions.toBinderList()
+                        it.day1Sessions,
+                        it.day2Sessions,
+                        it.day3Sessions
                     )
-                viewPagerAdapter.submitList(commonListBinders)
+                )
 
                 drawerListAdapter.submitList(it.drawerBinderList)
 
@@ -133,7 +133,8 @@ class SessionFragment : Fragment() {
 
     private fun handleEvent(event: SessionViewModel.Event) {
         when (event) {
-            SessionViewModel.Event.NoMatchingSessions -> showNoMatchingSessionDialog()
+            is SessionViewModel.Event.NoMatchingSessions -> showNoMatchingSessionDialog()
+            is SessionViewModel.Event.NavigateToSessionDetail -> navigateToSessionDetail(event.id)
         }
     }
 
@@ -146,16 +147,9 @@ class SessionFragment : Fragment() {
         ).show()
     }
 
-    private fun List<Session>.toBinderList(): CommonListBinder {
-        return CommonListBinder(
-            this.map { session -> SessionListItemBinder(session, ::navigateToSessionDetail) }
-                .plus(FooterBinder())
-        )
-    }
-
-    private fun navigateToSessionDetail(session: Session) {
+    private fun navigateToSessionDetail(id: Int) {
         parentFragmentManager.beginTransaction()
-            .replace(R.id.fragment_container_view, SessionDetailFragment.newInstance(session.idx))
+            .replace(R.id.fragment_container_view, SessionDetailFragment.newInstance(id))
             .addToBackStack(null)
             .commit()
     }
