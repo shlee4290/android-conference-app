@@ -14,6 +14,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
+import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Lifecycle
@@ -82,6 +83,12 @@ class SessionDetailFragment : Fragment() {
         repeatOnStart {
             viewModel.uiState.collectLatest {
                 adapter.submitList(it.binderList)
+
+                if (it.video.length.isBlank()) {
+                    binding?.videoWebView?.isVisible = false
+                    return@collectLatest
+                }
+
                 if (binding?.videoWebView?.url != it.video.url) {
                     binding?.videoWebView?.loadUrl(it.video.url)
                 }

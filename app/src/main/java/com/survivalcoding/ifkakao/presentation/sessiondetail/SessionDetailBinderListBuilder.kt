@@ -16,15 +16,17 @@ class SessionDetailBinderListBuilder {
         return this
     }
 
-    fun addVideo(
+    fun addThumbnail(
         onPlayButtonClick: (String) -> Unit,
         onShareButtonClick: () -> Unit
     ): SessionDetailBinderListBuilder {
         val session = this.session ?: return this
 
+        if (session.videos.isNotEmpty() && session.videos.first().length.isNotBlank()) return this // 재생할 영상이 있으면 웹뷰를 표시
+
         if (session.videos.isNotEmpty()) {
             tmpBinderList.add(
-                SessionVideoBinder(
+                SessionThumbnailBinder(
                     session.videos.first(),
                     session.thumbnailUrl,
                     session.title,

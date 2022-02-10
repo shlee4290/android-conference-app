@@ -30,7 +30,7 @@ class CommonAdapter : ListAdapter<CommonBinder, CommonViewHolder>(CommonDiffUtil
             SessionTitleBinder.ID -> SessionTitleViewHolder.from(parent)
             SessionContentBinder.ID -> SessionContentViewHolder.from(parent)
             SessionTagsBinder.ID -> SessionTagsViewHolder.from(parent)
-            SessionVideoBinder.ID -> SessionVideoViewHolder.from(parent)
+            SessionThumbnailBinder.ID -> SessionThumbnailViewHolder.from(parent)
             SessionButtonBinder.ID -> SessionButtonViewHolder.from(parent)
             SessionLinksBinder.ID -> SessionLinksViewHolder.from(parent)
             SessionFileBinder.ID -> SessionFileViewHolder.from(parent)

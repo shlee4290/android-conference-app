@@ -3,7 +3,7 @@ package com.survivalcoding.ifkakao.presentation.common
 import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.domain.entity.Video
 
-class SessionVideoBinder(
+class SessionThumbnailBinder(
     val video: Video,
     val thumbnailUrl: String,
     val title: String,
@@ -14,13 +14,13 @@ class SessionVideoBinder(
     override val id = ID
 
     override fun areContentsTheSame(oldItem: CommonBinder, newItem: CommonBinder): Boolean {
-        oldItem as SessionVideoBinder
-        newItem as SessionVideoBinder
+        oldItem as SessionThumbnailBinder
+        newItem as SessionThumbnailBinder
 
         return oldItem.video == newItem.video
     }
 
     companion object {
-        const val ID = R.layout.session_video
+        const val ID = R.layout.session_thumbnail
     }
 }

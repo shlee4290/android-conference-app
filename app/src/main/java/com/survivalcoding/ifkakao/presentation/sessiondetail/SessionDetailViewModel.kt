@@ -73,7 +73,10 @@ class SessionDetailViewModel @Inject constructor(
 
         return SessionDetailBinderListBuilder()
             .setSession(session)
-            .addCategory { navigateToCategorySessionList(it) }
+            .addThumbnail(
+                { url -> sendEvent(Event.NavigateToWebView(url)) },
+                { sendEvent(Event.ShareSession(session.idx)) }
+            ).addCategory { navigateToCategorySessionList(it) }
             .addTitle()
             .addContent()
             .addTags()
@@ -85,8 +88,7 @@ class SessionDetailViewModel @Inject constructor(
                         description
                     )
                 )
-            }
-            .addLinks(
+            }.addLinks(
                 { sendEvent(Event.ShareSessionWithTalk(session.idx)) },
                 { sendEvent(Event.ShareSession(session.idx)) },
                 { sendEvent(Event.ShareSession(session.idx)) },
