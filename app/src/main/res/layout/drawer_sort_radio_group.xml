@@ -28,7 +28,7 @@
             android:minWidth="1dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
-            android:text="업로드 시간"
+            android:text="@string/upload_time"
             android:textAlignment="center"
             android:textColor="@color/keyword_toggle_text_color"
             android:textSize="14dp" />
@@ -45,7 +45,7 @@
             android:minWidth="1dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
-            android:text="영상 길이"
+            android:text="@string/play_time"
             android:textAlignment="center"
             android:textColor="@color/keyword_toggle_text_color"
             android:textSize="14dp" />
@@ -62,7 +62,7 @@
             android:minWidth="1dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
-            android:text="제목"
+            android:text="@string/title"
             android:textAlignment="center"
             android:textColor="@color/keyword_toggle_text_color"
             android:textSize="14dp" />

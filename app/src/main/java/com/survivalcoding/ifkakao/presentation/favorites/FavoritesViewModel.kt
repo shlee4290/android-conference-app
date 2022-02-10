@@ -1,7 +1,9 @@
 package com.survivalcoding.ifkakao.presentation.favorites
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.domain.usecase.GetFavoriteSessionsUseCase
 import com.survivalcoding.ifkakao.presentation.common.CommonBinder
 import com.survivalcoding.ifkakao.presentation.common.FooterBinder
@@ -16,7 +18,10 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class FavoritesViewModel @Inject constructor(private val getFavoriteSessionsUseCase: GetFavoriteSessionsUseCase) :
+class FavoritesViewModel @Inject constructor(
+    private val application: Application,
+    private val getFavoriteSessionsUseCase: GetFavoriteSessionsUseCase
+) :
     ViewModel() {
 
     private val _uiState = MutableStateFlow(UiState(listOf()))
@@ -34,7 +39,7 @@ class FavoritesViewModel @Inject constructor(private val getFavoriteSessionsUseC
     private suspend fun initBinderList(): List<CommonBinder> {
         val binderList = mutableListOf<CommonBinder>()
 
-        binderList.add(SessionTitleBinder("Favorites"))
+        binderList.add(SessionTitleBinder(application.getString(R.string.favorites)))
         binderList.addAll(getFavoriteSessionsUseCase().map {
             SessionListItemBinder(
                 it

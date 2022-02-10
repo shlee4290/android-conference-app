@@ -70,7 +70,8 @@ class SessionDetailFragment : Fragment() {
         binding?.videoWebView?.settings?.javaScriptEnabled = true
 
         if (resources.configuration.orientation == Configuration.ORIENTATION_LANDSCAPE) {
-            val appbarLayoutParams: AppBarLayout.LayoutParams =  binding?.videoConstraintLayout?.layoutParams as AppBarLayout.LayoutParams
+            val appbarLayoutParams: AppBarLayout.LayoutParams =
+                binding?.videoConstraintLayout?.layoutParams as AppBarLayout.LayoutParams
             appbarLayoutParams.scrollFlags = AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
         }
 
@@ -117,7 +118,7 @@ class SessionDetailFragment : Fragment() {
         Intent(Intent.ACTION_SEND).apply {
             type = "text/pain"
             putExtra(Intent.EXTRA_TEXT, getString(R.string.session_url, sessionIdx))
-            startActivity(Intent.createChooser(this, "세션 공유하기"))
+            startActivity(Intent.createChooser(this, getString(R.string.share_session)))
         }
     }
 
@@ -145,9 +146,16 @@ class SessionDetailFragment : Fragment() {
     private fun copySessionLink(sessionIdx: Int) {
         val clipboard =
             requireActivity().getSystemService(Context.CLIPBOARD_SERVICE) as ClipboardManager
-        val clip = ClipData.newPlainText("If Kakao", getString(R.string.session_url, sessionIdx))
+        val clip = ClipData.newPlainText(
+            getString(R.string.app_bar_title),
+            getString(R.string.session_url, sessionIdx)
+        )
         clipboard.setPrimaryClip(clip)
-        Toast.makeText(requireContext(), "URL이 복사되었습니다.", Toast.LENGTH_SHORT).show()
+        Toast.makeText(
+            requireContext(),
+            getString(R.string.url_copy_success_message),
+            Toast.LENGTH_SHORT
+        ).show()
     }
 
     private fun navigateToWebView(url: String) {

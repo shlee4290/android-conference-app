@@ -1,7 +1,9 @@
 package com.survivalcoding.ifkakao.presentation.sessiondetail
 
+import android.app.Application
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.survivalcoding.ifkakao.R
 import com.survivalcoding.ifkakao.domain.entity.*
 import com.survivalcoding.ifkakao.domain.usecase.AddFavoriteSessionUseCase
 import com.survivalcoding.ifkakao.domain.usecase.GetSelectedSessionsUseCase
@@ -19,6 +21,7 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SessionDetailViewModel @Inject constructor(
+    private val application: Application,
     private val getSelectedSessionsUseCase: GetSelectedSessionsUseCase,
     private val addFavoriteSessionUseCase: AddFavoriteSessionUseCase,
     private val removeFavoriteSessionUseCase: RemoveFavoriteSessionUseCase,
@@ -90,7 +93,7 @@ class SessionDetailViewModel @Inject constructor(
                 { sendEvent(Event.CopySessionLink(session.idx)) },
                 ::onFavoriteChanged
             )
-            .addButton("목록보기") { sendEvent(Event.NavigateToSessionList) }
+            .addButton(application.getString(R.string.back_to_list)) { sendEvent(Event.NavigateToSessionList) }
             .addAssociatedSessions(
                 relatedSessions.await(),
                 associatedSessionLastPage * ASSOCIATED_SESSION_PAGE_SIZE,

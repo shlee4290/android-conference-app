@@ -59,7 +59,7 @@ class SessionFragment : Fragment() {
         super.onViewCreated(view, savedInstanceState)
 
         initViewPager()
-        binding?.sessionBannerVideoView?.setVideoURI(Uri.parse("https://t1.kakaocdn.net/service_if_kakao_prod/videos/mo/vod_teaser_2021.mp4"))
+        binding?.sessionBannerVideoView?.setVideoURI(Uri.parse(getString(R.string.session_banner_video_url)))
         binding?.sessionBannerVideoView?.setOnPreparedListener {
             it.isLooping = true
             binding?.sessionBannerVideoView?.start()
@@ -140,8 +140,8 @@ class SessionFragment : Fragment() {
     private fun showNoMatchingSessionDialog() {
         customDialogWithOneButton(
             requireActivity(),
-            "선택한 조건에 해당하는\n항목이 없습니다.",
-            "확인",
+            getString(R.string.no_matching_result_message),
+            getString(R.string.ok),
             viewModel::resetSelectedCategories
         ).show()
     }
