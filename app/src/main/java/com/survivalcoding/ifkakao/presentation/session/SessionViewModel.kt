@@ -55,52 +55,35 @@ class SessionViewModel @Inject constructor(
     }
 
     private suspend fun buildDrawerBinderList(): List<CommonBinder> {
-        val drawerBinderList = mutableListOf<CommonBinder>()
         val allCategories = getAllCategoriesUseCase()
-        drawerBinderList.add(DrawerTitleBinder(application.getString(R.string.search)))
-        drawerBinderList.add(DrawerEditTextBinder(searchKeyword, ::afterSearchKeywordChanged))
-        drawerBinderList.add(DrawerTitleBinder(application.getString(R.string.sort)))
-        drawerBinderList.add(
-            DrawerSortRadioGroupBinder(
+
+        return DrawerBinderBuilder().addTitle(application.getString(R.string.search))
+            .addEditText(searchKeyword, ::afterSearchKeywordChanged)
+            .addTitle(application.getString(R.string.sort))
+            .addSortRadioGroup(
                 ::onSortRadioGroupCheckChange,
                 ID_OF_DEFAULT_SORT_BY
             )
-        )
-        drawerBinderList.add(DrawerTitleBinder(application.getString(R.string.interest_field)))
-        drawerBinderList.add(KeywordToggleListBinder(allCategories.field.map {
-            KeywordToggleBinder(
-                category = it,
-                selectedCategories = selectedCategories,
-                onCheckedChange = ::onKeywordToggleCheckChange
-            )
-        }))
-        drawerBinderList.add(DrawerTitleBinder(application.getString(R.string.interest_keyword)))
-        drawerBinderList.add(DrawerSubtitleBinder(application.getString(R.string.service_and_business)))
-        drawerBinderList.add(KeywordToggleListBinder(allCategories.business.map {
-            KeywordToggleBinder(
-                category = it,
-                selectedCategories = selectedCategories,
-                onCheckedChange = ::onKeywordToggleCheckChange
-            )
-        }))
-        drawerBinderList.add(DrawerSubtitleBinder(application.getString(R.string.tech)))
-        drawerBinderList.add(KeywordToggleListBinder(allCategories.tech.map {
-            KeywordToggleBinder(
-                category = it,
-                selectedCategories = selectedCategories,
-                onCheckedChange = ::onKeywordToggleCheckChange
-            )
-        }))
-        drawerBinderList.add(DrawerSubtitleBinder(application.getString(R.string.company)))
-        drawerBinderList.add(KeywordToggleListBinder(allCategories.company.map {
-            KeywordToggleBinder(
-                category = it,
-                selectedCategories = selectedCategories,
-                onCheckedChange = ::onKeywordToggleCheckChange
-            )
-        }))
+            .addTitle(application.getString(R.string.interest_field))
+            .addKeywordToggleList(allCategories.field.toKeywordToggleListBinder())
+            .addTitle(application.getString(R.string.interest_keyword))
+            .addSubtitle(application.getString(R.string.service_and_business))
+            .addKeywordToggleList(allCategories.business.toKeywordToggleListBinder())
+            .addSubtitle(application.getString(R.string.tech))
+            .addKeywordToggleList(allCategories.tech.toKeywordToggleListBinder())
+            .addSubtitle(application.getString(R.string.company))
+            .addKeywordToggleList(allCategories.company.toKeywordToggleListBinder())
+            .build()
+    }
 
-        return drawerBinderList
+    private fun List<Category>.toKeywordToggleListBinder(): KeywordToggleListBinder {
+        return KeywordToggleListBinder(this.map {
+            KeywordToggleBinder(
+                category = it,
+                selectedCategories = selectedCategories,
+                onCheckedChange = ::onKeywordToggleCheckChange
+            )
+        })
     }
 
     private fun afterSearchKeywordChanged(text: Editable) {
