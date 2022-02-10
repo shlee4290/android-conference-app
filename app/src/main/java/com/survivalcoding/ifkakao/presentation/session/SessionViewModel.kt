@@ -98,7 +98,8 @@ class SessionViewModel @Inject constructor(
     private fun onSortRadioGroupCheckChange(group: RadioGroup, checkedId: Int) {
         sortBy = when (checkedId) {
             R.id.sort_by_title_radio_button -> SortBy.TITLE
-            R.id.sort_by_time_radio_button -> SortBy.TIME
+            R.id.sort_by_upload_time_radio_button -> SortBy.UPLOAD_TIME
+            R.id.sort_by_play_time_radio_button -> SortBy.PLAY_TIME
             else -> DEFAULT_SORT_BY
         }
     }
@@ -171,8 +172,8 @@ class SessionViewModel @Inject constructor(
     }
 
     companion object {
-        private val DEFAULT_SORT_BY = SortBy.TIME
-        private const val ID_OF_DEFAULT_SORT_BY = R.id.sort_by_time_radio_button
+        private val DEFAULT_SORT_BY = SortBy.UPLOAD_TIME
+        private const val ID_OF_DEFAULT_SORT_BY = R.id.sort_by_upload_time_radio_button
     }
 }
 

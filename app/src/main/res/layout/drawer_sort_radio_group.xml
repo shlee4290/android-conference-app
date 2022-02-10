@@ -16,7 +16,7 @@
         app:layout_constraintTop_toTopOf="parent">
 
         <RadioButton
-            android:id="@+id/sort_by_time_radio_button"
+            android:id="@+id/sort_by_upload_time_radio_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="16dp"
@@ -28,7 +28,24 @@
             android:minWidth="1dp"
             android:paddingHorizontal="16dp"
             android:paddingVertical="8dp"
-            android:text="시간"
+            android:text="업로드 시간"
+            android:textAlignment="center"
+            android:textColor="@color/keyword_toggle_text_color"
+            android:textSize="14dp" />
+
+        <RadioButton
+            android:id="@+id/sort_by_play_time_radio_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="16dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/keyword_toggle_background"
+            android:button="@null"
+            android:foreground="?android:attr/selectableItemBackground"
+            android:minWidth="1dp"
+            android:paddingHorizontal="16dp"
+            android:paddingVertical="8dp"
+            android:text="영상 길이"
             android:textAlignment="center"
             android:textColor="@color/keyword_toggle_text_color"
             android:textSize="14dp" />

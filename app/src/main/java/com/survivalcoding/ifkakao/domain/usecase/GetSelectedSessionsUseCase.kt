@@ -11,7 +11,7 @@ class GetSelectedSessionsUseCase @Inject constructor(private val ifKakaoReposito
     suspend operator fun invoke(
         day: Int = 3,
         categories: Categories = Categories(),
-        sortBy: SortBy = SortBy.TIME,
+        sortBy: SortBy = SortBy.UPLOAD_TIME,
         searchKeyword: String = ""
     ): List<Session> {
         return ifKakaoRepository.getAllSessions().filter { session ->
@@ -24,7 +24,14 @@ class GetSelectedSessionsUseCase @Inject constructor(private val ifKakaoReposito
             else filterBySearchKeyword(searchKeyword, session)
         }.sortedBy {
             when (sortBy) {
-                SortBy.TIME -> it.exposureDay.toString()
+                SortBy.UPLOAD_TIME -> it.exposureDay.toString()
+                SortBy.PLAY_TIME ->  {
+                if (it.videos.isEmpty()) {
+                    "0"
+                } else {
+                    it.videos.first().length
+                }
+            }
                 SortBy.TITLE -> it.title
             }
         }
